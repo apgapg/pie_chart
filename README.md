@@ -3,7 +3,7 @@
 This Flutter package provides a Pie Chart Widget with cool animation.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/Screenshot1.png" alt="Demo App" style="margin:auto" width="372" height="686">
+  <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif" alt="Demo App" style="margin:auto" width="372" height="686">
 </p>
 
 # Usage
