@@ -1,4 +1,4 @@
-# Pie Chart [![pub package](hhttps://raw.githubusercontent.com/apgapg/pie_chart/master/src/pub_logo.svg)](https://pub.dartlang.org/packages/pie_chart)
+# Pie Chart [![pub package](https://raw.githubusercontent.com/apgapg/pie_chart/master/src/pub_logo.svg)](https://pub.dartlang.org/packages/pie_chart)
 
 This Flutter package provides a Pie Chart Widget with cool animation.
 
