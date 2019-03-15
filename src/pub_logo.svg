@@ -1,0 +1,31 @@
+<svg height="20" id="pie_chart" viewBox="0 0 76 20" width="76" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <clipPath id="clip-path">
+            <rect data-name="Rectangle 1" fill="#fff" height="20" id="Rectangle_1" rx="3"
+                width="76" />
+        </clipPath>
+        <linearGradient gradientUnits="objectBoundingBox" id="linear-gradient" x2="0" y2="1">
+            <stop offset="0" stop-color="#bbb" stop-opacity="0.102" />
+            <stop offset="1" stop-opacity="0.102" />
+        </linearGradient>
+    </defs>
+    <g clip-path="url(#clip-path)" data-name="Group 1" id="Group_1">
+        <path d="M0,0H31V20H0Z" data-name="Path 1" fill="#555" id="Path_1" />
+        <path d="M31,0H76V20H31Z" data-name="Path 2" fill="#007ec6" id="Path_2" />
+        <path d="M0,0H76V20H0Z" data-name="Path 3" fill="url(#linear-gradient)" id="Path_3" />
+    </g>
+    <g data-name="Group 2" id="Group_2">
+        <text fill="rgba(1,1,1,0.3)" font-family="Helvetica" font-size="11" id="pub"
+            transform="translate(16.5 15)">
+            <tspan x="-9.177" y="0">pub</tspan>
+        </text>
+        <text data-name="pub" fill="#fff" font-family="Helvetica" font-size="11" id="pub-2"
+            transform="translate(16.5 14)">
+            <tspan x="-9.177" y="0">pub</tspan>
+        </text>
+        <text fill="#fff" font-family="Helvetica" font-size="11" id="v0.1.0"
+            transform="translate(52.5 14)">
+            <tspan x="-14.983" y="0">v0.3.0</tspan>
+        </text>
+    </g>
+</svg>

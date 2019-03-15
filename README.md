@@ -1,14 +1,35 @@
-# pie_chart
+# Pie Chart [![pub package](hhttps://raw.githubusercontent.com/apgapg/pie_chart/master/src/pub_logo.svg)](https://pub.dartlang.org/packages/pie_chart)
 
-A new Flutter package.
+This Flutter package provides a Pie Chart Widget with cool animation.
 
-## Getting Started
+<p align="center">
+  <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/Screenshot1.png" alt="Demo App" style="margin:auto" width="372" height="686">
+</p>
 
-This project is a starting point for a Dart
-[package](https://flutter.io/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+# Usage
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
+
+```dart
+Map<String, double> dataMap = new Map();
+dataMap.putIfAbsent("Flutter", () => 5);
+dataMap.putIfAbsent("React", () => 3);
+dataMap.putIfAbsent("Xamarin", () => 2);
+dataMap.putIfAbsent("Ionic", () => 2);
+
+PieChart(
+      dataMap: dataMap,
+      legendFontColor: Colors.blueGrey[900],
+      legendFontSize: 14.0,
+      legendFontWeight: FontWeight.w500,
+      animationDuration: Duration(milliseconds: 800),
+      chartLegendSpacing: 32.0,
+      chartRadius: MediaQuery
+          .of(context)
+          .size
+          .width / 2.7,
+      showChartValuesInPercentage: true,
+      showChartValues: true,
+      chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
+      )
+```

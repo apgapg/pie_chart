@@ -1,8 +1,8 @@
 name: pie_chart
 description: Flutter Pie Chart with animations.
-version: 0.1.0
-author: Ayush P Gupta ayushpguptaapg@gmail.com
-homepage: https://play.google.com/store/apps/details?id=com.coddu.flutterprofile
+version: 0.4.0
+author: Ayush P Gupta <ayushpguptaapg@gmail.com>
+homepage: https://github.com/apgapg/pie_chart
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
