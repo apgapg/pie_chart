@@ -1,1 +1,1 @@
-## [0.6.0] - Initial Release
+## [0.7.0] - Initial Release
