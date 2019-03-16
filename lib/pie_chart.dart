@@ -34,11 +34,21 @@ class PieChart extends StatefulWidget {
   _PieChartState createState() => _PieChartState();
 }
 
-class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin {
+class _PieChartState extends State<PieChart>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
   double _fraction = 0.0;
-  List<Color> colorList = [Color(0xFFff7675), Color(0xFF74b9ff), Color(0xFF55efc4), Color(0xFFffeaa7), Color(0xFFa29bfe), Color(0xFFfd79a8), Color(0xFFe17055), Color(0xFF00b894)];
+  List<Color> colorList = [
+    Color(0xFFff7675),
+    Color(0xFF74b9ff),
+    Color(0xFF55efc4),
+    Color(0xFFffeaa7),
+    Color(0xFFa29bfe),
+    Color(0xFFfd79a8),
+    Color(0xFFe17055),
+    Color(0xFF00b894)
+  ];
 
   List<String> legendTitles;
   List<double> legendValues;
@@ -53,12 +63,16 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
 
-    assert(widget.dataMap != null && widget.dataMap.isNotEmpty, "dataMap passed to pie chart cant be null or empty");
+    assert(widget.dataMap != null && widget.dataMap.isNotEmpty,
+        "dataMap passed to pie chart cant be null or empty");
     initLegends();
     initValues();
 
-    controller = AnimationController(duration: widget.animationDuration ?? Duration(milliseconds: 800), vsync: this);
-    final Animation curve = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller = AnimationController(
+        duration: widget.animationDuration ?? Duration(milliseconds: 800),
+        vsync: this);
+    final Animation curve =
+        CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = Tween<double>(begin: 0, end: 1).animate(curve);
     animation.addListener(() {
       setState(() {
@@ -83,10 +97,16 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 CustomPaint(
-                  painter: PieChartPainter(_fraction, colorList, values: legendValues, showValuesInPercentage: widget.showChartValuesInPercentage, chartValuesColor: widget.chartValuesColor),
+                  painter: PieChartPainter(_fraction, colorList,
+                      values: legendValues,
+                      showValuesInPercentage:
+                          widget.showChartValuesInPercentage,
+                      chartValuesColor: widget.chartValuesColor),
                   child: Container(
-                    height: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
-                    width: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
+                    height: widget.chartRadius ??
+                        MediaQuery.of(context).size.width / 2.5,
+                    width: widget.chartRadius ??
+                        MediaQuery.of(context).size.width / 2.5,
                   ),
                 ),
                 SizedBox(
@@ -142,7 +162,10 @@ class PieChartPainter extends CustomPainter {
   final bool showValuesInPercentage;
   final Color chartValuesColor;
 
-  PieChartPainter(double angleFactor, List<Color> colorList, {List<double> values, this.showValuesInPercentage, this.chartValuesColor}) {
+  PieChartPainter(double angleFactor, List<Color> colorList,
+      {List<double> values,
+      this.showValuesInPercentage,
+      this.chartValuesColor}) {
     paint1 = Paint()..color = colorList[0];
     paint2 = Paint()..color = colorList[1];
     paint3 = Paint()..color = colorList[2];
@@ -170,10 +193,19 @@ class PieChartPainter extends CustomPainter {
     prevAngle = 0;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
-      canvas.drawArc(new Rect.fromLTWH(0.0, 0.0, size.width, size.height), prevAngle, (((totalAngle) / total) * subParts[i]), true, paintList[i]);
-      var x = (size.width / 3) * math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var y = (size.width / 3) * math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var name = showValuesInPercentage ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%') : subParts.elementAt(i).toInt().toString();
+      canvas.drawArc(
+          new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+          prevAngle,
+          (((totalAngle) / total) * subParts[i]),
+          true,
+          paintList[i]);
+      var x = (size.width / 3) *
+          math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var y = (size.width / 3) *
+          math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var name = showValuesInPercentage
+          ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%')
+          : subParts.elementAt(i).toInt().toString();
       drawName(canvas, name, x, y, size);
 
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
@@ -181,10 +213,19 @@ class PieChartPainter extends CustomPainter {
   }
 
   void drawName(Canvas context, String name, double x, double y, Size size) {
-    TextSpan span = new TextSpan(style: new TextStyle(color: chartValuesColor, fontSize: 12.0, fontWeight: FontWeight.w700), text: name);
-    TextPainter tp = new TextPainter(text: span, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
+    TextSpan span = new TextSpan(
+        style: new TextStyle(
+            color: chartValuesColor,
+            fontSize: 12.0,
+            fontWeight: FontWeight.w700),
+        text: name);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.ltr);
     tp.layout();
-    tp.paint(context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
+    tp.paint(
+        context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
   }
 
   @override
@@ -201,7 +242,8 @@ class Legend extends StatelessWidget {
   final double legendFontSize;
   final FontWeight legendFontWeight;
 
-  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor, this.legendFontWeight);
+  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor,
+      this.legendFontWeight);
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +264,10 @@ class Legend extends StatelessWidget {
           fit: FlexFit.loose,
           child: Text(
             text,
-            style: TextStyle(fontWeight: legendFontWeight, fontSize: legendFontSize, color: legendFontColor),
+            style: TextStyle(
+                fontWeight: legendFontWeight,
+                fontSize: legendFontSize,
+                color: legendFontColor),
             softWrap: true,
           ),
         )

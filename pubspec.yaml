@@ -5,7 +5,7 @@ author: Ayush P Gupta <ayushpguptaapg@gmail.com>
 homepage: https://github.com/apgapg/pie_chart
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   flutter:
