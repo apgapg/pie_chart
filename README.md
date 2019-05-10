@@ -22,7 +22,7 @@ import 'package:pie_chart/pie_chart.dart';
 
 #### Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif" align = "right" height = "415" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "415" alt="PieChart">
 
 ```dart
 Map<String, double> dataMap = new Map();
