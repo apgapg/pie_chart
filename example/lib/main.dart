@@ -24,6 +24,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool toggle = false;
   Map<String, double> dataMap = new Map();
+  List<Color> colorList = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+  ];
 
   @override
   void initState() {
@@ -54,6 +60,8 @@ class _HomePageState extends State<HomePage> {
                   showChartValuesInPercentage: true,
                   showChartValues: true,
                   chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
+            colorList: colorList,
+            showLegends: true,
                 )
               : Text("Press FAB to show chart"),
         ),

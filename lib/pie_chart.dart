@@ -16,6 +16,18 @@ class PieChart extends StatefulWidget {
   final bool showChartValuesInPercentage;
   final bool showChartValues;
   final Color chartValuesColor;
+  final List<Color> colorList;
+  final bool showLegends;
+  static const List<Color> defaultColorList = [
+    Color(0xFFff7675),
+    Color(0xFF74b9ff),
+    Color(0xFF55efc4),
+    Color(0xFFffeaa7),
+    Color(0xFFa29bfe),
+    Color(0xFFfd79a8),
+    Color(0xFFe17055),
+    Color(0xFF00b894),
+  ];
 
   PieChart({
     @required this.dataMap,
@@ -28,51 +40,30 @@ class PieChart extends StatefulWidget {
     this.showChartValuesInPercentage = true,
     this.showChartValues = true,
     this.chartValuesColor = Colors.black87,
-  });
+    this.colorList = defaultColorList,
+    this.showLegends = true,
+    Key key
+  }) :super(key: key);
 
   @override
   _PieChartState createState() => _PieChartState();
 }
 
-class _PieChartState extends State<PieChart>
-    with SingleTickerProviderStateMixin {
+class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
   double _fraction = 0.0;
-  List<Color> colorList = [
-    Color(0xFFff7675),
-    Color(0xFF74b9ff),
-    Color(0xFF55efc4),
-    Color(0xFFffeaa7),
-    Color(0xFFa29bfe),
-    Color(0xFFfd79a8),
-    Color(0xFFe17055),
-    Color(0xFF00b894)
-  ];
 
   List<String> legendTitles;
   List<double> legendValues;
 
   @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   void initState() {
     super.initState();
+    initData();
 
-    assert(widget.dataMap != null && widget.dataMap.isNotEmpty,
-        "dataMap passed to pie chart cant be null or empty");
-    initLegends();
-    initValues();
-
-    controller = AnimationController(
-        duration: widget.animationDuration ?? Duration(milliseconds: 800),
-        vsync: this);
-    final Animation curve =
-        CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller = AnimationController(duration: widget.animationDuration ?? Duration(milliseconds: 800), vsync: this);
+    final Animation curve = CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = Tween<double>(begin: 0, end: 1).animate(curve);
     animation.addListener(() {
       setState(() {
@@ -80,6 +71,23 @@ class _PieChartState extends State<PieChart>
       });
     });
     controller.forward();
+  }
+
+  void initData() {
+    assert(widget.dataMap != null && widget.dataMap.isNotEmpty, "dataMap passed to pie chart cant be null or empty");
+    initLegends();
+    initValues();
+  }
+
+  @override
+  void didUpdateWidget(PieChart oldWidget) {
+    //This condition isnt working oldWidget.data is giving same data as
+    //new widget.
+    // print(oldWidget.dataMap);
+    // print(widget.dataMap);
+    //if (oldWidget.dataMap != widget.dataMap) initData();
+    initData();
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -97,41 +105,57 @@ class _PieChartState extends State<PieChart>
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 CustomPaint(
-                  painter: PieChartPainter(_fraction, colorList,
-                      values: legendValues,
-                      showValuesInPercentage:
-                          widget.showChartValuesInPercentage,
-                      chartValuesColor: widget.chartValuesColor),
+                  painter: PieChartPainter(
+                    _fraction,
+                    widget.colorList,
+                    values: legendValues,
+                    showValuesInPercentage: widget.showChartValuesInPercentage,
+                    chartValuesColor: widget.chartValuesColor,
+                  ),
                   child: Container(
-                    height: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
-                    width: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
+                    height: widget.chartRadius ?? MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2.5,
+                    width: widget.chartRadius ?? MediaQuery
+                        .of(context)
+                        .size
+                        .width / 2.5,
                   ),
                 ),
-                SizedBox(
+                widget.showLegends
+                    ? SizedBox(
                   width: widget.chartLegendSpacing ?? 16.0,
+                )
+                    : SizedBox(
+                  height: 0,
+                  width: 0,
                 ),
-                Flexible(
+                widget.showLegends
+                    ? Flexible(
                   fit: FlexFit.loose,
                   child: Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: legendTitles
                           .map(
-                            (item) => Legend(
-                                item,
-                                colorList.elementAt(
-                                  legendTitles.indexOf(item),
-                                ),
-                                widget.legendFontSize,
-                                widget.legendFontColor,
-                                widget.legendFontWeight),
-                          )
+                            (item) =>
+                            Legend(
+                              item,
+                              getColor(widget.colorList, legendTitles.indexOf(item)),
+                              widget.legendFontSize,
+                              widget.legendFontColor,
+                              widget.legendFontWeight,
+                            ),
+                      )
                           .toList(),
                     ),
                   ),
                 )
+                    : SizedBox(
+                  height: 0,
+                  width: 0,
+                ),
               ],
             ),
           ],
@@ -147,14 +171,23 @@ class _PieChartState extends State<PieChart>
   void initValues() {
     this.legendValues = widget.dataMap.values.toList(growable: false);
   }
+
+  Color getColor(List<Color> colorList, int index) {
+    if (index > (colorList.length - 1)) {
+      var newIndex = index % (colorList.length - 1);
+      return colorList.elementAt(newIndex);
+    } else
+      return colorList.elementAt(index);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }
 
 class PieChartPainter extends CustomPainter {
-  Paint paint1;
-  Paint paint2;
-  Paint paint3;
-  Paint paint4;
-  Paint paint5;
   List<Paint> paintList = new List();
   List<double> subParts;
   double total = 0;
@@ -162,20 +195,16 @@ class PieChartPainter extends CustomPainter {
   final bool showValuesInPercentage;
   final Color chartValuesColor;
 
-  PieChartPainter(double angleFactor, List<Color> colorList,
-      {List<double> values,
-      this.showValuesInPercentage,
-      this.chartValuesColor}) {
-    paint1 = Paint()..color = colorList[0];
-    paint2 = Paint()..color = colorList[1];
-    paint3 = Paint()..color = colorList[2];
-    paint4 = Paint()..color = colorList[3];
-    paint5 = Paint()..color = colorList[4];
-    paintList.add(paint1);
-    paintList.add(paint2);
-    paintList.add(paint3);
-    paintList.add(paint4);
-    paintList.add(paint5);
+  PieChartPainter(double angleFactor,
+      List<Color> colorList, {
+        List<double> values,
+        this.showValuesInPercentage,
+        this.chartValuesColor,
+      }) {
+    for (int i = 0; i < values.length; i++) {
+      paintList.add(Paint()
+        ..color = getColor(colorList, i));
+    }
 
     totalAngle = angleFactor * math.pi * 2;
     subParts = values;
@@ -193,39 +222,29 @@ class PieChartPainter extends CustomPainter {
     prevAngle = 0;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
-      canvas.drawArc(
-          new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-          prevAngle,
-          (((totalAngle) / total) * subParts[i]),
-          true,
-          paintList[i]);
-      var x = (size.width / 3) *
-          math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var y = (size.width / 3) *
-          math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var name = showValuesInPercentage
-          ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%')
-          : subParts.elementAt(i).toInt().toString();
+      canvas.drawArc(new Rect.fromLTWH(0.0, 0.0, size.width, size.height), prevAngle, (((totalAngle) / total) * subParts[i]), true, paintList[i]);
+      var x = (size.width / 3) * math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var y = (size.width / 3) * math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var name = showValuesInPercentage ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%') : subParts.elementAt(i).toInt().toString();
       drawName(canvas, name, x, y, size);
 
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
     }
   }
 
+  Color getColor(List<Color> colorList, int index) {
+    if (index > (colorList.length - 1)) {
+      var newIndex = index % (colorList.length - 1);
+      return colorList.elementAt(newIndex);
+    } else
+      return colorList.elementAt(index);
+  }
+
   void drawName(Canvas context, String name, double x, double y, Size size) {
-    TextSpan span = new TextSpan(
-        style: new TextStyle(
-            color: chartValuesColor,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w700),
-        text: name);
-    TextPainter tp = new TextPainter(
-        text: span,
-        textAlign: TextAlign.left,
-        textDirection: TextDirection.ltr);
+    TextSpan span = new TextSpan(style: new TextStyle(color: chartValuesColor, fontSize: 12.0, fontWeight: FontWeight.w700), text: name);
+    TextPainter tp = new TextPainter(text: span, textAlign: TextAlign.left, textDirection: TextDirection.ltr);
     tp.layout();
-    tp.paint(
-        context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
+    tp.paint(context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
   }
 
   @override
@@ -242,8 +261,11 @@ class Legend extends StatelessWidget {
   final double legendFontSize;
   final FontWeight legendFontWeight;
 
-  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor,
-      this.legendFontWeight);
+  Legend(this.text,
+      this.color,
+      this.legendFontSize,
+      this.legendFontColor,
+      this.legendFontWeight,);
 
   @override
   Widget build(BuildContext context) {
@@ -265,9 +287,10 @@ class Legend extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                fontWeight: legendFontWeight,
-                fontSize: legendFontSize,
-                color: legendFontColor),
+              fontWeight: legendFontWeight,
+              fontSize: legendFontSize,
+              color: legendFontColor,
+            ),
             softWrap: true,
           ),
         )
