@@ -51,8 +51,7 @@ class PieChart extends StatefulWidget {
   _PieChartState createState() => _PieChartState();
 }
 
-class _PieChartState extends State<PieChart>
-    with SingleTickerProviderStateMixin {
+class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
   double _fraction = 0.0;
@@ -65,11 +64,8 @@ class _PieChartState extends State<PieChart>
     super.initState();
     initData();
 
-    controller = AnimationController(
-        duration: widget.animationDuration ?? Duration(milliseconds: 800),
-        vsync: this);
-    final Animation curve =
-        CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller = AnimationController(duration: widget.animationDuration ?? Duration(milliseconds: 800), vsync: this);
+    final Animation curve = CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = Tween<double>(begin: 0, end: 1).animate(curve);
     animation.addListener(() {
       setState(() {
@@ -80,8 +76,7 @@ class _PieChartState extends State<PieChart>
   }
 
   void initData() {
-    assert(widget.dataMap != null && widget.dataMap.isNotEmpty,
-        "dataMap passed to pie chart cant be null or empty");
+    assert(widget.dataMap != null && widget.dataMap.isNotEmpty, "dataMap passed to pie chart cant be null or empty");
     initLegends();
     initValues();
   }
@@ -120,10 +115,8 @@ class _PieChartState extends State<PieChart>
                     chartValuesColor: widget.chartValuesColor,
                   ),
                   child: Container(
-                    height: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
-                    width: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
+                    height: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
+                    width: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
                   ),
                 ),
                 widget.showLegends
@@ -144,8 +137,7 @@ class _PieChartState extends State<PieChart>
                                 .map(
                                   (item) => Legend(
                                         item,
-                                        getColor(widget.colorList,
-                                            legendTitles.indexOf(item)),
+                                        getColor(widget.colorList, legendTitles.indexOf(item)),
                                         widget.legendFontSize,
                                         widget.legendFontColor,
                                         widget.legendFontWeight,
@@ -226,21 +218,13 @@ class PieChartPainter extends CustomPainter {
     prevAngle = 0;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
-      canvas.drawArc(
-          new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-          prevAngle,
-          (((totalAngle) / total) * subParts[i]),
-          true,
-          paintList[i]);
-      var x = (size.width / 3) *
-          math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var y = (size.width / 3) *
-          math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var name = showValuesInPercentage
-          ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%')
-          : subParts.elementAt(i).toInt().toString();
-      drawName(canvas, name, x, y, size);
-
+      canvas.drawArc(new Rect.fromLTWH(0.0, 0.0, size.width, size.height), prevAngle, (((totalAngle) / total) * subParts[i]), true, paintList[i]);
+      var x = (size.width / 3) * math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var y = (size.width / 3) * math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      if (subParts.elementAt(i).toInt() != 0) {
+        var name = showValuesInPercentage ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%') : subParts.elementAt(i).toInt().toString();
+        drawName(canvas, name, x, y, size);
+      }
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
     }
   }
@@ -254,19 +238,10 @@ class PieChartPainter extends CustomPainter {
   }
 
   void drawName(Canvas context, String name, double x, double y, Size size) {
-    TextSpan span = new TextSpan(
-        style: new TextStyle(
-            color: chartValuesColor,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w700),
-        text: name);
-    TextPainter tp = new TextPainter(
-        text: span,
-        textAlign: TextAlign.left,
-        textDirection: TextDirection.rtl);
+    TextSpan span = new TextSpan(style: new TextStyle(color: chartValuesColor, fontSize: 12.0, fontWeight: FontWeight.w700), text: name);
+    TextPainter tp = new TextPainter(text: span, textAlign: TextAlign.left, textDirection: TextDirection.rtl);
     tp.layout();
-    tp.paint(
-        context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
+    tp.paint(context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
   }
 
   @override
@@ -284,8 +259,7 @@ class Legend extends StatelessWidget {
   final FontWeight legendFontWeight;
   final String legendFontFamily;
 
-  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor,
-      this.legendFontWeight, this.legendFontFamily);
+  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor, this.legendFontWeight, this.legendFontFamily);
 
   @override
   Widget build(BuildContext context) {
@@ -306,11 +280,7 @@ class Legend extends StatelessWidget {
           fit: FlexFit.loose,
           child: Text(
             text,
-            style: TextStyle(
-                fontWeight: legendFontWeight,
-                fontSize: legendFontSize,
-                color: legendFontColor,
-                fontFamily: legendFontFamily),
+            style: TextStyle(fontWeight: legendFontWeight, fontSize: legendFontSize, color: legendFontColor, fontFamily: legendFontFamily),
             softWrap: true,
           ),
         )
