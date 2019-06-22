@@ -25,11 +25,12 @@ import 'package:pie_chart/pie_chart.dart';
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "415" alt="PieChart">
 
 ```dart
-Map<String, double> dataMap = new Map();
-dataMap.putIfAbsent("Flutter", () => 5);
-dataMap.putIfAbsent("React", () => 3);
-dataMap.putIfAbsent("Xamarin", () => 2);
-dataMap.putIfAbsent("Ionic", () => 2);
+Map<String, double> dataMap = {
+  "Flutter": 5.toDouble(),
+  "React": 3.toDouble(),
+  "Xamarin": 2.toDouble(),
+  "Ionic": 2.toDouble(),
+};
 ```
 
 ### - Simple Implementation
