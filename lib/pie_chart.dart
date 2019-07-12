@@ -46,7 +46,7 @@ class PieChart extends StatefulWidget {
       this.chartValuesColor = Colors.black87,
       this.colorList = defaultColorList,
       this.showLegends = true,
-      this.initialAngle = math.pi * 1.5,
+      this.initialAngle = 0.0,
       this.fontFamily,
       Key key})
       : super(key: key);
