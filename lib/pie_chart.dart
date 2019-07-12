@@ -19,6 +19,7 @@ class PieChart extends StatefulWidget {
   final Color chartValuesColor;
   final List<Color> colorList;
   final bool showLegends;
+  final double initialAngle;
   final String fontFamily;
   static const List<Color> defaultColorList = [
     Color(0xFFff7675),
@@ -45,6 +46,7 @@ class PieChart extends StatefulWidget {
       this.chartValuesColor = Colors.black87,
       this.colorList = defaultColorList,
       this.showLegends = true,
+      this.initialAngle = math.pi * 1.5,
       this.fontFamily,
       Key key})
       : super(key: key);
@@ -114,6 +116,7 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
                     widget.showChartValuesOutside,
                     widget.colorList,
                     values: legendValues,
+                    initialAngle: widget.initialAngle,
                     showValuesInPercentage: widget.showChartValuesInPercentage,
                     chartValuesColor: widget.chartValuesColor,
                   ),
@@ -191,6 +194,7 @@ class PieChartPainter extends CustomPainter {
   List<double> subParts;
   double total = 0;
   double totalAngle = math.pi * 2;
+  final double initialAngle;
   final bool showValuesInPercentage;
   final bool showChartValuesOutside;
   final Color chartValuesColor;
@@ -200,6 +204,7 @@ class PieChartPainter extends CustomPainter {
     this.showChartValuesOutside,
     List<Color> colorList, {
     List<double> values,
+    this.initialAngle,
     this.showValuesInPercentage,
     this.chartValuesColor,
   }) {
@@ -220,7 +225,7 @@ class PieChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    prevAngle = 0;
+    prevAngle = this.initialAngle;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
       canvas.drawArc(new Rect.fromLTWH(0.0, 0.0, size.width, size.height), prevAngle, (((totalAngle) / total) * subParts[i]), true, paintList[i]);
