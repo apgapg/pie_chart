@@ -14,6 +14,7 @@ class PieChart extends StatefulWidget {
   final Duration animationDuration;
   final double chartLegendSpacing;
   final bool showChartValuesInPercentage;
+  final int filterChartValues;
   final bool showChartValues;
   final bool showChartValuesOutside;
   final Color chartValuesColor;
@@ -21,6 +22,7 @@ class PieChart extends StatefulWidget {
   final bool showLegends;
   final double initialAngle;
   final String fontFamily;
+
   static const List<Color> defaultColorList = [
     Color(0xFFff7675),
     Color(0xFF74b9ff),
@@ -32,30 +34,32 @@ class PieChart extends StatefulWidget {
     Color(0xFF00b894),
   ];
 
-  PieChart(
-      {@required this.dataMap,
-      this.legendFontSize = 14.0,
-      this.legendFontColor = Colors.black87,
-      this.legendFontWeight = FontWeight.w500,
-      this.chartRadius,
-      this.animationDuration,
-      this.chartLegendSpacing,
-      this.showChartValuesInPercentage = true,
-      this.showChartValues = true,
-      this.showChartValuesOutside = false,
-      this.chartValuesColor = Colors.black87,
-      this.colorList = defaultColorList,
-      this.showLegends = true,
-      this.initialAngle = 0.0,
+  PieChart({
+    @required this.dataMap,
+    this.legendFontSize = 14.0,
+    this.legendFontColor = Colors.black87,
+    this.legendFontWeight = FontWeight.w500,
+    this.chartRadius,
+    this.animationDuration,
+    this.chartLegendSpacing,
+    this.showChartValuesInPercentage = true,
+    this.showChartValues = true,
+    this.showChartValuesOutside = false,
+    this.chartValuesColor = Colors.black87,
+    this.colorList = defaultColorList,
+    this.showLegends = true,
+    this.initialAngle = 0.0,
       this.fontFamily,
-      Key key})
-      : super(key: key);
+    this.filterChartValues = 0,
+    Key key,
+  }) : super(key: key);
 
   @override
   _PieChartState createState() => _PieChartState();
 }
 
-class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin {
+class _PieChartState extends State<PieChart>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
   double _fraction = 0.0;
@@ -68,8 +72,11 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
     super.initState();
     initData();
 
-    controller = AnimationController(duration: widget.animationDuration ?? Duration(milliseconds: 800), vsync: this);
-    final Animation curve = CurvedAnimation(parent: controller, curve: Curves.decelerate);
+    controller = AnimationController(
+        duration: widget.animationDuration ?? Duration(milliseconds: 800),
+        vsync: this);
+    final Animation curve =
+        CurvedAnimation(parent: controller, curve: Curves.decelerate);
     animation = Tween<double>(begin: 0, end: 1).animate(curve);
     animation.addListener(() {
       setState(() {
@@ -80,9 +87,8 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
   }
 
   void initData() {
-    assert(
-      widget.dataMap != null && widget.dataMap.isNotEmpty,
-      "dataMap passed to pie chart cant be null or empty",
+    assert(widget.dataMap != null && widget.dataMap.isNotEmpty,
+        "dataMap passed to pie chart cant be null or empty",
     );
     initLegends();
     initValues();
@@ -114,18 +120,18 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 CustomPaint(
-                  painter: PieChartPainter(
-                    _fraction,
-                    widget.showChartValuesOutside,
-                    widget.colorList,
-                    values: legendValues,
-                    initialAngle: widget.initialAngle,
-                    showValuesInPercentage: widget.showChartValuesInPercentage,
-                    chartValuesColor: widget.chartValuesColor,
-                  ),
+                  painter: PieChartPainter(_fraction,
+                      widget.showChartValuesOutside, widget.colorList,
+                      values: legendValues,
+                      initialAngle: widget.initialAngle,showValuesInPercentage:
+                          widget.showChartValuesInPercentage,
+                      chartValuesColor: widget.chartValuesColor,
+                      filterChartValues: widget.filterChartValues),
                   child: Container(
-                    height: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
-                    width: widget.chartRadius ?? MediaQuery.of(context).size.width / 2.5,
+                    height: widget.chartRadius ??
+                        MediaQuery.of(context).size.width / 2.5,
+                    width: widget.chartRadius ??
+                        MediaQuery.of(context).size.width / 2.5,
                   ),
                 ),
                 widget.showLegends
@@ -146,7 +152,8 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
                                 .map(
                                   (item) => Legend(
                                     item,
-                                    getColor(widget.colorList, legendTitles.indexOf(item)),
+                                    getColor(widget.colorList,
+                                        legendTitles.indexOf(item)),
                                     widget.legendFontSize,
                                     widget.legendFontColor,
                                     widget.legendFontWeight,
@@ -200,6 +207,7 @@ class PieChartPainter extends CustomPainter {
   final double initialAngle;
   final bool showValuesInPercentage;
   final bool showChartValuesOutside;
+  final int filterChartValues;
   final Color chartValuesColor;
 
   PieChartPainter(
@@ -210,6 +218,7 @@ class PieChartPainter extends CustomPainter {
     this.initialAngle,
     this.showValuesInPercentage,
     this.chartValuesColor,
+    this.filterChartValues,
   }) {
     for (int i = 0; i < values.length; i++) {
       paintList.add(Paint()..color = getColor(colorList, i));
@@ -232,17 +241,23 @@ class PieChartPainter extends CustomPainter {
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
       canvas.drawArc(
-        new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-        prevAngle,
-        (((totalAngle) / total) * subParts[i]),
-        true,
-        paintList[i],
+          new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+          prevAngle,
+          (((totalAngle) / total) * subParts[i]),
+          true,
+          paintList[i],
       );
       var factor = showChartValuesOutside ? 1.65 : 3;
-      var x = (size.width / factor) * math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var y = (size.width / factor) * math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var x = (size.width / factor) *
+          math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
+      var y = (size.width / factor) *
+          math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
       if (subParts.elementAt(i).toInt() != 0) {
-        var name = showValuesInPercentage ? (((subParts.elementAt(i) / total) * 100).toStringAsFixed(0) + '%') : subParts.elementAt(i).toInt().toString();
+        var name = showValuesInPercentage
+            ? (((subParts.elementAt(i) / total) * 100)
+                    .toStringAsFixed(this.filterChartValues) +
+                '%')
+            : subParts.elementAt(i).toStringAsFixed(this.filterChartValues);
         drawName(canvas, name, x - 4, y, size);
       }
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
@@ -258,10 +273,19 @@ class PieChartPainter extends CustomPainter {
   }
 
   void drawName(Canvas context, String name, double x, double y, Size size) {
-    TextSpan span = new TextSpan(style: new TextStyle(color: chartValuesColor, fontSize: 12.0, fontWeight: FontWeight.w700), text: name);
-    TextPainter tp = new TextPainter(text: span, textAlign: TextAlign.left, textDirection: TextDirection.rtl);
+    TextSpan span = new TextSpan(
+        style: new TextStyle(
+            color: chartValuesColor,
+            fontSize: 12.0,
+            fontWeight: FontWeight.w700),
+        text: name);
+    TextPainter tp = new TextPainter(
+        text: span,
+        textAlign: TextAlign.left,
+        textDirection: TextDirection.rtl);
     tp.layout();
-    tp.paint(context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
+    tp.paint(
+        context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
   }
 
   @override
@@ -279,7 +303,8 @@ class Legend extends StatelessWidget {
   final FontWeight legendFontWeight;
   final String legendFontFamily;
 
-  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor, this.legendFontWeight, this.legendFontFamily);
+  Legend(this.text, this.color, this.legendFontSize, this.legendFontColor,
+      this.legendFontWeight, this.legendFontFamily);
 
   @override
   Widget build(BuildContext context) {
@@ -301,10 +326,10 @@ class Legend extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              fontWeight: legendFontWeight,
-              fontSize: legendFontSize,
-              color: legendFontColor,
-              fontFamily: legendFontFamily,
+                fontWeight: legendFontWeight,
+                fontSize: legendFontSize,
+                color: legendFontColor,
+                fontFamily: legendFontFamily,
             ),
             softWrap: true,
           ),
