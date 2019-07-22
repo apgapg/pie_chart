@@ -63,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                   chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
                   colorList: colorList,
                   showLegends: true,
-                  filterChartValues: 2,
+                  decimalPlaces: 2,
                 )
               : Text("Press FAB to show chart"),
         ),
