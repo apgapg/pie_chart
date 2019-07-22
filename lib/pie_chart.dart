@@ -80,7 +80,10 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
   }
 
   void initData() {
-    assert(widget.dataMap != null && widget.dataMap.isNotEmpty, "dataMap passed to pie chart cant be null or empty");
+    assert(
+      widget.dataMap != null && widget.dataMap.isNotEmpty,
+      "dataMap passed to pie chart cant be null or empty",
+    );
     initLegends();
     initValues();
   }
@@ -142,13 +145,13 @@ class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin
                             children: legendTitles
                                 .map(
                                   (item) => Legend(
-                                        item,
-                                        getColor(widget.colorList, legendTitles.indexOf(item)),
-                                        widget.legendFontSize,
-                                        widget.legendFontColor,
-                                        widget.legendFontWeight,
-                                        widget.fontFamily,
-                                      ),
+                                    item,
+                                    getColor(widget.colorList, legendTitles.indexOf(item)),
+                                    widget.legendFontSize,
+                                    widget.legendFontColor,
+                                    widget.legendFontWeight,
+                                    widget.fontFamily,
+                                  ),
                                 )
                                 .toList(),
                           ),
@@ -228,7 +231,13 @@ class PieChartPainter extends CustomPainter {
     prevAngle = this.initialAngle;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
-      canvas.drawArc(new Rect.fromLTWH(0.0, 0.0, size.width, size.height), prevAngle, (((totalAngle) / total) * subParts[i]), true, paintList[i]);
+      canvas.drawArc(
+        new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+        prevAngle,
+        (((totalAngle) / total) * subParts[i]),
+        true,
+        paintList[i],
+      );
       var factor = showChartValuesOutside ? 1.65 : 3;
       var x = (size.width / factor) * math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
       var y = (size.width / factor) * math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
@@ -291,7 +300,12 @@ class Legend extends StatelessWidget {
           fit: FlexFit.loose,
           child: Text(
             text,
-            style: TextStyle(fontWeight: legendFontWeight, fontSize: legendFontSize, color: legendFontColor, fontFamily: legendFontFamily),
+            style: TextStyle(
+              fontWeight: legendFontWeight,
+              fontSize: legendFontSize,
+              color: legendFontColor,
+              fontFamily: legendFontFamily,
+            ),
             softWrap: true,
           ),
         )
