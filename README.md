@@ -56,6 +56,7 @@ PieChart(
       chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
       colorList: colorList,
       showLegends: true,
+      initialAngle: math.pi*0.5,
   )
 ```
 

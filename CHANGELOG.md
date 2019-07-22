@@ -1,3 +1,6 @@
+## [1.1.0]
+* Merge [#11](https://github.com/apgapg/pie_chart/issues/8) Added option for changing initial angle of pie chart. Thanks [@mschneider](https://github.com/mschneider) for PR
+
 ## [1.0.0]
 * Added [#8](https://github.com/apgapg/pie_chart/issues/8) Added option for showing chart values outside the pie chart [@guyzk](https://github.com/guyzk)
 * Added [#7](https://github.com/apgapg/pie_chart/issues/7) Hide 0 values on pie chart. Thanks [@guyzk](https://github.com/https://github.com/guyzk)
