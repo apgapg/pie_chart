@@ -14,7 +14,7 @@ class PieChart extends StatefulWidget {
   final Duration animationDuration;
   final double chartLegendSpacing;
   final bool showChartValuesInPercentage;
-  final int filterChartValues;
+  final int decimalPlaces;
   final bool showChartValues;
   final bool showChartValuesOutside;
   final Color chartValuesColor;
@@ -48,7 +48,7 @@ class PieChart extends StatefulWidget {
     this.colorList = defaultColorList,
     this.showLegends = true,
     this.fontFamily,
-    this.filterChartValues = 0,
+    this.decimalPlaces = 0,
     Key key,
   }) : super(key: key);
 
@@ -123,7 +123,7 @@ class _PieChartState extends State<PieChart>
                       showValuesInPercentage:
                           widget.showChartValuesInPercentage,
                       chartValuesColor: widget.chartValuesColor,
-                      filterChartValues: widget.filterChartValues),
+                      filterChartValues: widget.decimalPlaces),
                   child: Container(
                     height: widget.chartRadius ??
                         MediaQuery.of(context).size.width / 2.5,
