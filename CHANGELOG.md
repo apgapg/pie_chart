@@ -1,5 +1,8 @@
+## [1.2.0]
+* Merge [#12](https://github.com/apgapg/pie_chart/issues/12) Added option for showing decimal places in chart values. Thanks [@VB10](https://github.com/VB10) for PR
+
 ## [1.1.0]
-* Merge [#11](https://github.com/apgapg/pie_chart/issues/8) Added option for changing initial angle of pie chart. Thanks [@mschneider](https://github.com/mschneider) for PR
+* Merge [#11](https://github.com/apgapg/pie_chart/issues/11) Added option for changing initial angle of pie chart. Thanks [@mschneider](https://github.com/mschneider) for PR
 
 ## [1.0.0]
 * Added [#8](https://github.com/apgapg/pie_chart/issues/8) Added option for showing chart values outside the pie chart [@guyzk](https://github.com/guyzk)
