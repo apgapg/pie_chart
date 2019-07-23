@@ -59,11 +59,11 @@ class _HomePageState extends State<HomePage> {
                   chartRadius: MediaQuery.of(context).size.width / 2.7,
                   showChartValuesInPercentage: true,
                   showChartValues: true,
-                  showChartValuesOutside: true,
+                  showChartValuesOutside: false,
                   chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
                   colorList: colorList,
                   showLegends: true,
-                  decimalPlaces: 2,
+                  decimalPlaces: 1,
                 )
               : Text("Press FAB to show chart"),
         ),
