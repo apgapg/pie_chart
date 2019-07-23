@@ -49,7 +49,7 @@ class PieChart extends StatefulWidget {
     this.colorList = defaultColorList,
     this.showLegends = true,
     this.initialAngle = 0.0,
-      this.fontFamily,
+    this.fontFamily,
     this.decimalPlaces = 0,
     Key key,
   }) : super(key: key);
@@ -87,8 +87,9 @@ class _PieChartState extends State<PieChart>
   }
 
   void initData() {
-    assert(widget.dataMap != null && widget.dataMap.isNotEmpty,
-        "dataMap passed to pie chart cant be null or empty",
+    assert(
+      widget.dataMap != null && widget.dataMap.isNotEmpty,
+      "dataMap passed to pie chart cant be null or empty",
     );
     initLegends();
     initValues();
@@ -123,7 +124,8 @@ class _PieChartState extends State<PieChart>
                   painter: PieChartPainter(_fraction,
                       widget.showChartValuesOutside, widget.colorList,
                       values: legendValues,
-                      initialAngle: widget.initialAngle,showValuesInPercentage:
+                      initialAngle: widget.initialAngle,
+                      showValuesInPercentage:
                           widget.showChartValuesInPercentage,
                       chartValuesColor: widget.chartValuesColor,
                       filterChartValues: widget.decimalPlaces),
@@ -241,11 +243,11 @@ class PieChartPainter extends CustomPainter {
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
       canvas.drawArc(
-          new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
-          prevAngle,
-          (((totalAngle) / total) * subParts[i]),
-          true,
-          paintList[i],
+        new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+        prevAngle,
+        (((totalAngle) / total) * subParts[i]),
+        true,
+        paintList[i],
       );
       var factor = showChartValuesOutside ? 1.65 : 3;
       var x = (size.width / factor) *
@@ -326,10 +328,10 @@ class Legend extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                fontWeight: legendFontWeight,
-                fontSize: legendFontSize,
-                color: legendFontColor,
-                fontFamily: legendFontFamily,
+              fontWeight: legendFontWeight,
+              fontSize: legendFontSize,
+              color: legendFontColor,
+              fontFamily: legendFontFamily,
             ),
             softWrap: true,
           ),
