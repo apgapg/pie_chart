@@ -1,3 +1,7 @@
+## [1.3.0]
+* Center text to sector center-line
+* Add text labels
+
 ## [1.2.0]
 * Merge [#12](https://github.com/apgapg/pie_chart/issues/12) Added option for showing decimal places in chart values. Thanks [@VB10](https://github.com/VB10) for PR
 
