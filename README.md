@@ -22,7 +22,7 @@ import 'package:pie_chart/pie_chart.dart';
 
 #### Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "415" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "400" alt="PieChart">
 
 ```dart
 Map<String, double> dataMap = new Map();
@@ -40,25 +40,28 @@ PieChart(dataMap: dataMap)
 ### - Full Implementation
 ```dart
 PieChart(
-      dataMap: dataMap, //Required parameter
-      legendFontColor: Colors.blueGrey[900],
-      legendFontSize: 14.0,
-      legendFontWeight: FontWeight.w500,
-      animationDuration: Duration(milliseconds: 800),
-      chartLegendSpacing: 32.0,
-      chartRadius: MediaQuery
-          .of(context)
-          .size
-          .width / 2.7,
-      showChartValuesInPercentage: true,
-      showChartValues: true,
-      showChartValuesOutside: true,
-      chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
-      colorList: colorList,
-      showLegends: true,
-      initialAngle: math.pi*0.5,
+       dataMap: dataMap,
+       legendFontColor: Colors.blueGrey[900],
+       legendFontSize: 14.0,
+       legendFontWeight: FontWeight.w500,
+       animationDuration: Duration(milliseconds: 800),
+       chartLegendSpacing: 32.0,
+       chartRadius: MediaQuery.of(context).size.width / 2.7,
+       showChartValuesInPercentage: true,
+       showChartValues: true,
+       showChartValuesOutside: false,
+       chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
+       colorList: colorList,
+       showLegends: true,
+       decimalPlaces: 1,
+       showChartValueLabel: true,
+       chartValueFontSize: 12,
+       chartValueFontWeight: FontWeight.bold,
+       chartValueLabelColor: Colors.grey[200],
+       initialAngle: 0,
   )
 ```
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s2.png"  height = "400" alt="PieChart">
 
 # ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
