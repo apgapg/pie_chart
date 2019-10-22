@@ -267,7 +267,8 @@ class PieChartPainter extends CustomPainter {
               '%');
         else
           name = subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
-        drawName(canvas, name, x - 4, y, size);
+
+        drawName(canvas, name, x, y, size);
       }
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
     }
@@ -281,7 +282,7 @@ class PieChartPainter extends CustomPainter {
       return colorList.elementAt(index);
   }
 
-  void drawName(Canvas context, String name, double x, double y, Size size) {
+  void drawName(Canvas canvas, String name, double x, double y, Size size) {
     TextSpan span = new TextSpan(
         style: new TextStyle(
             color: chartValuesColor,
@@ -291,10 +292,26 @@ class PieChartPainter extends CustomPainter {
     TextPainter tp = new TextPainter(
         text: span,
         textAlign: TextAlign.left,
-        textDirection: TextDirection.rtl);
+        textDirection: TextDirection.ltr);
     tp.layout();
+
+    //Draw text background box
+    final rect = Rect.fromCenter(
+      center: Offset((size.width / 2 + x), (size.width / 2 + y)),
+      width: tp.width + 8,
+      height: tp.height + 4,
+    );
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(4));
+    final paint = Paint()
+      ..color = Colors.grey[200]
+      ..style = PaintingStyle.fill;
+    canvas.drawRRect(rrect, paint);
+
+    //Finally paint the text above box
     tp.paint(
-        context, new Offset(size.width / 2 + x - 6, size.width / 2 + y - 6));
+        canvas,
+        new Offset((size.width / 2 + x) - (tp.width / 2),
+            (size.width / 2 + y) - (tp.height / 2)));
   }
 
   @override
