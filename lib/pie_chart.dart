@@ -7,9 +7,18 @@ import 'package:flutter/material.dart';
 class PieChart extends StatefulWidget {
   final Map<String, double> dataMap;
 
+  //Chart values text styling
+  final double chartValueFontSize;
+  final Color chartValuesColor;
+  final FontWeight chartValueFontWeight;
+  final bool showChartValueLabel;
+  final Color chartValueLabelColor;
+
+  //Legend text styling
   final double legendFontSize;
   final Color legendFontColor;
   final FontWeight legendFontWeight;
+
   final double chartRadius;
   final Duration animationDuration;
   final double chartLegendSpacing;
@@ -17,7 +26,6 @@ class PieChart extends StatefulWidget {
   final int decimalPlaces;
   final bool showChartValues;
   final bool showChartValuesOutside;
-  final Color chartValuesColor;
   final List<Color> colorList;
   final bool showLegends;
   final double initialAngle;
@@ -36,8 +44,12 @@ class PieChart extends StatefulWidget {
 
   PieChart({
     @required this.dataMap,
+    this.chartValueFontWeight = FontWeight.w700,
+    this.chartValueFontSize = 12.0,
+    this.showChartValueLabel = false,
+    this.chartValueLabelColor,
     this.legendFontSize = 14.0,
-    this.legendFontColor = Colors.black87,
+    this.legendFontColor,
     this.legendFontWeight = FontWeight.w500,
     this.chartRadius,
     this.animationDuration,
@@ -45,7 +57,7 @@ class PieChart extends StatefulWidget {
     this.showChartValuesInPercentage = true,
     this.showChartValues = true,
     this.showChartValuesOutside = false,
-    this.chartValuesColor = Colors.black87,
+    this.chartValuesColor,
     this.colorList = defaultColorList,
     this.showLegends = true,
     this.initialAngle = 0.0,
@@ -131,8 +143,13 @@ class _PieChartState extends State<PieChart>
                     values: legendValues,
                     initialAngle: widget.initialAngle,
                     showValuesInPercentage: widget.showChartValuesInPercentage,
-                    chartValuesColor: widget.chartValuesColor,
+                    chartValuesColor: widget.chartValuesColor ??
+                        Theme.of(context).textTheme.body1.color,
+                    chartValueFontWeight: widget.chartValueFontWeight,
+                    chartValueFontSize: widget.chartValueFontSize,
                     decimalPlaces: widget.decimalPlaces,
+                    showChartValueLabel: widget.showChartValueLabel,
+                    chartValueLabelColor: widget.chartValueLabelColor,
                   ),
                   child: Container(
                     height: widget.chartRadius ??
@@ -216,6 +233,10 @@ class PieChartPainter extends CustomPainter {
   final bool showChartValuesOutside;
   final int decimalPlaces;
   final Color chartValuesColor;
+  final FontWeight chartValueFontWeight;
+  final double chartValueFontSize;
+  final Color chartValueLabelColor;
+  final bool showChartValueLabel;
 
   PieChartPainter(
     double angleFactor,
@@ -226,6 +247,10 @@ class PieChartPainter extends CustomPainter {
     this.showValuesInPercentage,
     this.chartValuesColor,
     this.decimalPlaces,
+    this.chartValueFontWeight,
+    this.chartValueFontSize,
+    this.showChartValueLabel,
+    this.chartValueLabelColor,
   }) {
     for (int i = 0; i < values.length; i++) {
       paintList.add(Paint()..color = getColor(colorList, i));
@@ -286,27 +311,28 @@ class PieChartPainter extends CustomPainter {
     TextSpan span = new TextSpan(
         style: new TextStyle(
             color: chartValuesColor,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w700),
+            fontSize: chartValueFontSize,
+            fontWeight: chartValueFontWeight),
         text: name);
     TextPainter tp = new TextPainter(
         text: span,
-        textAlign: TextAlign.left,
+        textAlign: TextAlign.center,
         textDirection: TextDirection.ltr);
     tp.layout();
 
-    //Draw text background box
-    final rect = Rect.fromCenter(
-      center: Offset((size.width / 2 + x), (size.width / 2 + y)),
-      width: tp.width + 8,
-      height: tp.height + 4,
-    );
-    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(4));
-    final paint = Paint()
-      ..color = Colors.grey[200]
-      ..style = PaintingStyle.fill;
-    canvas.drawRRect(rrect, paint);
-
+    if (showChartValueLabel) {
+      //Draw text background box
+      final rect = Rect.fromCenter(
+        center: Offset((size.width / 2 + x), (size.width / 2 + y)),
+        width: tp.width + 4,
+        height: tp.height + 2,
+      );
+      final rrect = RRect.fromRectAndRadius(rect, Radius.circular(4));
+      final paint = Paint()
+        ..color = chartValueLabelColor ?? Colors.grey[200]
+        ..style = PaintingStyle.fill;
+      canvas.drawRRect(rrect, paint);
+    }
     //Finally paint the text above box
     tp.paint(
         canvas,
@@ -360,7 +386,7 @@ class Legend extends StatelessWidget {
             style: TextStyle(
               fontWeight: legendFontWeight,
               fontSize: legendFontSize,
-              color: legendFontColor,
+              color: legendFontColor ?? Theme.of(context).textTheme.body1.color,
               fontFamily: legendFontFamily,
             ),
             softWrap: true,
