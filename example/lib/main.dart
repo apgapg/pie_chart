@@ -64,6 +64,11 @@ class _HomePageState extends State<HomePage> {
                   colorList: colorList,
                   showLegends: true,
                   decimalPlaces: 1,
+                  showChartValueLabel: true,
+                  chartValueFontSize: 12,
+                  chartValueFontWeight: FontWeight.bold,
+                  chartValueLabelColor: Colors.grey[200],
+                  initialAngle: 0,
                 )
               : Text("Press FAB to show chart"),
         ),
