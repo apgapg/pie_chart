@@ -53,7 +53,7 @@ class PieChart extends StatefulWidget {
     this.legendFontWeight = FontWeight.w500,
     this.chartRadius,
     this.animationDuration,
-    this.chartLegendSpacing,
+    this.chartLegendSpacing = 48,
     this.showChartValuesInPercentage = true,
     this.showChartValues = true,
     this.showChartValuesOutside = false,
@@ -125,75 +125,79 @@ class _PieChartState extends State<PieChart>
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
       child: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
+        padding: EdgeInsets.all(8.0),
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                CustomPaint(
-                  painter: PieChartPainter(
-                    _fraction,
-                    widget.showChartValuesOutside,
-                    widget.colorList,
-                    values: legendValues,
-                    initialAngle: widget.initialAngle,
-                    showValuesInPercentage: widget.showChartValuesInPercentage,
-                    chartValuesColor: widget.chartValuesColor ??
-                        Theme.of(context).textTheme.body1.color,
-                    chartValueFontWeight: widget.chartValueFontWeight,
-                    chartValueFontSize: widget.chartValueFontSize,
-                    decimalPlaces: widget.decimalPlaces,
-                    showChartValueLabel: widget.showChartValueLabel,
-                    chartValueLabelColor: widget.chartValueLabelColor,
-                  ),
-                  child: Container(
-                    height: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
-                    width: widget.chartRadius ??
-                        MediaQuery.of(context).size.width / 2.5,
+            Flexible(
+              flex: 1,
+              child: LayoutBuilder(
+                builder: (context, c) => Container(
+                  height: widget.chartRadius != null
+                      ? (c.maxWidth < widget.chartRadius
+                          ? c.maxWidth
+                          : widget.chartRadius)
+                      : null,
+                  child: CustomPaint(
+                    painter: PieChartPainter(
+                      _fraction,
+                      widget.showChartValuesOutside,
+                      widget.colorList,
+                      values: legendValues,
+                      initialAngle: widget.initialAngle,
+                      showValuesInPercentage:
+                          widget.showChartValuesInPercentage,
+                      chartValuesColor: widget.chartValuesColor ??
+                          Theme.of(context).textTheme.body1.color,
+                      chartValueFontWeight: widget.chartValueFontWeight,
+                      chartValueFontSize: widget.chartValueFontSize,
+                      decimalPlaces: widget.decimalPlaces,
+                      showChartValueLabel: widget.showChartValueLabel,
+                      chartValueLabelColor: widget.chartValueLabelColor,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                    ),
                   ),
                 ),
-                widget.showLegends
-                    ? SizedBox(
-                        width: widget.chartLegendSpacing ?? 16.0,
-                      )
-                    : SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-                widget.showLegends
-                    ? Flexible(
-                        fit: FlexFit.loose,
-                        child: Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: legendTitles
-                                .map(
-                                  (item) => Legend(
-                                    item,
-                                    getColor(widget.colorList,
-                                        legendTitles.indexOf(item)),
-                                    widget.legendFontSize,
-                                    widget.legendFontColor,
-                                    widget.legendFontWeight,
-                                    widget.fontFamily,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      )
-                    : SizedBox(
-                        height: 0,
-                        width: 0,
-                      ),
-              ],
+              ),
             ),
+            widget.showLegends
+                ? SizedBox(
+                    width: widget.chartLegendSpacing ?? 16.0,
+                  )
+                : SizedBox(
+                    height: 0,
+                    width: 0,
+                  ),
+            widget.showLegends
+                ? Flexible(
+                    fit: FlexFit.loose,
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: legendTitles
+                            .map(
+                              (item) => Legend(
+                                item,
+                                getColor(widget.colorList,
+                                    legendTitles.indexOf(item)),
+                                widget.legendFontSize,
+                                widget.legendFontColor,
+                                widget.legendFontWeight,
+                                widget.fontFamily,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 0,
+                    width: 0,
+                  ),
           ],
         ),
       ),
@@ -269,20 +273,21 @@ class PieChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    var side = size.width < size.height ? size.width : size.height;
     prevAngle = this.initialAngle;
     finalAngle = 0;
     for (int i = 0; i < subParts.length; i++) {
       canvas.drawArc(
-        new Rect.fromLTWH(0.0, 0.0, size.width, size.height),
+        new Rect.fromLTWH(0.0, 0.0, side, size.height),
         prevAngle,
         (((totalAngle) / total) * subParts[i]),
         true,
         paintList[i],
       );
       var factor = showChartValuesOutside ? 1.65 : 3;
-      var x = (size.width / factor) *
+      var x = (side / factor) *
           math.cos(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
-      var y = (size.width / factor) *
+      var y = (side / factor) *
           math.sin(prevAngle + ((((totalAngle) / total) * subParts[i]) / 2));
       if (subParts.elementAt(i).toInt() != 0) {
         var name;
@@ -293,7 +298,7 @@ class PieChartPainter extends CustomPainter {
         else
           name = subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
 
-        drawName(canvas, name, x, y, size);
+        drawName(canvas, name, x, y, side);
       }
       prevAngle = prevAngle + (((totalAngle) / total) * subParts[i]);
     }
@@ -307,7 +312,7 @@ class PieChartPainter extends CustomPainter {
       return colorList.elementAt(index);
   }
 
-  void drawName(Canvas canvas, String name, double x, double y, Size size) {
+  void drawName(Canvas canvas, String name, double x, double y, double side) {
     TextSpan span = new TextSpan(
         style: new TextStyle(
             color: chartValuesColor,
@@ -323,7 +328,7 @@ class PieChartPainter extends CustomPainter {
     if (showChartValueLabel) {
       //Draw text background box
       final rect = Rect.fromCenter(
-        center: Offset((size.width / 2 + x), (size.width / 2 + y)),
+        center: Offset((side / 2 + x), (side / 2 + y)),
         width: tp.width + 4,
         height: tp.height + 2,
       );
@@ -336,8 +341,8 @@ class PieChartPainter extends CustomPainter {
     //Finally paint the text above box
     tp.paint(
         canvas,
-        new Offset((size.width / 2 + x) - (tp.width / 2),
-            (size.width / 2 + y) - (tp.height / 2)));
+        new Offset(
+            (side / 2 + x) - (tp.width / 2), (side / 2 + y) - (tp.height / 2)));
   }
 
   @override
