@@ -1,3 +1,10 @@
+## [2.0.0]
+* Fix padding, margin **Breaking**
+* Fix error when parent is row 
+* Adapt to screen size **Breaking**
+* Override chartRadius when screen is smaller compare to chartRadius **Breaking**
+* Update example with macos and web support
+
 ## [1.3.0]
 * Center text to sector center-line
 * Add text labels
