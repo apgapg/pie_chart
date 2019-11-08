@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool toggle = false;
-  Map<String, double> dataMap = new Map();
+  Map<String, double> dataMap = Map();
   List<Color> colorList = [
     Colors.red,
     Colors.green,
@@ -65,24 +65,21 @@ class _HomePageState extends State<HomePage> {
           child: toggle
               ? PieChart(
                   dataMap: dataMap,
-                  legendFontColor: Colors.blueGrey[900],
-                  legendFontSize: 14.0,
-                  legendFontWeight: FontWeight.w500,
                   animationDuration: Duration(milliseconds: 800),
                   chartLegendSpacing: 32.0,
                   chartRadius: MediaQuery.of(context).size.width / 2.7,
                   showChartValuesInPercentage: true,
                   showChartValues: true,
                   showChartValuesOutside: false,
-                  chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
+                  chartValueBackgroundColor: Colors.grey[200],
                   colorList: colorList,
                   showLegends: true,
                   decimalPlaces: 1,
                   showChartValueLabel: true,
-                  chartValueFontSize: 12,
-                  chartValueFontWeight: FontWeight.bold,
-                  chartValueLabelColor: Colors.grey[200],
                   initialAngle: 0,
+                  chartValueStyle: defaultChartValueStyle.copyWith(
+                    color: Colors.blueGrey[900].withOpacity(0.9),
+                  ),
                 )
               : Text("Press FAB to show chart"),
         ),

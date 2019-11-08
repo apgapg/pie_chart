@@ -40,26 +40,23 @@ PieChart(dataMap: dataMap)
 ### - Full Implementation
 ```dart
 PieChart(
-       dataMap: dataMap,
-       legendFontColor: Colors.blueGrey[900],
-       legendFontSize: 14.0,
-       legendFontWeight: FontWeight.w500,
-       animationDuration: Duration(milliseconds: 800),
-       chartLegendSpacing: 32.0,
-       chartRadius: MediaQuery.of(context).size.width / 2.7,
-       showChartValuesInPercentage: true,
-       showChartValues: true,
-       showChartValuesOutside: false,
-       chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
-       colorList: colorList,
-       showLegends: true,
-       decimalPlaces: 1,
-       showChartValueLabel: true,
-       chartValueFontSize: 12,
-       chartValueFontWeight: FontWeight.bold,
-       chartValueLabelColor: Colors.grey[200],
-       initialAngle: 0,
-  )
+        dataMap: dataMap,
+        animationDuration: Duration(milliseconds: 800),
+        chartLegendSpacing: 32.0,
+        chartRadius: MediaQuery.of(context).size.width / 2.7,
+        showChartValuesInPercentage: true,
+        showChartValues: true,
+        showChartValuesOutside: false,
+        chartValueBackgroundColor: Colors.grey[200],
+        colorList: colorList,
+        showLegends: true,
+        decimalPlaces: 1,
+        showChartValueLabel: true,
+        initialAngle: 0,
+        chartValueStyle: defaultChartValueStyle.copyWith(
+          color: Colors.blueGrey[900].withOpacity(0.9),
+        ),
+    )
 ```
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s2.png"  height = "400" alt="PieChart">
 
