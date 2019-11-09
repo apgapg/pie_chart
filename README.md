@@ -50,6 +50,7 @@ PieChart(
         chartValueBackgroundColor: Colors.grey[200],
         colorList: colorList,
         showLegends: true,
+        legendPosition: LegendPosition.right,
         decimalPlaces: 1,
         showChartValueLabel: true,
         initialAngle: 0,
