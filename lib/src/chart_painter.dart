@@ -1,7 +1,23 @@
-import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
+
 class PieChartPainter extends CustomPainter {
+  List<Paint> _paintList = [];
+  List<double> _subParts;
+  double _total = 0;
+  double _totalAngle = math.pi * 2;
+
+  final TextStyle chartValueStyle;
+  final Color chartValueBackgroundColor;
+  final double initialAngle;
+  final bool showValuesInPercentage;
+  final bool showChartValuesOutside;
+  final int decimalPlaces;
+  final bool showChartValueLabel;
+
+  double _prevAngle = 0;
+
   PieChartPainter(
     double angleFactor,
     this.showChartValuesOutside,
@@ -21,21 +37,6 @@ class PieChartPainter extends CustomPainter {
     _subParts = values;
     _total = values.fold(0, (v1, v2) => v1 + v2);
   }
-
-  List<Paint> _paintList = [];
-  List<double> _subParts;
-  double _total = 0;
-  double _totalAngle = math.pi * 2;
-
-  final TextStyle chartValueStyle;
-  final Color chartValueBackgroundColor;
-  final double initialAngle;
-  final bool showValuesInPercentage;
-  final bool showChartValuesOutside;
-  final int decimalPlaces;
-  final bool showChartValueLabel;
-
-  double _prevAngle = 0;
 
   @override
   void paint(Canvas canvas, Size size) {
