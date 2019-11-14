@@ -22,7 +22,7 @@ import 'package:pie_chart/pie_chart.dart';
 
 #### Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/app.gif"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "400" alt="PieChart">
 
 ```dart
 Map<String, double> dataMap = new Map();
@@ -59,7 +59,7 @@ PieChart(
         ),
     )
 ```
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s2.png"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s2.png"  height = "400" alt="PieChart">
 
 # ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
