@@ -1,3 +1,12 @@
+## [3.0.0] ***Breaking**
+* Migrate to AndroidX
+* Add dark mode theme
+* Remove color from default legendStyle to support dark mode
+* Add enum LegendPosition to align chart legend **Breaking**
+* Restructure whole project. Optimize code. Code Cleanup
+
+Thanks [@xsahil03x](https://github.com/xsahil03x) for these changes
+
 ## [2.0.0]
 * Fix padding, margin **Breaking**
 * Fix error when parent is row 
