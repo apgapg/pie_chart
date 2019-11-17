@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
@@ -15,6 +16,7 @@ class PieChartPainter extends CustomPainter {
   final bool showChartValuesOutside;
   final int decimalPlaces;
   final bool showChartValueLabel;
+  final ChartType chartType;
 
   double _prevAngle = 0;
 
@@ -29,9 +31,15 @@ class PieChartPainter extends CustomPainter {
     this.showValuesInPercentage,
     this.decimalPlaces,
     this.showChartValueLabel,
+    this.chartType,
   }) {
     for (int i = 0; i < values.length; i++) {
-      _paintList.add(Paint()..color = _getColor(colorList, i));
+      final paint = Paint()..color = _getColor(colorList, i);
+      if (chartType == ChartType.ring) {
+        paint.style = PaintingStyle.stroke;
+        paint.strokeWidth = 20;
+      }
+      _paintList.add(paint);
     }
     _totalAngle = angleFactor * math.pi * 2;
     _subParts = values;
@@ -47,14 +55,14 @@ class PieChartPainter extends CustomPainter {
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
         _prevAngle,
         (((_totalAngle) / _total) * _subParts[i]),
-        true,
+        chartType == ChartType.disc ? true : false,
         _paintList[i],
       );
-      final factor = showChartValuesOutside ? 1.65 : 3;
-      final x = (side / factor) *
+      final radius = showChartValuesOutside ? side*0.5 : side / 3;
+      final x = (radius) *
           math.cos(
               _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
-      final y = (side / factor) *
+      final y = (radius) *
           math.sin(
               _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
       if (_subParts.elementAt(i).toInt() != 0) {
@@ -79,7 +87,10 @@ class PieChartPainter extends CustomPainter {
   }
 
   void _drawName(Canvas canvas, String name, double x, double y, double side) {
-    TextSpan span = TextSpan(style: chartValueStyle, text: name);
+    TextSpan span = TextSpan(
+      style: chartValueStyle,
+      text: name,
+    );
     TextPainter tp = TextPainter(
       text: span,
       textAlign: TextAlign.center,
@@ -91,8 +102,8 @@ class PieChartPainter extends CustomPainter {
       //Draw text background box
       final rect = Rect.fromCenter(
         center: Offset((side / 2 + x), (side / 2 + y)),
-        width: tp.width + 4,
-        height: tp.height + 2,
+        width: tp.width + 6,
+        height: tp.height + 4,
       );
       final rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
       final paint = Paint()
@@ -102,9 +113,12 @@ class PieChartPainter extends CustomPainter {
     }
     //Finally paint the text above box
     tp.paint(
-        canvas,
-        new Offset(
-            (side / 2 + x) - (tp.width / 2), (side / 2 + y) - (tp.height / 2)));
+      canvas,
+      new Offset(
+        (side / 2 + x) - (tp.width / 2),
+        (side / 2 + y) - (tp.height / 2),
+      ),
+    );
   }
 
   @override
