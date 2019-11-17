@@ -70,14 +70,14 @@ PieChart(
 ```dart
 chartType: ChartType.ring,
 ```
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s8.png"  height = "400" alt="PieChart">  
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s9.png"  height = "400" alt="PieChart">  
 
 ```dart
 chartType: ChartType.ring,
 showChartValuesOutside: true,
 ```
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s9.png"  height = "400" alt="PieChart"> 
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s8.png"  height = "400" alt="PieChart"> 
 
 # ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
