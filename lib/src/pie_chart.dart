@@ -6,12 +6,15 @@ import 'utils.dart';
 
 enum LegendPosition { top, bottom, left, right }
 
+enum ChartType { disc, ring }
+
 class PieChart extends StatefulWidget {
   PieChart({
     @required this.dataMap,
     this.showChartValueLabel = false,
     this.chartValueStyle = defaultChartValueStyle,
     this.legendPosition = LegendPosition.right,
+    this.chartType = ChartType.disc,
     this.chartValueBackgroundColor = Colors.grey,
     this.legendStyle = defaultLegendStyle,
     this.chartRadius,
@@ -38,6 +41,7 @@ class PieChart extends StatefulWidget {
   final TextStyle legendStyle;
 
   final LegendPosition legendPosition;
+  final ChartType chartType;
 
   final double chartRadius;
   final Duration animationDuration;
@@ -147,6 +151,7 @@ class _PieChartState extends State<PieChart>
               showValuesInPercentage: widget.showChartValuesInPercentage,
               decimalPlaces: widget.decimalPlaces,
               showChartValueLabel: widget.showChartValueLabel,
+              chartType: widget.chartType,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),

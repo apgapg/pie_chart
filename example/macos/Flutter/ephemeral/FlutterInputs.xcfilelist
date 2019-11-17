@@ -19,7 +19,7 @@
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/collection-1.14.11/lib/src/utils.dart
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/collection-1.14.11/lib/src/wrappers.dart
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-0.1.2/assets/CupertinoIcons.ttf
-/Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/meta-1.1.7/lib/meta.dart
+/Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/meta-1.1.8/lib/meta.dart
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/typed_data-1.1.6/lib/typed_buffers.dart
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/vector_math-2.0.8/lib/hash.dart
 /Users/ayushpgupta/.pub-cache/hosted/pub.dartlang.org/vector_math-2.0.8/lib/src/vector_math_64/aabb2.dart
@@ -51,6 +51,10 @@
 /Users/ayushpgupta/StudioProjects/pie_chart/example/lib/main.dart
 /Users/ayushpgupta/StudioProjects/pie_chart/example/pubspec.yaml
 /Users/ayushpgupta/StudioProjects/pie_chart/lib/pie_chart.dart
+/Users/ayushpgupta/StudioProjects/pie_chart/lib/src/chart_painter.dart
+/Users/ayushpgupta/StudioProjects/pie_chart/lib/src/legend.dart
+/Users/ayushpgupta/StudioProjects/pie_chart/lib/src/pie_chart.dart
+/Users/ayushpgupta/StudioProjects/pie_chart/lib/src/utils.dart
 /Users/ayushpgupta/development/flutter_master/flutter/bin/cache/artifacts/engine/common/flutter_patched_sdk/platform_strong.dill
 /Users/ayushpgupta/development/flutter_master/flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework/FlutterMacOS
 /Users/ayushpgupta/development/flutter_master/flutter/bin/cache/artifacts/engine/darwin-x64/FlutterMacOS.framework/Headers/FlutterAppDelegate.h
@@ -130,6 +134,8 @@
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/button.dart
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/colors.dart
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/constants.dart
+/Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/context_menu.dart
+/Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/context_menu_action.dart
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/date_picker.dart
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/dialog.dart
 /Users/ayushpgupta/development/flutter_master/flutter/packages/flutter/lib/src/cupertino/icon_theme_data.dart
