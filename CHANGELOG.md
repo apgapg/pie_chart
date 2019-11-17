@@ -1,3 +1,6 @@
+## [3.1.0]
+* Add ring shape pie chart support
+
 ## [3.0.0] ***Breaking**
 * Migrate to AndroidX
 * Add dark mode theme
