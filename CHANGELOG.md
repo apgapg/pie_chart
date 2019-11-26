@@ -1,3 +1,6 @@
+## [3.1.1]
+* Fix [#22](https://github.com/apgapg/pie_chart/issues/22) showLegends = false causes exception.
+
 ## [3.1.0]
 * Add ring shape pie chart support
 
