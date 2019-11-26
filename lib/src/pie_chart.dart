@@ -182,7 +182,11 @@ class _PieChartState extends State<PieChart>
           ),
         ),
       );
-    }
+    } else
+      return SizedBox(
+        height: 0,
+        width: 0,
+      );
   }
 
   _getPieChart() {
