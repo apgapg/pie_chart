@@ -77,4 +77,27 @@ void main() {
       );
     });
   });
+
+  testWidgets('Chart Data is correct', (WidgetTester tester) async {
+    final falseDataMap = <String, dynamic>{};
+    falseDataMap.putIfAbsent("Flutter", () => 5);
+    falseDataMap.putIfAbsent("React", () => 3);
+    falseDataMap.putIfAbsent("Xamarin", () => 2);
+    falseDataMap.putIfAbsent("Ionic", () => 2);
+
+    expectLater(
+      () async {
+        await tester.pumpWidget(MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: PieChart(
+                dataMap: falseDataMap,
+              ),
+            ),
+          ),
+        ));
+      },
+      throwsAssertionError,
+    );
+  });
 }
