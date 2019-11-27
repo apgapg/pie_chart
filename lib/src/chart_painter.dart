@@ -34,7 +34,7 @@ class PieChartPainter extends CustomPainter {
     this.chartType,
   }) {
     for (int i = 0; i < values.length; i++) {
-      final paint = Paint()..color = _getColor(colorList, i);
+      final paint = Paint()..color = getColor(colorList, i);
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
         paint.strokeWidth = 20;
@@ -76,14 +76,6 @@ class PieChartPainter extends CustomPainter {
       }
       _prevAngle = _prevAngle + (((_totalAngle) / _total) * _subParts[i]);
     }
-  }
-
-  Color _getColor(List<Color> colorList, int index) {
-    if (index > (colorList.length - 1)) {
-      var newIndex = index % (colorList.length - 1);
-      return colorList.elementAt(newIndex);
-    } else
-      return colorList.elementAt(index);
   }
 
   void _drawName(Canvas canvas, String name, double x, double y, double side) {

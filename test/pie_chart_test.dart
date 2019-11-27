@@ -100,4 +100,17 @@ void main() {
       throwsAssertionError,
     );
   });
+
+  test("Test color return when index is greater than color list", () {
+    final List<Color> colorList = [
+      Color(0xFFff7675),
+      Color(0xFF74b9ff),
+      Color(0xFF55efc4),
+      Color(0xFFffeaa7),
+    ];
+    expect(
+      getColor(colorList, 5).runtimeType,
+      Color,
+    );
+  });
 }

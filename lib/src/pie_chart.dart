@@ -75,14 +75,6 @@ class _PieChartState extends State<PieChart>
     this.legendValues = widget.dataMap.values.toList(growable: false);
   }
 
-  Color getColor(List<Color> colorList, int index) {
-    if (index > (colorList.length - 1)) {
-      final newIndex = index % (colorList.length - 1);
-      return colorList.elementAt(newIndex);
-    }
-    return colorList.elementAt(index);
-  }
-
   void initData() {
     assert(
       widget.dataMap != null && widget.dataMap.isNotEmpty,

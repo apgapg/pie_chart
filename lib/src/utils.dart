@@ -21,3 +21,11 @@ const List<Color> defaultColorList = [
   Color(0xFFe17055),
   Color(0xFF00b894),
 ];
+
+Color getColor(List<Color> colorList, int index) {
+  if (index > (colorList.length - 1)) {
+    final newIndex = index % (colorList.length - 1);
+    return colorList.elementAt(newIndex);
+  }
+  return colorList.elementAt(index);
+}
