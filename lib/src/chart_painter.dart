@@ -17,6 +17,7 @@ class PieChartPainter extends CustomPainter {
   final int decimalPlaces;
   final bool showChartValueLabel;
   final ChartType chartType;
+  final Function formatChartValues;
 
   double _prevAngle = 0;
 
@@ -32,6 +33,7 @@ class PieChartPainter extends CustomPainter {
     this.decimalPlaces,
     this.showChartValueLabel,
     this.chartType,
+    this.formatChartValues
   }) {
     for (int i = 0; i < values.length; i++) {
       final paint = Paint()..color = getColor(colorList, i);
@@ -66,11 +68,14 @@ class PieChartPainter extends CustomPainter {
           math.sin(
               _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
       if (_subParts.elementAt(i).toInt() != 0) {
+        final value = formatChartValues != null 
+            ? formatChartValues(_subParts.elementAt(i)) 
+            : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
         final name = showValuesInPercentage
             ? (((_subParts.elementAt(i) / _total) * 100)
                     .toStringAsFixed(this.decimalPlaces) +
                 '%')
-            : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
+            : value;
 
         _drawName(canvas, name, x, y, side);
       }

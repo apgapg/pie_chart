@@ -27,6 +27,7 @@ class PieChart extends StatefulWidget {
     this.showLegends = true,
     this.initialAngle = 0.0,
     this.decimalPlaces = 0,
+    this.formatChartValues,
     Key key,
   }) : super(key: key);
 
@@ -53,6 +54,7 @@ class PieChart extends StatefulWidget {
   final List<Color> colorList;
   final bool showLegends;
   final double initialAngle;
+  final Function formatChartValues;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -144,6 +146,7 @@ class _PieChartState extends State<PieChart>
               decimalPlaces: widget.decimalPlaces,
               showChartValueLabel: widget.showChartValueLabel,
               chartType: widget.chartType,
+              formatChartValues: widget.formatChartValues
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
