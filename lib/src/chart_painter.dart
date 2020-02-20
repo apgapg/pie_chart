@@ -17,6 +17,7 @@ class PieChartPainter extends CustomPainter {
   final int decimalPlaces;
   final bool showChartValueLabel;
   final ChartType chartType;
+  final String centerText;
   final Function formatChartValues;
 
   double _prevAngle = 0;
@@ -33,6 +34,7 @@ class PieChartPainter extends CustomPainter {
     this.decimalPlaces,
     this.showChartValueLabel,
     this.chartType,
+    this.centerText,
     this.formatChartValues
   }) {
     for (int i = 0; i < values.length; i++) {
@@ -81,6 +83,14 @@ class PieChartPainter extends CustomPainter {
       }
       _prevAngle = _prevAngle + (((_totalAngle) / _total) * _subParts[i]);
     }
+
+    if (centerText != null && centerText.trim().isNotEmpty) {
+      _drawCenterText(canvas, side);
+    }
+  }
+
+  void _drawCenterText(Canvas canvas, double side) {
+    _drawName(canvas, centerText, 0, 0, side);
   }
 
   void _drawName(Canvas canvas, String name, double x, double y, double side) {
