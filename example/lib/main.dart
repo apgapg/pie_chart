@@ -86,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.blueGrey[900].withOpacity(0.9),
                   ),
                   chartType: ChartType.disc,
+                  centerText: "MY CHART",
                 )
               : Text("Press FAB to show chart"),
         ),
