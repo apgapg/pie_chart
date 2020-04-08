@@ -97,7 +97,7 @@ void main() {
           ),
         ));
       },
-      throwsAssertionError,
+      throws,
     );
   });
 
