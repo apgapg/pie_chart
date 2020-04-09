@@ -79,7 +79,9 @@ chartType: ChartType.ring,
 showChartValuesOutside: true,
 ```
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s8.png"  height = "400" alt="PieChart"> 
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s8.png"  height = "400" alt="PieChart">
+
+## Issues
 
 <!-- issueTable -->
 
