@@ -29,4 +29,14 @@ jobs:
       with:
         GITHUB_TOKEN: '${{secrets.TOKEN }}'
         pattern: '<!-- issueTable -->' # suffixing "Demo" for this readme
+    - name: add-and-commit
+      uses: EndBug/add-and-commit@v4
+      with:
+        message: README.md has been updated with issues
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+    - name: push
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.TOKEN }}
       
