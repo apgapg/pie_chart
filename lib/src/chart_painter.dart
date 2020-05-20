@@ -19,6 +19,7 @@ class PieChartPainter extends CustomPainter {
   final ChartType chartType;
   final String centerText;
   final Function formatChartValues;
+  final double strokeWidth;
 
   double _prevAngle = 0;
 
@@ -35,13 +36,14 @@ class PieChartPainter extends CustomPainter {
     this.showChartValueLabel,
     this.chartType,
     this.centerText,
-    this.formatChartValues
+    this.formatChartValues,
+    this.strokeWidth,
   }) {
     for (int i = 0; i < values.length; i++) {
       final paint = Paint()..color = getColor(colorList, i);
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = 20;
+        paint.strokeWidth = strokeWidth;
       }
       _paintList.add(paint);
     }
@@ -70,8 +72,8 @@ class PieChartPainter extends CustomPainter {
           math.sin(
               _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
       if (_subParts.elementAt(i).toInt() != 0) {
-        final value = formatChartValues != null 
-            ? formatChartValues(_subParts.elementAt(i)) 
+        final value = formatChartValues != null
+            ? formatChartValues(_subParts.elementAt(i))
             : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
         final name = showValuesInPercentage
             ? (((_subParts.elementAt(i) / _total) * 100)
