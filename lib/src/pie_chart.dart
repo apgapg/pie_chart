@@ -30,6 +30,8 @@ class PieChart extends StatefulWidget {
     this.formatChartValues,
     this.centerText,
     this.strokeWidth = 20.0,
+    this.legendRow = true,
+    this.legendRounded = false,
     Key key,
   }) : super(key: key);
 
@@ -59,6 +61,8 @@ class PieChart extends StatefulWidget {
   final Function formatChartValues;
   final String centerText;
   final double strokeWidth;
+  final bool legendRow;
+  final bool legendRounded;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -166,22 +170,38 @@ class _PieChartState extends State<PieChart>
       return Flexible(
         fit: FlexFit.loose,
         child: Padding(
-          padding: legendSpacing,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: legendTitles
-                .map((item) => Legend(
-                      title: item,
-                      color: getColor(
-                        widget.colorList,
-                        legendTitles.indexOf(item),
-                      ),
-                      style: widget.legendStyle,
-                    ))
-                .toList(),
-          ),
-        ),
+            padding: legendSpacing,
+            child: widget.legendRow
+                ? Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: legendTitles
+                        .map((item) => Legend(
+                              title: item,
+                              color: getColor(
+                                widget.colorList,
+                                legendTitles.indexOf(item),
+                              ),
+                              style: widget.legendStyle,
+                              legendRounded: widget.legendRounded,
+                            ))
+                        .toList(),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: legendTitles
+                        .map((item) => Legend(
+                              title: item,
+                              color: getColor(
+                                widget.colorList,
+                                legendTitles.indexOf(item),
+                              ),
+                              style: widget.legendStyle,
+                              legendRounded: widget.legendRounded,
+                            ))
+                        .toList(),
+                  )),
       );
     } else
       return SizedBox(
@@ -193,17 +213,29 @@ class _PieChartState extends State<PieChart>
   _getPieChart() {
     switch (widget.legendPosition) {
       case LegendPosition.top:
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            _getLegend(
-              EdgeInsets.only(
-                bottom: widget.chartLegendSpacing,
-              ),
-            ),
-            _getChart(),
-          ],
-        );
+        return widget.legendRow
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _getLegend(
+                    EdgeInsets.only(
+                      bottom: widget.chartLegendSpacing,
+                    ),
+                  ),
+                  _getChart(),
+                ],
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _getLegend(
+                    EdgeInsets.only(
+                      bottom: widget.chartLegendSpacing,
+                    ),
+                  ),
+                  _getChart(),
+                ],
+              );
       case LegendPosition.bottom:
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -217,7 +249,7 @@ class _PieChartState extends State<PieChart>
           ],
         );
       case LegendPosition.left:
-        return Row(
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getLegend(
@@ -229,7 +261,7 @@ class _PieChartState extends State<PieChart>
           ],
         );
       case LegendPosition.right:
-        return Row(
+        return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getChart(),
