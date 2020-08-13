@@ -167,7 +167,9 @@ class _PieChartState extends State<PieChart>
         fit: FlexFit.loose,
         child: Padding(
           padding: legendSpacing,
-          child: Column(
+          child: Wrap(
+            direction: Axis.vertical,
+            runSpacing: 8,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: legendTitles
