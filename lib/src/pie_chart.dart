@@ -140,6 +140,7 @@ class _PieChartState extends State<PieChart>
           child: CustomPaint(
             painter: PieChartPainter(
               _fraction,
+              widget.showChartValues,
               widget.showChartValuesOutside,
               widget.colorList,
               chartValueStyle: widget.chartValueStyle,
