@@ -5,11 +5,13 @@ class Legend extends StatelessWidget {
     @required this.title,
     @required this.color,
     @required this.style,
+    @required this.legendRounded,
   });
 
   final String title;
   final Color color;
   final TextStyle style;
+  final bool legendRounded;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,10 @@ class Legend extends StatelessWidget {
           margin: EdgeInsets.symmetric(vertical: 2.0),
           height: 20.0,
           width: 18.0,
-          color: color,
+          decoration: BoxDecoration(
+            shape: legendRounded ? BoxShape.circle : BoxShape.rectangle,
+            color: color,
+          ),
         ),
         SizedBox(
           width: 8.0,
@@ -33,7 +38,10 @@ class Legend extends StatelessWidget {
             style: style,
             softWrap: true,
           ),
-        )
+        ),
+        SizedBox(
+          width: 8.0,
+        ),
       ],
     );
   }
