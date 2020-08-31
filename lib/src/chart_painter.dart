@@ -6,6 +6,7 @@ import 'package:pie_chart/pie_chart.dart';
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
   List<double> _subParts;
+  List<String> _subTitles;
   double _total = 0;
   double _totalAngle = math.pi * 2;
 
@@ -32,6 +33,7 @@ class PieChartPainter extends CustomPainter {
     this.chartValueStyle,
     this.chartValueBackgroundColor,
     List<double> values,
+    List<String> titles,    
     this.initialAngle,
     this.showValuesInPercentage,
     this.decimalPlaces,
@@ -51,6 +53,7 @@ class PieChartPainter extends CustomPainter {
     }
     _totalAngle = angleFactor * math.pi * 2;
     _subParts = values;
+    _subTitles = titles;
     _total = values.fold(0, (v1, v2) => v1 + v2);
   }
 
@@ -77,6 +80,18 @@ class PieChartPainter extends CustomPainter {
         final value = formatChartValues != null
             ? formatChartValues(_subParts.elementAt(i))
             : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
+
+//        final name = showValuesInPercentage
+//            ? (((_subParts.elementAt(i) / _total) * 100)
+//                    .toStringAsFixed(this.decimalPlaces) +
+//                '%')
+//            : value;
+        final name = showValuesInPercentage
+            ? (((_subParts.elementAt(i) / _total) * 100)
+            .toStringAsFixed(this.decimalPlaces) +
+            '%')
+            : _subTitles.elementAt(i);
+
 
         if (showChartValues) {
           final name = showValuesInPercentage
