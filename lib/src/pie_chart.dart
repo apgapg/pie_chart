@@ -173,7 +173,9 @@ class _PieChartState extends State<PieChart>
         child: Padding(
             padding: legendSpacing,
             child: widget.legendRow
-                ? Row(
+                ? Wrap(
+                    direction: Axis.horizontal,
+                    runSpacing: 8,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: legendTitles
@@ -188,7 +190,9 @@ class _PieChartState extends State<PieChart>
                             ))
                         .toList(),
                   )
-                : Column(
+                : Wrap(
+                    direction: Axis.vertical,
+                    runSpacing: 8,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: legendTitles
