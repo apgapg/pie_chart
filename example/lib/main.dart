@@ -41,22 +41,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool toggle = false;
-  Map<String, double> dataMap = Map();
+  Map<String, double> dataMap = {
+    "Flutter": 5,
+    "React": 3,
+    "Xamarin": 2,
+    "Ionic": 2,
+  };
   List<Color> colorList = [
     Colors.red,
     Colors.green,
     Colors.blue,
     Colors.yellow,
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    dataMap.putIfAbsent("Flutter", () => 5);
-    dataMap.putIfAbsent("React", () => 3);
-    dataMap.putIfAbsent("Xamarin", () => 2);
-    dataMap.putIfAbsent("Ionic", () => 2);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,19 +70,21 @@ class _HomePageState extends State<HomePage> {
                   chartRadius: MediaQuery.of(context).size.width / 2.7,
                   showChartValuesInPercentage: false,
                   showChartValues: true,
-                  showChartValuesOutside: true,
+                  showChartValuesOutside: false,
                   chartValueBackgroundColor: Colors.grey[200],
                   colorList: colorList,
-                  showLegends: false,
-                  legendPosition: LegendPosition.right,
                   decimalPlaces: 1,
                   showChartValueLabel: true,
                   initialAngle: 0,
                   chartValueStyle: defaultChartValueStyle.copyWith(
                     color: Colors.blueGrey[900].withOpacity(0.9),
                   ),
-                  chartType: ChartType.ring,
-                  centerText: "MY CHART",
+                  chartType: ChartType.disc,
+                  centerText: "HYBRID APP",
+                  legendOptions: LegendOptions(
+                    showLegendsInRow: false,
+                    legendPosition: LegendPosition.right,
+                  ),
                 )
               : Text("Press FAB to show chart"),
         ),

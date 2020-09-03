@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pie_chart/pie_chart.dart';
 
 import 'chart_painter.dart';
 import 'legend.dart';
@@ -13,10 +14,8 @@ class PieChart extends StatefulWidget {
     @required this.dataMap,
     this.showChartValueLabel = false,
     this.chartValueStyle = defaultChartValueStyle,
-    this.legendPosition = LegendPosition.right,
     this.chartType = ChartType.disc,
     this.chartValueBackgroundColor = Colors.grey,
-    this.legendStyle = defaultLegendStyle,
     this.chartRadius,
     this.animationDuration,
     this.chartLegendSpacing = 48,
@@ -24,14 +23,12 @@ class PieChart extends StatefulWidget {
     this.showChartValues = true,
     this.showChartValuesOutside = false,
     this.colorList = defaultColorList,
-    this.showLegends = true,
     this.initialAngle = 0.0,
     this.decimalPlaces = 0,
     this.formatChartValues,
     this.centerText,
     this.strokeWidth = 20.0,
-    this.legendRow = true,
-    this.legendRounded = false,
+    this.legendOptions = const LegendOptions(),
     Key key,
   }) : super(key: key);
 
@@ -41,11 +38,6 @@ class PieChart extends StatefulWidget {
   final TextStyle chartValueStyle;
   final bool showChartValueLabel;
   final Color chartValueBackgroundColor;
-
-  //Legend styling
-  final TextStyle legendStyle;
-
-  final LegendPosition legendPosition;
   final ChartType chartType;
 
   final double chartRadius;
@@ -56,13 +48,11 @@ class PieChart extends StatefulWidget {
   final bool showChartValues;
   final bool showChartValuesOutside;
   final List<Color> colorList;
-  final bool showLegends;
   final double initialAngle;
   final Function formatChartValues;
   final String centerText;
   final double strokeWidth;
-  final bool legendRow;
-  final bool legendRounded;
+  final LegendOptions legendOptions;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -72,7 +62,7 @@ class _PieChartState extends State<PieChart>
     with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController controller;
-  double _fraction = 0.0;
+  double _animFraction = 0.0;
 
   List<String> legendTitles;
   List<double> legendValues;
@@ -109,30 +99,13 @@ class _PieChartState extends State<PieChart>
     animation = Tween<double>(begin: 0, end: 1).animate(curve)
       ..addListener(() {
         setState(() {
-          _fraction = animation.value;
+          _animFraction = animation.value;
         });
       });
     controller.forward();
   }
 
-  @override
-  void didUpdateWidget(PieChart oldWidget) {
-    //This condition isn't working oldWidget.data is giving same data as
-    //new widget.
-    // print(oldWidget.dataMap);
-    // print(widget.dataMap);
-    //if (oldWidget.dataMap != widget.dataMap) initData();
-    initData();
-    super.didUpdateWidget(oldWidget);
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
-  }
-
-  _getChart() {
+  Widget _getChart() {
     return Flexible(
       child: LayoutBuilder(
         builder: (_, c) => Container(
@@ -143,7 +116,7 @@ class _PieChartState extends State<PieChart>
               : null,
           child: CustomPaint(
             painter: PieChartPainter(
-              _fraction,
+              _animFraction,
               widget.showChartValues,
               widget.showChartValuesOutside,
               widget.colorList,
@@ -167,97 +140,39 @@ class _PieChartState extends State<PieChart>
     );
   }
 
-  _getLegend(EdgeInsets legendSpacing) {
-    if (widget.showLegends) {
-      return Flexible(
-        fit: FlexFit.loose,
-        child: Padding(
-            padding: legendSpacing,
-            child: widget.legendRow
-                ? Wrap(
-                    direction: Axis.horizontal,
-                    runSpacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    children: legendTitles
-                        .map((item) => Legend(
-                              title: item,
-                              color: getColor(
-                                widget.colorList,
-                                legendTitles.indexOf(item),
-                              ),
-                              style: widget.legendStyle,
-                              legendRounded: widget.legendRounded,
-                            ))
-                        .toList(),
-                  )
-                : Wrap(
-                    direction: Axis.vertical,
-                    runSpacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    children: legendTitles
-                        .map((item) => Legend(
-                              title: item,
-                              color: getColor(
-                                widget.colorList,
-                                legendTitles.indexOf(item),
-                              ),
-                              style: widget.legendStyle,
-                              legendRounded: widget.legendRounded,
-                            ))
-                        .toList(),
-                  )),
-      );
-    } else
-      return SizedBox(
-        height: 0,
-        width: 0,
-      );
-  }
-
-  _getPieChart() {
-    switch (widget.legendPosition) {
+  Widget _getPieChart() {
+    switch (widget.legendOptions.legendPosition) {
       case LegendPosition.top:
-        return widget.legendRow
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  _getLegend(
-                    EdgeInsets.only(
-                      bottom: widget.chartLegendSpacing,
-                    ),
-                  ),
-                  _getChart(),
-                ],
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  _getLegend(
-                    EdgeInsets.only(
-                      bottom: widget.chartLegendSpacing,
-                    ),
-                  ),
-                  _getChart(),
-                ],
-              );
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _getLegend(
+              padding: EdgeInsets.only(
+                bottom: widget.chartLegendSpacing,
+              ),
+            ),
+            _getChart(),
+          ],
+        );
+
       case LegendPosition.bottom:
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getChart(),
             _getLegend(
-              EdgeInsets.only(
+              padding: EdgeInsets.only(
                 top: widget.chartLegendSpacing,
               ),
             ),
           ],
         );
       case LegendPosition.left:
-        return Column(
+        return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getLegend(
-              EdgeInsets.only(
+              padding: EdgeInsets.only(
                 right: widget.chartLegendSpacing,
               ),
             ),
@@ -265,18 +180,62 @@ class _PieChartState extends State<PieChart>
           ],
         );
       case LegendPosition.right:
-        return Column(
+        return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getChart(),
             _getLegend(
-              EdgeInsets.only(
+              padding: EdgeInsets.only(
+                left: widget.chartLegendSpacing,
+              ),
+            ),
+          ],
+        );
+      default:
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            _getChart(),
+            _getLegend(
+              padding: EdgeInsets.only(
                 left: widget.chartLegendSpacing,
               ),
             ),
           ],
         );
     }
+  }
+
+  _getLegend({EdgeInsets padding}) {
+    if (widget.legendOptions.showLegends) {
+      return Padding(
+        padding: padding,
+        child: Wrap(
+          direction: widget.legendOptions.showLegendsInRow
+              ? Axis.horizontal
+              : Axis.vertical,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.start,
+          children: legendTitles
+              .map(
+                (item) => Legend(
+                  title: item,
+                  color: getColor(
+                    widget.colorList,
+                    legendTitles.indexOf(item),
+                  ),
+                  style: widget.legendOptions.legendTextStyle,
+                  legendShape: widget.legendOptions.legendShape,
+                ),
+              )
+              .toList(),
+        ),
+      );
+    } else
+      return SizedBox(
+        height: 0,
+        width: 0,
+      );
   }
 
   @override
@@ -286,5 +245,17 @@ class _PieChartState extends State<PieChart>
       padding: EdgeInsets.all(8.0),
       child: _getPieChart(),
     );
+  }
+
+  @override
+  void didUpdateWidget(PieChart oldWidget) {
+    initData();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 }

@@ -66,7 +66,7 @@ void main() {
           body: Center(
             child: PieChart(
               dataMap: dataMap,
-              showLegends: false,
+              legendOptions: LegendOptions(showLegends: false),
             ),
           ),
         ),
