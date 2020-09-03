@@ -24,5 +24,15 @@ jobs:
         channel: 'dev'
     - run: flutter pub get
     - run: flutter test
+    - name: Enable flutter web
+      run: flutter config --enable-web
+    - name: 'Build Web App'
+      run: flutter build web
+      working-directory: ./example
+    - name: deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.TOKEN }}
+        publish_dir: ./example/build/web
    
       
