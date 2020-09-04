@@ -33,7 +33,7 @@ class PieChartPainter extends CustomPainter {
     this.chartValueStyle,
     this.chartValueBackgroundColor,
     List<double> values,
-    List<String> titles,    
+    List<String> titles,
     this.initialAngle,
     this.showValuesInPercentage,
     this.decimalPlaces,
@@ -69,7 +69,7 @@ class PieChartPainter extends CustomPainter {
         chartType == ChartType.disc ? true : false,
         _paintList[i],
       );
-      final radius = showChartValuesOutside ? side * 0.5 : side / 3;
+      final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
       final x = (radius) *
           math.cos(
               _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
@@ -88,16 +88,15 @@ class PieChartPainter extends CustomPainter {
 //            : value;
         final name = showValuesInPercentage
             ? (((_subParts.elementAt(i) / _total) * 100)
-            .toStringAsFixed(this.decimalPlaces) +
-            '%')
+                    .toStringAsFixed(this.decimalPlaces) +
+                '%')
             : _subTitles.elementAt(i);
-
 
         if (showChartValues) {
           final name = showValuesInPercentage
               ? (((_subParts.elementAt(i) / _total) * 100)
-              .toStringAsFixed(this.decimalPlaces) +
-              '%')
+                      .toStringAsFixed(this.decimalPlaces) +
+                  '%')
               : value;
 
           _drawName(canvas, name, x, y, side);
@@ -136,7 +135,7 @@ class PieChartPainter extends CustomPainter {
       );
       final rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
       final paint = Paint()
-        ..color = chartValueBackgroundColor
+        ..color = chartValueBackgroundColor ?? Colors.grey[200]
         ..style = PaintingStyle.fill;
       canvas.drawRRect(rRect, paint);
     }

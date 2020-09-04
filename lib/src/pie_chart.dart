@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:pie_chart/src/chart_values_options.dart';
 
 import 'chart_painter.dart';
 import 'legend.dart';
@@ -12,47 +13,32 @@ enum ChartType { disc, ring }
 class PieChart extends StatefulWidget {
   PieChart({
     @required this.dataMap,
-    this.showChartValueLabel = false,
-    this.chartValueStyle = defaultChartValueStyle,
     this.chartType = ChartType.disc,
-    this.chartValueBackgroundColor = Colors.grey,
     this.chartRadius,
     this.animationDuration,
     this.chartLegendSpacing = 48,
-    this.showChartValuesInPercentage = true,
-    this.showChartValues = true,
-    this.showChartValuesOutside = false,
     this.colorList = defaultColorList,
     this.initialAngle = 0.0,
-    this.decimalPlaces = 0,
     this.formatChartValues,
     this.centerText,
-    this.strokeWidth = 20.0,
+    this.ringStrokeWidth = 20.0,
     this.legendOptions = const LegendOptions(),
+    this.chartValuesOptions = const ChartValuesOptions(),
     Key key,
   }) : super(key: key);
 
   final Map<String, double> dataMap;
-
-  //Chart values text styling
-  final TextStyle chartValueStyle;
-  final bool showChartValueLabel;
-  final Color chartValueBackgroundColor;
   final ChartType chartType;
-
   final double chartRadius;
   final Duration animationDuration;
   final double chartLegendSpacing;
-  final bool showChartValuesInPercentage;
-  final int decimalPlaces;
-  final bool showChartValues;
-  final bool showChartValuesOutside;
   final List<Color> colorList;
   final double initialAngle;
   final Function formatChartValues;
   final String centerText;
-  final double strokeWidth;
+  final double ringStrokeWidth;
   final LegendOptions legendOptions;
+  final ChartValuesOptions chartValuesOptions;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -117,21 +103,24 @@ class _PieChartState extends State<PieChart>
           child: CustomPaint(
             painter: PieChartPainter(
               _animFraction,
-              widget.showChartValues,
-              widget.showChartValuesOutside,
+              widget.chartValuesOptions.showChartValues,
+              widget.chartValuesOptions.showChartValuesOutside,
               widget.colorList,
-              chartValueStyle: widget.chartValueStyle,
-              chartValueBackgroundColor: widget.chartValueBackgroundColor,
+              chartValueStyle: widget.chartValuesOptions.chartValueStyle,
+              chartValueBackgroundColor:
+                  widget.chartValuesOptions.chartValueBackgroundColor,
               values: legendValues,
               titles: legendTitles,
               initialAngle: widget.initialAngle,
-              showValuesInPercentage: widget.showChartValuesInPercentage,
-              decimalPlaces: widget.decimalPlaces,
-              showChartValueLabel: widget.showChartValueLabel,
+              showValuesInPercentage:
+                  widget.chartValuesOptions.showChartValuesInPercentage,
+              decimalPlaces: widget.chartValuesOptions.decimalPlaces,
+              showChartValueLabel:
+                  widget.chartValuesOptions.showChartValueBackground,
               chartType: widget.chartType,
               centerText: widget.centerText,
               formatChartValues: widget.formatChartValues,
-              strokeWidth: widget.strokeWidth,
+              strokeWidth: widget.ringStrokeWidth,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
