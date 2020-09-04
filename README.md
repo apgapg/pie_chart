@@ -4,6 +4,12 @@ This Flutter package provides a Pie Chart Widget with cool animation.
 
 Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
 
+## 💻 Try LIVE Demo
+
+Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
+
+<img src="res/s10.png?raw=true"  height = "600" alt="piechart">
+
 ## 💻 Installation
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
 
@@ -24,14 +30,15 @@ import 'package:pie_chart/pie_chart.dart';
 
 #### Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/app.gif"  height = "400" alt="PieChart">
+<img src="res/app.gif?raw=true"  height = "400" alt="PieChart">
 
 ```dart
-Map<String, double> dataMap = new Map();
-dataMap.putIfAbsent("Flutter", () => 5);
-dataMap.putIfAbsent("React", () => 3);
-dataMap.putIfAbsent("Xamarin", () => 2);
-dataMap.putIfAbsent("Ionic", () => 2);
+Map<String, double> dataMap = {
+    "Flutter": 5,
+    "React": 3,
+    "Xamarin": 2,
+    "Ionic": 2,
+  };
 ```
 
 ### - Simple Implementation
@@ -42,44 +49,50 @@ PieChart(dataMap: dataMap)
 ### - Full Implementation
 ```dart
 PieChart(
-        dataMap: dataMap,
-        animationDuration: Duration(milliseconds: 800),
-        chartLegendSpacing: 32.0,
-        chartRadius: MediaQuery.of(context).size.width / 2.7,
-        showChartValuesInPercentage: true,
-        showChartValues: true,
-        showChartValuesOutside: false,
-        chartValueBackgroundColor: Colors.grey[200],
-        colorList: colorList,
-        showLegends: true,
+      dataMap: dataMap,
+      animationDuration: Duration(milliseconds: 800),
+      chartLegendSpacing: 32,
+      chartRadius: MediaQuery.of(context).size.width / 3.2,
+      colorList: colorList,
+      initialAngle: 0,
+      chartType: ChartType.ring,
+      ringStrokeWidth: 32,
+      centerText: "HYBRID",
+      legendOptions: LegendOptions(
+        showLegendsInRow: false,
         legendPosition: LegendPosition.right,
-        decimalPlaces: 1,
-        showChartValueLabel: true,
-        initialAngle: 0,
-        chartValueStyle: defaultChartValueStyle.copyWith(
-          color: Colors.blueGrey[900].withOpacity(0.9),
+        showLegends: true,
+        legendShape: _BoxShape.circle,
+        legendTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
         ),
-        chartType: ChartType.disc,
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValueBackground: true,
+        showChartValues: true,
+        showChartValuesInPercentage: false,
+        showChartValuesOutside: false,
+      ),
     )
 ```
 
 ### Change legend position with 'legendPosition'
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s4.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s5.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s6.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s7.png"  height = "400" alt="PieChart">
+<img src="res/s4.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s5.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s6.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s7.png?raw=true"  height = "400" alt="PieChart">
 
 ### Change Chart shape to ring
 
 ```dart
 chartType: ChartType.ring,
 ```
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s9.png"  height = "400" alt="PieChart">  
+<img src="res/s9.png?raw=true"  height = "400" alt="PieChart">
 
 ```dart
 chartType: ChartType.ring,
 showChartValuesOutside: true,
 ```
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/src/s8.png"  height = "400" alt="PieChart">
+<img src="res/s8.png?raw=true"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
