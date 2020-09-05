@@ -54,7 +54,7 @@ PieChart(
       chartLegendSpacing: 32,
       chartRadius: MediaQuery.of(context).size.width / 3.2,
       colorList: colorList,
-      initialAngle: 0,
+      initialAngleInDegree: 0,
       chartType: ChartType.ring,
       ringStrokeWidth: 32,
       centerText: "HYBRID",

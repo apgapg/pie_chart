@@ -72,9 +72,12 @@ class _HomePageState extends State<HomePage> {
   LegendShape _legendShape = LegendShape.Circle;
   LegendPosition _legendPosition = LegendPosition.right;
 
+  int key = 0;
+
   @override
   Widget build(BuildContext context) {
     final chart = PieChart(
+      key: ValueKey(key),
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing,
@@ -82,7 +85,7 @@ class _HomePageState extends State<HomePage> {
           ? 300
           : MediaQuery.of(context).size.width / 3.2,
       colorList: colorList,
-      initialAngle: 0,
+      initialAngleInDegree: 0,
       chartType: _chartType,
       centerText: _showCenterText ? "HYBRID" : null,
       legendOptions: LegendOptions(
@@ -350,6 +353,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Pie Chart @apgapg"),
+        actions: [
+          RaisedButton(
+            onPressed: () {
+              setState(() {
+                key = key + 1;
+              });
+            },
+            child: Text("Reload".toUpperCase()),
+          ),
+        ],
       ),
       body: LayoutBuilder(
         builder: (_, constraints) {

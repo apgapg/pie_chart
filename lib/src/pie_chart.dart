@@ -18,7 +18,7 @@ class PieChart extends StatefulWidget {
     this.animationDuration,
     this.chartLegendSpacing = 48,
     this.colorList = defaultColorList,
-    this.initialAngle = 0.0,
+    this.initialAngleInDegree = 0.0,
     this.formatChartValues,
     this.centerText,
     this.ringStrokeWidth = 20.0,
@@ -33,7 +33,7 @@ class PieChart extends StatefulWidget {
   final Duration animationDuration;
   final double chartLegendSpacing;
   final List<Color> colorList;
-  final double initialAngle;
+  final double initialAngleInDegree;
   final Function formatChartValues;
   final String centerText;
   final double ringStrokeWidth;
@@ -111,7 +111,7 @@ class _PieChartState extends State<PieChart>
                   widget.chartValuesOptions.chartValueBackgroundColor,
               values: legendValues,
               titles: legendTitles,
-              initialAngle: widget.initialAngle,
+              initialAngle: widget.initialAngleInDegree,
               showValuesInPercentage:
                   widget.chartValuesOptions.showChartValuesInPercentage,
               decimalPlaces: widget.chartValuesOptions.decimalPlaces,

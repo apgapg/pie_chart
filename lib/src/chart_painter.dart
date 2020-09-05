@@ -60,7 +60,7 @@ class PieChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final side = size.width < size.height ? size.width : size.height;
-    _prevAngle = this.initialAngle;
+    _prevAngle = this.initialAngle*math.pi/180;
     for (int i = 0; i < _subParts.length; i++) {
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
