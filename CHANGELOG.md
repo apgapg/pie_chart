@@ -1,10 +1,14 @@
+## [4.0.0] **Breaking**
+* Wrap different parameters in chartValuesOptions, legendOptions
+* Fix number of issues
+
 ## [3.1.1]
 * Fix [#22](https://github.com/apgapg/pie_chart/issues/22) showLegends = false causes exception.
 
 ## [3.1.0]
 * Add ring shape pie chart support
 
-## [3.0.0] ***Breaking**
+## [3.0.0] **Breaking**
 * Migrate to AndroidX
 * Add dark mode theme
 * Remove color from default legendStyle to support dark mode
