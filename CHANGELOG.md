@@ -1,3 +1,6 @@
+## [4.0.1]
+* Fix README.md for broken images link
+
 ## [4.0.0] **Breaking**
 * Wrap different parameters in chartValuesOptions, legendOptions
 * Fix number of issues
