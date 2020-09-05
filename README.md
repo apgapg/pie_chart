@@ -8,7 +8,7 @@ Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_ch
 
 Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
 
-<img src="res/s10.png?raw=true"  height = "600" alt="piechart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s10.png?raw=true"  height = "600" alt="piechart">
 
 ## 💻 Installation
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
@@ -30,7 +30,7 @@ import 'package:pie_chart/pie_chart.dart';
 
 #### Usage is simple. Pie Chart is a widget and it just need a Map<String,double> as its data input.
 
-<img src="res/app.gif?raw=true"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/app.gif"  height = "400" alt="PieChart">
 
 ```dart
 Map<String, double> dataMap = {
@@ -78,21 +78,21 @@ PieChart(
 
 ### Change legend position with 'legendPosition'
 
-<img src="res/s4.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s5.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s6.png?raw=true"  height = "400" alt="PieChart"> <img src="res/s7.png?raw=true"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s4.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s5.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s6.png"  height = "400" alt="PieChart"> <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s7.png"  height = "400" alt="PieChart">
 
 ### Change Chart shape to ring
 
 ```dart
 chartType: ChartType.ring,
 ```
-<img src="res/s9.png?raw=true"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s9.png"  height = "400" alt="PieChart">
 
 ```dart
 chartType: ChartType.ring,
 showChartValuesOutside: true,
 ```
 
-<img src="res/s8.png?raw=true"  height = "400" alt="PieChart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s8.png"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
