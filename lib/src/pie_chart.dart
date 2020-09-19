@@ -24,6 +24,7 @@ class PieChart extends StatefulWidget {
     this.ringStrokeWidth = 20.0,
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
+    this.emptyColor,
     Key key,
   }) : super(key: key);
 
@@ -39,6 +40,7 @@ class PieChart extends StatefulWidget {
   final double ringStrokeWidth;
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
+  final Color emptyColor;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -121,6 +123,7 @@ class _PieChartState extends State<PieChart>
               centerText: widget.centerText,
               formatChartValues: widget.formatChartValues,
               strokeWidth: widget.ringStrokeWidth,
+              emptyColor: widget.emptyColor,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
