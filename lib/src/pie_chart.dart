@@ -24,7 +24,7 @@ class PieChart extends StatefulWidget {
     this.ringStrokeWidth = 20.0,
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
-    this.emptyColor,
+    this.emptyColor = Colors.grey,
     Key key,
   }) : super(key: key);
 

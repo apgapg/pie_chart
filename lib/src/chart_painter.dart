@@ -61,7 +61,7 @@ class PieChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final side = size.width < size.height ? size.width : size.height;
-    if (emptyColor != null && _total == 0) {
+    if (_total == 0) {
       final paint = Paint()..color = emptyColor;
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
