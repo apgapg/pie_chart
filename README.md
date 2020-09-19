@@ -8,7 +8,7 @@ Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_ch
 
 Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
 
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s10.png?raw=true"  height = "600" alt="piechart">
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s10.png?raw=true"  width = "auto" alt="piechart">
 
 ## 💻 Installation
 In the `dependencies:` section of your `pubspec.yaml`, add the following line:
