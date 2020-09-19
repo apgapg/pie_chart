@@ -106,6 +106,7 @@ class _HomePageState extends State<HomePage> {
         showChartValuesOutside: _showChartValuesOutside,
       ),
       ringStrokeWidth: _ringStrokeWidth,
+      emptyColor: Colors.grey,
     );
     final settings = SingleChildScrollView(
       child: Card(
