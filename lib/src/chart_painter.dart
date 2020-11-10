@@ -21,36 +21,40 @@ class PieChartPainter extends CustomPainter {
   final ChartType chartType;
   final String centerText;
   final Function formatChartValues;
-  final double strokeWidth;
+  final double ringStrokeWidth;
   final Color emptyColor;
+  final TextStyle centerTextStyle;
+  final double chartRadius;
 
   double _prevAngle = 0;
 
   PieChartPainter(
-    double angleFactor,
-    this.showChartValues,
-    this.showChartValuesOutside,
-    List<Color> colorList, {
-    this.chartValueStyle,
-    this.chartValueBackgroundColor,
-    List<double> values,
-    List<String> titles,
-    this.initialAngle,
-    this.showValuesInPercentage,
-    this.decimalPlaces,
-    this.showChartValueLabel,
-    this.chartType,
-    this.centerText,
-    this.formatChartValues,
-    this.strokeWidth,
-    this.emptyColor,
-  }) {
+      double angleFactor,
+      this.showChartValues,
+      this.showChartValuesOutside,
+      List<Color> colorList, {
+        this.chartValueStyle,
+        this.chartValueBackgroundColor,
+        List<double> values,
+        List<String> titles,
+        this.initialAngle,
+        this.showValuesInPercentage,
+        this.decimalPlaces,
+        this.showChartValueLabel,
+        this.chartType,
+        this.centerText,
+        this.formatChartValues,
+        this.ringStrokeWidth,
+        this.emptyColor,
+        this.centerTextStyle,
+        this.chartRadius
+      }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     for (int i = 0; i < values.length; i++) {
       final paint = Paint()..color = getColor(colorList, i);
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth;
+        paint.strokeWidth = ringStrokeWidth;
       }
       _paintList.add(paint);
     }
@@ -65,7 +69,7 @@ class PieChartPainter extends CustomPainter {
       final paint = Paint()..color = emptyColor;
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth;
+        paint.strokeWidth = ringStrokeWidth;
       }
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
@@ -99,8 +103,8 @@ class PieChartPainter extends CustomPainter {
           if (showChartValues) {
             final name = showValuesInPercentage
                 ? (((_subParts.elementAt(i) / _total) * 100)
-                        .toStringAsFixed(this.decimalPlaces) +
-                    '%')
+                .toStringAsFixed(this.decimalPlaces) +
+                '%')
                 : value;
             _drawName(canvas, name, x, y, side);
           }
@@ -123,6 +127,20 @@ class PieChartPainter extends CustomPainter {
       style: chartValueStyle,
       text: name,
     );
+
+    if(centerTextStyle!=null){
+      if(centerTextStyle.fontSize>(chartRadius/7)){
+        span = TextSpan(
+          style: defaultCenterTextStyle,
+          text: name,
+        );
+      }else{
+        span = TextSpan(
+          style: centerTextStyle,
+          text: name,
+        );
+      }
+    }
     TextPainter tp = TextPainter(
       text: span,
       textAlign: TextAlign.center,
