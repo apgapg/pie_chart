@@ -106,7 +106,7 @@ class PieChartPainter extends CustomPainter {
                 .toStringAsFixed(this.decimalPlaces) +
                 '%')
                 : value;
-            _drawName(canvas, name, x, y, side);
+            _drawName(canvas, name, x, y, side, chartValueStyle);
           }
         }
         _prevAngle = _prevAngle + (((_totalAngle) / _total) * _subParts[i]);
@@ -119,24 +119,24 @@ class PieChartPainter extends CustomPainter {
   }
 
   void _drawCenterText(Canvas canvas, double side) {
-    _drawName(canvas, centerText, 0, 0, side);
+    _drawName(canvas, centerText, 0, 0, side, centerTextStyle);
   }
 
-  void _drawName(Canvas canvas, String name, double x, double y, double side) {
+  void _drawName(Canvas canvas, String name, double x, double y, double side, TextStyle style){
     TextSpan span = TextSpan(
-      style: chartValueStyle,
+      style: style,
       text: name,
     );
 
     if(centerTextStyle!=null){
-      if(centerTextStyle.fontSize>(chartRadius/7)){
+      if(centerTextStyle.fontSize>(chartRadius/6.5)){
         span = TextSpan(
           style: defaultCenterTextStyle,
           text: name,
         );
       }else{
         span = TextSpan(
-          style: centerTextStyle,
+          style: style,
           text: name,
         );
       }
