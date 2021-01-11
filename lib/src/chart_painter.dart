@@ -91,7 +91,7 @@ class PieChartPainter extends CustomPainter {
         final y = (radius) *
             math.sin(
                 _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
-        if (_subParts.elementAt(i).toInt() != 0) {
+        if (_subParts.elementAt(i) > 0) {
           final value = formatChartValues != null
               ? formatChartValues(_subParts.elementAt(i))
               : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
