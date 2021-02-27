@@ -72,8 +72,17 @@ PieChart(
         showChartValues: true,
         showChartValuesInPercentage: false,
         showChartValuesOutside: false,
+        decimalPlaces: 1,
       ),
     )
+```
+
+### Control decimal places 'decimalPlaces'
+
+```dart
+chartValuesOptions: ChartValuesOptions(
+  decimalPlaces: 1,
+),
 ```
 
 ### Change legend position with 'legendPosition'
