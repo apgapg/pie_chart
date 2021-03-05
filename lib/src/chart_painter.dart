@@ -5,24 +5,24 @@ import 'package:pie_chart/pie_chart.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
-  List<double> _subParts;
-  List<String> _subTitles;
+  late List<double> _subParts;
+  List<String>? _subTitles;
   double _total = 0;
   double _totalAngle = math.pi * 2;
 
-  final TextStyle chartValueStyle;
-  final Color chartValueBackgroundColor;
-  final double initialAngle;
-  final bool showValuesInPercentage;
+  final TextStyle? chartValueStyle;
+  final Color? chartValueBackgroundColor;
+  final double? initialAngle;
+  final bool? showValuesInPercentage;
   final bool showChartValues;
   final bool showChartValuesOutside;
-  final int decimalPlaces;
-  final bool showChartValueLabel;
-  final ChartType chartType;
-  final String centerText;
-  final Function formatChartValues;
-  final double strokeWidth;
-  final Color emptyColor;
+  final int? decimalPlaces;
+  final bool? showChartValueLabel;
+  final ChartType? chartType;
+  final String? centerText;
+  final Function? formatChartValues;
+  final double? strokeWidth;
+  final Color? emptyColor;
 
   double _prevAngle = 0;
 
@@ -33,8 +33,8 @@ class PieChartPainter extends CustomPainter {
     List<Color> colorList, {
     this.chartValueStyle,
     this.chartValueBackgroundColor,
-    List<double> values,
-    List<String> titles,
+    required List<double> values,
+    List<String>? titles,
     this.initialAngle,
     this.showValuesInPercentage,
     this.decimalPlaces,
@@ -50,7 +50,7 @@ class PieChartPainter extends CustomPainter {
       final paint = Paint()..color = getColor(colorList, i);
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth;
+        paint.strokeWidth = strokeWidth!;
       }
       _paintList.add(paint);
     }
@@ -62,10 +62,10 @@ class PieChartPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final side = size.width < size.height ? size.width : size.height;
     if (_total == 0) {
-      final paint = Paint()..color = emptyColor;
+      final paint = Paint()..color = emptyColor!;
       if (chartType == ChartType.ring) {
         paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth;
+        paint.strokeWidth = strokeWidth!;
       }
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
@@ -75,7 +75,7 @@ class PieChartPainter extends CustomPainter {
         paint,
       );
     } else {
-      _prevAngle = this.initialAngle * math.pi / 180;
+      _prevAngle = this.initialAngle! * math.pi / 180;
       for (int i = 0; i < _subParts.length; i++) {
         canvas.drawArc(
           new Rect.fromLTWH(0.0, 0.0, side, size.height),
@@ -93,13 +93,13 @@ class PieChartPainter extends CustomPainter {
                 _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
         if (_subParts.elementAt(i).toInt() != 0) {
           final value = formatChartValues != null
-              ? formatChartValues(_subParts.elementAt(i))
-              : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces);
+              ? formatChartValues!(_subParts.elementAt(i))
+              : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces!);
 
           if (showChartValues) {
-            final name = showValuesInPercentage
+            final name = showValuesInPercentage!
                 ? (((_subParts.elementAt(i) / _total) * 100)
-                        .toStringAsFixed(this.decimalPlaces) +
+                        .toStringAsFixed(this.decimalPlaces!) +
                     '%')
                 : value;
             _drawName(canvas, name, x, y, side);
@@ -109,7 +109,7 @@ class PieChartPainter extends CustomPainter {
       }
     }
 
-    if (centerText != null && centerText.trim().isNotEmpty) {
+    if (centerText != null && centerText!.trim().isNotEmpty) {
       _drawCenterText(canvas, side);
     }
   }
@@ -118,7 +118,7 @@ class PieChartPainter extends CustomPainter {
     _drawName(canvas, centerText, 0, 0, side);
   }
 
-  void _drawName(Canvas canvas, String name, double x, double y, double side) {
+  void _drawName(Canvas canvas, String? name, double x, double y, double side) {
     TextSpan span = TextSpan(
       style: chartValueStyle,
       text: name,
@@ -130,7 +130,7 @@ class PieChartPainter extends CustomPainter {
     );
     tp.layout();
 
-    if (showChartValueLabel) {
+    if (showChartValueLabel!) {
       //Draw text background box
       final rect = Rect.fromCenter(
         center: Offset((side / 2 + x), (side / 2 + y)),
@@ -139,7 +139,7 @@ class PieChartPainter extends CustomPainter {
       );
       final rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
       final paint = Paint()
-        ..color = chartValueBackgroundColor ?? Colors.grey[200]
+        ..color = chartValueBackgroundColor ?? Colors.grey[200]!
         ..style = PaintingStyle.fill;
       canvas.drawRRect(rRect, paint);
     }

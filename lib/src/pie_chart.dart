@@ -12,7 +12,7 @@ enum ChartType { disc, ring }
 
 class PieChart extends StatefulWidget {
   PieChart({
-    @required this.dataMap,
+    required this.dataMap,
     this.chartType = ChartType.disc,
     this.chartRadius,
     this.animationDuration,
@@ -25,18 +25,18 @@ class PieChart extends StatefulWidget {
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final Map<String, double> dataMap;
   final ChartType chartType;
-  final double chartRadius;
-  final Duration animationDuration;
+  final double? chartRadius;
+  final Duration? animationDuration;
   final double chartLegendSpacing;
   final List<Color> colorList;
   final double initialAngleInDegree;
-  final Function formatChartValues;
-  final String centerText;
+  final Function? formatChartValues;
+  final String? centerText;
   final double ringStrokeWidth;
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
@@ -48,12 +48,12 @@ class PieChart extends StatefulWidget {
 
 class _PieChartState extends State<PieChart>
     with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
+  late Animation<double> animation;
+  AnimationController? controller;
   double _animFraction = 0.0;
 
-  List<String> legendTitles;
-  List<double> legendValues;
+  List<String>? legendTitles;
+  late List<double> legendValues;
 
   void initLegends() {
     this.legendTitles = widget.dataMap.keys.toList(growable: false);
@@ -81,16 +81,16 @@ class _PieChartState extends State<PieChart>
       vsync: this,
     );
     final Animation curve = CurvedAnimation(
-      parent: controller,
+      parent: controller!,
       curve: Curves.decelerate,
     );
-    animation = Tween<double>(begin: 0, end: 1).animate(curve)
+    animation = Tween<double>(begin: 0, end: 1).animate(curve as Animation<double>)
       ..addListener(() {
         setState(() {
           _animFraction = animation.value;
         });
       });
-    controller.forward();
+    controller!.forward();
   }
 
   Widget _getChart() {
@@ -98,7 +98,7 @@ class _PieChartState extends State<PieChart>
       child: LayoutBuilder(
         builder: (_, c) => Container(
           height: widget.chartRadius != null
-              ? c.maxWidth < widget.chartRadius
+              ? c.maxWidth < widget.chartRadius!
                   ? c.maxWidth
                   : widget.chartRadius
               : null,
@@ -198,23 +198,23 @@ class _PieChartState extends State<PieChart>
     }
   }
 
-  _getLegend({EdgeInsets padding}) {
+  _getLegend({EdgeInsets? padding}) {
     if (widget.legendOptions.showLegends) {
       return Padding(
-        padding: padding,
+        padding: padding!,
         child: Wrap(
           direction: widget.legendOptions.showLegendsInRow
               ? Axis.horizontal
               : Axis.vertical,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.start,
-          children: legendTitles
+          children: legendTitles!
               .map(
                 (item) => Legend(
                   title: item,
                   color: getColor(
                     widget.colorList,
-                    legendTitles.indexOf(item),
+                    legendTitles!.indexOf(item),
                   ),
                   style: widget.legendOptions.legendTextStyle,
                   legendShape: widget.legendOptions.legendShape,

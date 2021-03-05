@@ -56,10 +56,10 @@ class _HomePageState extends State<HomePage> {
     Colors.yellow,
   ];
 
-  ChartType _chartType = ChartType.disc;
+  ChartType? _chartType = ChartType.disc;
   bool _showCenterText = true;
-  double _ringStrokeWidth = 32;
-  double _chartLegendSpacing = 32;
+  double? _ringStrokeWidth = 32;
+  double? _chartLegendSpacing = 32;
 
   bool _showLegendsInRow = false;
   bool _showLegends = true;
@@ -69,8 +69,8 @@ class _HomePageState extends State<HomePage> {
   bool _showChartValuesInPercentage = false;
   bool _showChartValuesOutside = false;
 
-  LegendShape _legendShape = LegendShape.Circle;
-  LegendPosition _legendPosition = LegendPosition.right;
+  LegendShape? _legendShape = LegendShape.Circle;
+  LegendPosition? _legendPosition = LegendPosition.right;
 
   int key = 0;
 
@@ -80,17 +80,17 @@ class _HomePageState extends State<HomePage> {
       key: ValueKey(key),
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
-      chartLegendSpacing: _chartLegendSpacing,
+      chartLegendSpacing: _chartLegendSpacing!,
       chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
           ? 300
           : MediaQuery.of(context).size.width / 3.2,
       colorList: colorList,
       initialAngleInDegree: 0,
-      chartType: _chartType,
+      chartType: _chartType!,
       centerText: _showCenterText ? "HYBRID" : null,
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,
-        legendPosition: _legendPosition,
+        legendPosition: _legendPosition!,
         showLegends: _showLegends,
         legendShape: _legendShape == LegendShape.Circle
             ? BoxShape.circle
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
         showChartValuesInPercentage: _showChartValuesInPercentage,
         showChartValuesOutside: _showChartValuesOutside,
       ),
-      ringStrokeWidth: _ringStrokeWidth,
+      ringStrokeWidth: _ringStrokeWidth!,
       emptyColor: Colors.grey,
     );
     final settings = SingleChildScrollView(
@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline.copyWith(
+                style: Theme.of(context).textTheme.overline!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Legend Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline.copyWith(
+                style: Theme.of(context).textTheme.overline!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -305,7 +305,7 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Chart values Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline.copyWith(
+                style: Theme.of(context).textTheme.overline!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),

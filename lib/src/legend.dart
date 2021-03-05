@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class Legend extends StatelessWidget {
   Legend({
-    @required this.title,
-    @required this.color,
-    @required this.style,
-    @required this.legendShape,
+    required this.title,
+    required this.color,
+    required this.style,
+    required this.legendShape,
   });
 
   final String title;

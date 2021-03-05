@@ -8,7 +8,7 @@ class ChartValuesOptions {
   final bool showChartValuesInPercentage;
   final bool showChartValues;
   final bool showChartValuesOutside;
-  final Color chartValueBackgroundColor;
+  final Color? chartValueBackgroundColor;
   final TextStyle chartValueStyle;
 
   const ChartValuesOptions({
