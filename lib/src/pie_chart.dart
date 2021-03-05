@@ -84,12 +84,13 @@ class _PieChartState extends State<PieChart>
       parent: controller!,
       curve: Curves.decelerate,
     );
-    animation = Tween<double>(begin: 0, end: 1).animate(curve as Animation<double>)
-      ..addListener(() {
-        setState(() {
-          _animFraction = animation.value;
-        });
-      });
+    animation =
+        Tween<double>(begin: 0, end: 1).animate(curve as Animation<double>)
+          ..addListener(() {
+            setState(() {
+              _animFraction = animation.value;
+            });
+          });
     controller!.forward();
   }
 
