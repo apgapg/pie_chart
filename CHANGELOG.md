@@ -1,3 +1,9 @@
+## [5.0.0]
+* Show custom color when pie chart is empty.
+* Set Colors.grey as default value for emptyColor.
+* Update README.md with decimalPlaces docs.
+* [Null Safety] Migrate project to null safety.
+
 ## [4.0.1]
 * Fix README.md for broken images link
 
