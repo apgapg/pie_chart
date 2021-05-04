@@ -1,14 +1,15 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
+
+import '../pie_chart.dart';
 
 class PieChartPainter extends CustomPainter {
-  List<Paint> _paintList = [];
+  final List<Paint> _paintList = [];
   late List<double> _subParts;
   List<String>? _subTitles;
   double _total = 0;
-  double _totalAngle = math.pi * 2;
+  final double _totalAngle = math.pi * 2;
 
   final TextStyle? chartValueStyle;
   final Color? chartValueBackgroundColor;
@@ -23,6 +24,7 @@ class PieChartPainter extends CustomPainter {
   final Function? formatChartValues;
   final double? strokeWidth;
   final Color? emptyColor;
+  final double border;
 
   double _prevAngle = 0;
 
@@ -44,13 +46,15 @@ class PieChartPainter extends CustomPainter {
     this.formatChartValues,
     this.strokeWidth,
     this.emptyColor,
+    this.border = .05,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
-    for (int i = 0; i < values.length; i++) {
+    for (var i = 0; i < values.length; i++) {
       final paint = Paint()..color = getColor(colorList, i);
       if (chartType == ChartType.ring) {
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth!;
+        paint
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth!;
       }
       _paintList.add(paint);
     }
@@ -64,48 +68,48 @@ class PieChartPainter extends CustomPainter {
     if (_total == 0) {
       final paint = Paint()..color = emptyColor!;
       if (chartType == ChartType.ring) {
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth!;
+        paint
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = strokeWidth!;
       }
       canvas.drawArc(
-        new Rect.fromLTWH(0.0, 0.0, side, size.height),
+        Rect.fromLTWH(0, 0, side, size.height),
         _prevAngle,
         360,
-        chartType == ChartType.disc ? true : false,
+        chartType == ChartType.disc,
         paint,
       );
     } else {
-      _prevAngle = this.initialAngle! * math.pi / 180;
-      for (int i = 0; i < _subParts.length; i++) {
+      _prevAngle = initialAngle! * math.pi / 180;
+      final gap = _subParts.isNotEmpty ? border : 0;
+      for (var i = 0; i < _subParts.length; i++) {
         canvas.drawArc(
-          new Rect.fromLTWH(0.0, 0.0, side, size.height),
+          Rect.fromLTWH(0, 0, side, size.height),
           _prevAngle,
-          (((_totalAngle) / _total) * _subParts[i]),
-          chartType == ChartType.disc ? true : false,
+          ((_totalAngle / _total) * _subParts[i]) - gap,
+          chartType == ChartType.disc,
           _paintList[i],
         );
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
-        final x = (radius) *
+        final x = radius *
             math.cos(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
-        final y = (radius) *
+                _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2));
+        final y = radius *
             math.sin(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
+                _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2));
         if (_subParts.elementAt(i).toInt() != 0) {
           final value = formatChartValues != null
               ? formatChartValues!(_subParts.elementAt(i))
-              : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces!);
+              : _subParts.elementAt(i).toStringAsFixed(decimalPlaces!);
 
           if (showChartValues) {
             final name = showValuesInPercentage!
-                ? (((_subParts.elementAt(i) / _total) * 100)
-                        .toStringAsFixed(this.decimalPlaces!) +
-                    '%')
+                ? ('${((_subParts.elementAt(i) / _total) * 100).toStringAsFixed(decimalPlaces!)}%')
                 : value;
             _drawName(canvas, name, x, y, side);
           }
         }
-        _prevAngle = _prevAngle + (((_totalAngle) / _total) * _subParts[i]);
+        _prevAngle = _prevAngle + ((_totalAngle / _total) * _subParts[i]);
       }
     }
 
@@ -119,25 +123,24 @@ class PieChartPainter extends CustomPainter {
   }
 
   void _drawName(Canvas canvas, String? name, double x, double y, double side) {
-    TextSpan span = TextSpan(
+    final span = TextSpan(
       style: chartValueStyle,
       text: name,
     );
-    TextPainter tp = TextPainter(
+    final tp = TextPainter(
       text: span,
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
-    );
-    tp.layout();
+    )..layout();
 
     if (showChartValueLabel!) {
       //Draw text background box
       final rect = Rect.fromCenter(
-        center: Offset((side / 2 + x), (side / 2 + y)),
+        center: Offset(side / 2 + x, side / 2 + y),
         width: tp.width + 6,
         height: tp.height + 4,
       );
-      final rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
+      final rRect = RRect.fromRectAndRadius(rect, const Radius.circular(4));
       final paint = Paint()
         ..color = chartValueBackgroundColor ?? Colors.grey[200]!
         ..style = PaintingStyle.fill;
@@ -146,7 +149,7 @@ class PieChartPainter extends CustomPainter {
     //Finally paint the text above box
     tp.paint(
       canvas,
-      new Offset(
+      Offset(
         (side / 2 + x) - (tp.width / 2),
         (side / 2 + y) - (tp.height / 2),
       ),

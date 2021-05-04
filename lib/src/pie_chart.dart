@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pie_chart/pie_chart.dart';
-import 'package:pie_chart/src/chart_values_options.dart';
 
+import '../pie_chart.dart';
 import 'chart_painter.dart';
+import 'chart_values_options.dart';
 import 'legend.dart';
 import 'utils.dart';
 
@@ -11,7 +11,7 @@ enum LegendPosition { top, bottom, left, right }
 enum ChartType { disc, ring }
 
 class PieChart extends StatefulWidget {
-  PieChart({
+  const PieChart({
     required this.dataMap,
     this.chartType = ChartType.disc,
     this.chartRadius,
@@ -25,9 +25,11 @@ class PieChart extends StatefulWidget {
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
+    this.border = .05,
     Key? key,
   }) : super(key: key);
 
+  final double border;
   final Map<String, double> dataMap;
   final ChartType chartType;
   final double? chartRadius;
@@ -50,23 +52,23 @@ class _PieChartState extends State<PieChart>
     with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   AnimationController? controller;
-  double _animFraction = 0.0;
+  double _animFraction = 0;
 
   List<String>? legendTitles;
   late List<double> legendValues;
 
   void initLegends() {
-    this.legendTitles = widget.dataMap.keys.toList(growable: false);
+    legendTitles = widget.dataMap.keys.toList(growable: false);
   }
 
   void initValues() {
-    this.legendValues = widget.dataMap.values.toList(growable: false);
+    legendValues = widget.dataMap.values.toList(growable: false);
   }
 
   void initData() {
     assert(
-      widget.dataMap != null && widget.dataMap.isNotEmpty,
-      "dataMap passed to pie chart cant be null or empty",
+      widget.dataMap.isNotEmpty,
+      'dataMap passed to pie chart cant be null or empty',
     );
     initLegends();
     initValues();
@@ -77,7 +79,7 @@ class _PieChartState extends State<PieChart>
     super.initState();
     initData();
     controller = AnimationController(
-      duration: widget.animationDuration ?? Duration(milliseconds: 800),
+      duration: widget.animationDuration ?? const Duration(milliseconds: 800),
       vsync: this,
     );
     final Animation curve = CurvedAnimation(
@@ -97,7 +99,7 @@ class _PieChartState extends State<PieChart>
   Widget _getChart() {
     return Flexible(
       child: LayoutBuilder(
-        builder: (_, c) => Container(
+        builder: (_, c) => SizedBox(
           height: widget.chartRadius != null
               ? c.maxWidth < widget.chartRadius!
                   ? c.maxWidth
@@ -125,8 +127,9 @@ class _PieChartState extends State<PieChart>
               formatChartValues: widget.formatChartValues,
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
+              border: widget.border,
             ),
-            child: AspectRatio(aspectRatio: 1),
+            child: const AspectRatio(aspectRatio: 1),
           ),
         ),
       ),
@@ -162,7 +165,8 @@ class _PieChartState extends State<PieChart>
         );
       case LegendPosition.left:
         return Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             _getLegend(
               padding: EdgeInsets.only(
@@ -199,43 +203,49 @@ class _PieChartState extends State<PieChart>
     }
   }
 
-  _getLegend({EdgeInsets? padding}) {
+  Widget _getLegend({EdgeInsets? padding}) {
     if (widget.legendOptions.showLegends) {
-      return Padding(
-        padding: padding!,
-        child: Wrap(
-          direction: widget.legendOptions.showLegendsInRow
-              ? Axis.horizontal
-              : Axis.vertical,
-          runSpacing: 8,
-          crossAxisAlignment: WrapCrossAlignment.start,
-          children: legendTitles!
-              .map(
-                (item) => Legend(
-                  title: item,
-                  color: getColor(
-                    widget.colorList,
-                    legendTitles!.indexOf(item),
-                  ),
-                  style: widget.legendOptions.legendTextStyle,
-                  legendShape: widget.legendOptions.legendShape,
-                ),
-              )
-              .toList(),
+      return Flexible(
+        child: LayoutBuilder(
+          builder: (_, c) {
+            return Padding(
+              padding: padding!,
+              child: Wrap(
+                direction: widget.legendOptions.showLegendsInRow
+                    ? Axis.horizontal
+                    : Axis.vertical,
+                runSpacing: 8,
+                children: legendTitles!
+                    .map(
+                      (item) => Legend(
+                        title: item,
+                        legendHeight: widget.legendOptions.height,
+                        legendWidth: widget.legendOptions.width,
+                        titleRowWidth: c.maxWidth,
+                        color: getColor(
+                          widget.colorList,
+                          legendTitles!.indexOf(item),
+                        ),
+                        style: widget.legendOptions.legendTextStyle,
+                        legendShape: widget.legendOptions.legendShape,
+                      ),
+                    )
+                    .toList(),
+              ),
+            );
+          },
         ),
       );
-    } else
-      return SizedBox(
-        height: 0,
-        width: 0,
-      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: _getPieChart(),
     );
   }
