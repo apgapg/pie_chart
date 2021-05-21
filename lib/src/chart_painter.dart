@@ -54,6 +54,7 @@ class PieChartPainter extends CustomPainter {
       }
       _paintList.add(paint);
     }
+    _totalAngle = angleFactor * math.pi * 2;
     _subParts = values;
     _subTitles = titles;
   }
