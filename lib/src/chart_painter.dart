@@ -54,6 +54,7 @@ class PieChartPainter extends CustomPainter {
       }
       _paintList.add(paint);
     }
+    _totalAngle = angleFactor * math.pi * 2;
     _subParts = values;
     _subTitles = titles;
   }
@@ -85,12 +86,8 @@ class PieChartPainter extends CustomPainter {
           _paintList[i],
         );
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
-        final x = (radius) *
-            math.cos(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
-        final y = (radius) *
-            math.sin(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
+        final x = (radius) * math.cos(_prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
+        final y = (radius) * math.sin(_prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
         if (_subParts.elementAt(i).toInt() != 0) {
           final value = formatChartValues != null
               ? formatChartValues!(_subParts.elementAt(i))
@@ -98,9 +95,7 @@ class PieChartPainter extends CustomPainter {
 
           if (showChartValues) {
             final name = showValuesInPercentage!
-                ? (((_subParts.elementAt(i) / _total) * 100)
-                        .toStringAsFixed(this.decimalPlaces!) +
-                    '%')
+                ? (((_subParts.elementAt(i) / _total) * 100).toStringAsFixed(this.decimalPlaces!) + '%')
                 : value;
             _drawName(canvas, name, x, y, side);
           }
@@ -154,6 +149,5 @@ class PieChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(PieChartPainter oldDelegate) =>
-      oldDelegate._totalAngle != _totalAngle;
+  bool shouldRepaint(PieChartPainter oldDelegate) => oldDelegate._totalAngle != _totalAngle;
 }
