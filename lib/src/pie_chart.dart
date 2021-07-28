@@ -21,6 +21,7 @@ class PieChart extends StatefulWidget {
     this.initialAngleInDegree = 0.0,
     this.formatChartValues,
     this.centerText,
+    this.centerTextStyle,
     this.ringStrokeWidth = 20.0,
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
@@ -37,6 +38,7 @@ class PieChart extends StatefulWidget {
   final double initialAngleInDegree;
   final Function? formatChartValues;
   final String? centerText;
+  final TextStyle? centerTextStyle;
   final double ringStrokeWidth;
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
@@ -122,6 +124,7 @@ class _PieChartState extends State<PieChart>
                   widget.chartValuesOptions.showChartValueBackground,
               chartType: widget.chartType,
               centerText: widget.centerText,
+              centerTextStyle: widget.centerTextStyle,
               formatChartValues: widget.formatChartValues,
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
