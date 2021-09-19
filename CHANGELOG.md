@@ -1,3 +1,8 @@
+## [5.0.1]
+- [MacOS] Add macos support in example
+- <fix> #66 Pie chart not animating with version 5.0.0+ (#69)  
+- Accept center text style as a paramter
+
 ## [5.0.0]
 * Show custom color when pie chart is empty.
 * Set Colors.grey as default value for emptyColor.
