@@ -24,6 +24,8 @@ class PieChartPainter extends CustomPainter {
   final Function? formatChartValues;
   final double? strokeWidth;
   final Color? emptyColor;
+  final List<List<Color>>? gradientList;
+  final bool isBackgroundColorGradient;
 
   double _prevAngle = 0;
 
@@ -46,6 +48,8 @@ class PieChartPainter extends CustomPainter {
     this.formatChartValues,
     this.strokeWidth,
     this.emptyColor,
+    this.gradientList,
+    this.isBackgroundColorGradient = false,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     for (int i = 0; i < values.length; i++) {
@@ -79,14 +83,58 @@ class PieChartPainter extends CustomPainter {
       );
     } else {
       _prevAngle = this.initialAngle! * math.pi / 180;
+      final isGradientPresent = gradientList != null;
       for (int i = 0; i < _subParts.length; i++) {
-        canvas.drawArc(
-          new Rect.fromLTWH(0.0, 0.0, side, size.height),
-          _prevAngle,
-          (((_totalAngle) / _total) * _subParts[i]),
-          chartType == ChartType.disc ? true : false,
-          _paintList[i],
-        );
+        if (isGradientPresent) {
+          if (!isBackgroundColorGradient && i == 0) {
+            final paint = Paint()
+              ..color = emptyColor!
+              ..strokeCap = StrokeCap.round;
+            if (chartType == ChartType.ring) {
+              paint.style = PaintingStyle.stroke;
+              paint.strokeWidth = strokeWidth!;
+            }
+            canvas.drawArc(
+              new Rect.fromLTWH(0.0, 0.0, side, size.height),
+              _prevAngle,
+              (((_totalAngle) / _total) * _subParts[0]),
+              chartType == ChartType.disc ? true : false,
+              paint,
+            );
+          } else {
+            final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
+            final Rect _boundingSquare =
+                Rect.fromLTWH(0.0, 0.0, side, size.height);
+            final Gradient _gradient = SweepGradient(
+              transform: GradientRotation((_prevAngle - 0.07) % (math.pi * 2)),
+              endAngle: (_endAngle) % (math.pi * 2),
+              colors: getGradient(gradientList!, i),
+              stops: [0.25, 0.75],
+            );
+            final paint = Paint()
+              ..shader = _gradient.createShader(_boundingSquare)
+              ..strokeCap = StrokeCap.round;
+            if (chartType == ChartType.ring) {
+              paint.style = PaintingStyle.stroke;
+              paint.strokeWidth = strokeWidth!;
+            }
+            canvas.drawArc(
+              _boundingSquare,
+              _prevAngle,
+              _endAngle,
+              chartType == ChartType.disc ? true : false,
+              paint,
+            );
+          }
+        } else {
+          canvas.drawArc(
+            new Rect.fromLTWH(0.0, 0.0, side, size.height),
+            _prevAngle,
+            (((_totalAngle) / _total) * _subParts[i]),
+            chartType == ChartType.disc ? true : false,
+            _paintList[i],
+          );
+        }
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
         final x = (radius) *
             math.cos(

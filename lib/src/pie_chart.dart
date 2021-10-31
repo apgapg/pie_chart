@@ -26,6 +26,8 @@ class PieChart extends StatefulWidget {
     this.legendOptions = const LegendOptions(),
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
+    this.gradientList,
+    this.isEmptyColorGradient = false,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +37,7 @@ class PieChart extends StatefulWidget {
   final Duration? animationDuration;
   final double chartLegendSpacing;
   final List<Color> colorList;
+  final List<List<Color>>? gradientList;
   final double initialAngleInDegree;
   final Function? formatChartValues;
   final String? centerText;
@@ -43,6 +46,7 @@ class PieChart extends StatefulWidget {
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
   final Color emptyColor;
+  final bool isEmptyColorGradient;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -128,6 +132,8 @@ class _PieChartState extends State<PieChart>
               formatChartValues: widget.formatChartValues,
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
+              gradientList: widget.gradientList,
+              isBackgroundColorGradient: widget.isEmptyColorGradient,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
