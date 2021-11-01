@@ -52,13 +52,15 @@ class PieChartPainter extends CustomPainter {
     this.isBackgroundColorGradient = false,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
-    for (int i = 0; i < values.length; i++) {
-      final paint = Paint()..color = getColor(colorList, i);
-      if (chartType == ChartType.ring) {
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth!;
+    if (gradientList == null) {
+      for (int i = 0; i < values.length; i++) {
+        final paint = Paint()..color = getColor(colorList, i);
+        if (chartType == ChartType.ring) {
+          paint.style = PaintingStyle.stroke;
+          paint.strokeWidth = strokeWidth!;
+        }
+        _paintList.add(paint);
       }
-      _paintList.add(paint);
     }
     _totalAngle = angleFactor * math.pi * 2;
     _subParts = values;
@@ -105,10 +107,10 @@ class PieChartPainter extends CustomPainter {
             final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
             final Rect _boundingSquare =
                 Rect.fromLTWH(0.0, 0.0, side, size.height);
-            final _fixedPrevAngle = _prevAngle % (math.pi * 2);
+            final _normalizedPrevAngle = _prevAngle % (math.pi * 2);
             final Gradient _gradient = SweepGradient(
-              transform: GradientRotation(_fixedPrevAngle - 0.07),
-              endAngle: _fixedPrevAngle + _endAngle,
+              transform: GradientRotation(_normalizedPrevAngle - 0.07),
+              endAngle: _normalizedPrevAngle + _endAngle,
               colors: getGradient(
                   gradientList!, isBackgroundColorGradient ? i : i - 1),
             );
