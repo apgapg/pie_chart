@@ -105,11 +105,12 @@ class PieChartPainter extends CustomPainter {
             final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
             final Rect _boundingSquare =
                 Rect.fromLTWH(0.0, 0.0, side, size.height);
+            final _fixedPrevAngle = _prevAngle % (math.pi * 2);
             final Gradient _gradient = SweepGradient(
-              transform: GradientRotation((_prevAngle - 0.07) % (math.pi * 2)),
-              endAngle: (_endAngle) % (math.pi * 2),
-              colors: getGradient(gradientList!, i),
-              stops: [0.25, 0.75],
+              transform: GradientRotation(_fixedPrevAngle - 0.07),
+              endAngle: _fixedPrevAngle + _endAngle,
+              colors: getGradient(
+                  gradientList!, isBackgroundColorGradient ? i : i - 1),
             );
             final paint = Paint()
               ..shader = _gradient.createShader(_boundingSquare)
