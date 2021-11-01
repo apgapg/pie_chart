@@ -109,7 +109,7 @@ class PieChartPainter extends CustomPainter {
                 Rect.fromLTWH(0.0, 0.0, side, size.height);
             final _normalizedPrevAngle = _prevAngle % (math.pi * 2);
             final Gradient _gradient = SweepGradient(
-              transform: GradientRotation(_normalizedPrevAngle - 0.07),
+              transform: GradientRotation(_normalizedPrevAngle - 0.15),
               endAngle: _normalizedPrevAngle + _endAngle,
               colors: getGradient(
                   gradientList!, isBackgroundColorGradient ? i : i - 1),
