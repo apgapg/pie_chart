@@ -25,7 +25,6 @@ class PieChartPainter extends CustomPainter {
   final double? strokeWidth;
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
-  final bool isBackgroundColorGradient;
 
   double _prevAngle = 0;
 
@@ -49,10 +48,9 @@ class PieChartPainter extends CustomPainter {
     this.strokeWidth,
     this.emptyColor,
     this.gradientList,
-    this.isBackgroundColorGradient = false,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
-    if (gradientList == null) {
+    if (gradientList?.isEmpty ?? true) {
       for (int i = 0; i < values.length; i++) {
         final paint = Paint()..color = getColor(colorList, i);
         if (chartType == ChartType.ring) {
@@ -85,50 +83,39 @@ class PieChartPainter extends CustomPainter {
       );
     } else {
       _prevAngle = this.initialAngle! * math.pi / 180;
-      final isGradientPresent = gradientList != null;
+      final isGradientPresent = gradientList?.isNotEmpty ?? false;
+      final isNonGradientElementPresent =
+          (_subParts.length - (gradientList?.length ?? 0)) > 0;
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
-          if (!isBackgroundColorGradient && i == 0) {
-            final paint = Paint()
-              ..color = emptyColor!
-              ..strokeCap = StrokeCap.round;
-            if (chartType == ChartType.ring) {
-              paint.style = PaintingStyle.stroke;
-              paint.strokeWidth = strokeWidth!;
-            }
-            canvas.drawArc(
-              new Rect.fromLTWH(0.0, 0.0, side, size.height),
-              _prevAngle,
-              (((_totalAngle) / _total) * _subParts[0]),
-              chartType == ChartType.disc ? true : false,
-              paint,
-            );
-          } else {
-            final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
-            final Rect _boundingSquare =
-                Rect.fromLTWH(0.0, 0.0, side, size.height);
-            final _normalizedPrevAngle = _prevAngle % (math.pi * 2);
-            final Gradient _gradient = SweepGradient(
-              transform: GradientRotation(_normalizedPrevAngle - 0.15),
-              endAngle: _normalizedPrevAngle + _endAngle,
-              colors: getGradient(
-                  gradientList!, isBackgroundColorGradient ? i : i - 1),
-            );
-            final paint = Paint()
-              ..shader = _gradient.createShader(_boundingSquare)
-              ..strokeCap = StrokeCap.round;
-            if (chartType == ChartType.ring) {
-              paint.style = PaintingStyle.stroke;
-              paint.strokeWidth = strokeWidth!;
-            }
-            canvas.drawArc(
-              _boundingSquare,
-              _prevAngle,
-              _endAngle,
-              chartType == ChartType.disc ? true : false,
-              paint,
-            );
+          final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
+          final Rect _boundingSquare =
+              Rect.fromLTWH(0.0, 0.0, side, size.height);
+          final _normalizedPrevAngle = (_prevAngle - 0.15) % (math.pi * 2);
+          final _normalizedEndAngle = (_endAngle + 0.15) % (math.pi * 2);
+
+          final Gradient _gradient = SweepGradient(
+            transform: GradientRotation(_normalizedPrevAngle),
+            endAngle: _normalizedEndAngle,
+            colors: getGradient(gradientList!, i,
+                isNonGradientElementPresent: isNonGradientElementPresent,
+                elementColor: emptyColor!),
+          );
+          final paint = Paint()
+            ..shader = _gradient.createShader(_boundingSquare);
+
+          if (chartType == ChartType.ring) {
+            paint.style = PaintingStyle.stroke;
+            paint.strokeWidth = strokeWidth!;
+            paint.strokeCap = StrokeCap.round;
           }
+          canvas.drawArc(
+            _boundingSquare,
+            _prevAngle,
+            _endAngle,
+            chartType == ChartType.disc ? true : false,
+            paint,
+          );
         } else {
           canvas.drawArc(
             new Rect.fromLTWH(0.0, 0.0, side, size.height),

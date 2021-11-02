@@ -27,7 +27,6 @@ class PieChart extends StatefulWidget {
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
     this.gradientList,
-    this.isEmptyColorGradient = false,
     Key? key,
   }) : super(key: key);
 
@@ -46,7 +45,6 @@ class PieChart extends StatefulWidget {
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
   final Color emptyColor;
-  final bool isEmptyColorGradient;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -133,7 +131,6 @@ class _PieChartState extends State<PieChart>
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
               gradientList: widget.gradientList,
-              isBackgroundColorGradient: widget.isEmptyColorGradient,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
@@ -210,6 +207,9 @@ class _PieChartState extends State<PieChart>
 
   _getLegend({EdgeInsets? padding}) {
     if (widget.legendOptions.showLegends) {
+      final isGradientPresent = widget.gradientList?.isNotEmpty ?? false;
+      final isNonGradientElementPresent =
+          (widget.dataMap.length - (widget.gradientList?.length ?? 0)) > 0;
       return Padding(
         padding: padding!,
         child: Wrap(
@@ -222,10 +222,16 @@ class _PieChartState extends State<PieChart>
               .map(
                 (item) => Legend(
                   title: item,
-                  color: getColor(
-                    widget.colorList,
-                    legendTitles!.indexOf(item),
-                  ),
+                  color: isGradientPresent
+                      ? getGradient(
+                          widget.gradientList!, legendTitles!.indexOf(item),
+                          isNonGradientElementPresent:
+                              isNonGradientElementPresent,
+                          elementColor: widget.emptyColor)[0]
+                      : getColor(
+                          widget.colorList,
+                          legendTitles!.indexOf(item),
+                        ),
                   style: widget.legendOptions.legendTextStyle,
                   legendShape: widget.legendOptions.legendShape,
                 ),
