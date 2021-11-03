@@ -27,6 +27,7 @@ class PieChart extends StatefulWidget {
     this.chartValuesOptions = const ChartValuesOptions(),
     this.emptyColor = Colors.grey,
     this.gradientList,
+    this.emptyColorGradient = const [Colors.black26, Colors.black54],
     Key? key,
   }) : super(key: key);
 
@@ -45,6 +46,7 @@ class PieChart extends StatefulWidget {
   final LegendOptions legendOptions;
   final ChartValuesOptions chartValuesOptions;
   final Color emptyColor;
+  final List<Color> emptyColorGradient;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -131,6 +133,7 @@ class _PieChartState extends State<PieChart>
               strokeWidth: widget.ringStrokeWidth,
               emptyColor: widget.emptyColor,
               gradientList: widget.gradientList,
+              emptyColorGradient: widget.emptyColorGradient,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
@@ -227,7 +230,7 @@ class _PieChartState extends State<PieChart>
                           widget.gradientList!, legendTitles!.indexOf(item),
                           isNonGradientElementPresent:
                               isNonGradientElementPresent,
-                          elementColor: widget.emptyColor)[0]
+                          emptyColorGradient: widget.emptyColorGradient)[0]
                       : getColor(
                           widget.colorList,
                           legendTitles!.indexOf(item),

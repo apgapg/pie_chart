@@ -25,30 +25,28 @@ class PieChartPainter extends CustomPainter {
   final double? strokeWidth;
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
+  final List<Color>? emptyColorGradient;
 
   double _prevAngle = 0;
 
-  PieChartPainter(
-    double angleFactor,
-    this.showChartValues,
-    this.showChartValuesOutside,
-    List<Color> colorList, {
-    this.chartValueStyle,
-    this.chartValueBackgroundColor,
-    required List<double> values,
-    List<String>? titles,
-    this.initialAngle,
-    this.showValuesInPercentage,
-    this.decimalPlaces,
-    this.showChartValueLabel,
-    this.chartType,
-    this.centerText,
-    this.centerTextStyle,
-    this.formatChartValues,
-    this.strokeWidth,
-    this.emptyColor,
-    this.gradientList,
-  }) {
+  PieChartPainter(double angleFactor, this.showChartValues,
+      this.showChartValuesOutside, List<Color> colorList,
+      {this.chartValueStyle,
+      this.chartValueBackgroundColor,
+      required List<double> values,
+      List<String>? titles,
+      this.initialAngle,
+      this.showValuesInPercentage,
+      this.decimalPlaces,
+      this.showChartValueLabel,
+      this.chartType,
+      this.centerText,
+      this.centerTextStyle,
+      this.formatChartValues,
+      this.strokeWidth,
+      this.emptyColor,
+      this.gradientList,
+      this.emptyColorGradient}) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     if (gradientList?.isEmpty ?? true) {
       for (int i = 0; i < values.length; i++) {
@@ -88,22 +86,21 @@ class PieChartPainter extends CustomPainter {
           (_subParts.length - (gradientList?.length ?? 0)) > 0;
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
-          final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
           final Rect _boundingSquare =
               Rect.fromLTWH(0.0, 0.0, side, size.height);
+          final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
+          final paint = Paint();
+
           final _normalizedPrevAngle = (_prevAngle - 0.15) % (math.pi * 2);
           final _normalizedEndAngle = (_endAngle + 0.15) % (math.pi * 2);
-
           final Gradient _gradient = SweepGradient(
             transform: GradientRotation(_normalizedPrevAngle),
             endAngle: _normalizedEndAngle,
             colors: getGradient(gradientList!, i,
                 isNonGradientElementPresent: isNonGradientElementPresent,
-                elementColor: emptyColor!),
+                emptyColorGradient: emptyColorGradient!),
           );
-          final paint = Paint()
-            ..shader = _gradient.createShader(_boundingSquare);
-
+          paint.shader = _gradient.createShader(_boundingSquare);
           if (chartType == ChartType.ring) {
             paint.style = PaintingStyle.stroke;
             paint.strokeWidth = strokeWidth!;
