@@ -2,8 +2,6 @@
 
 This Flutter package provides a Pie Chart Widget with cool animation.
 
-Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
-
 ## 💻 Try LIVE Demo
 
 Live Demo: [https://apgapg.github.io/pie_chart/](https://apgapg.github.io/pie_chart/)
