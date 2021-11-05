@@ -1,19 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-// Sets a platform override for desktop to avoid exceptions. See
-// https://flutter.dev/desktop#target-platform-override for more info.
-void enablePlatformOverrideForDesktop() {
-  if (!kIsWeb && (Platform.isMacOS || Platform.isWindows || Platform.isLinux)) {
-    debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-  }
-}
-
 void main() {
-  enablePlatformOverrideForDesktop();
   runApp(MyApp());
 }
 
@@ -43,17 +32,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Map<String, double> dataMap = {
+  final dataMap = <String, double>{
     "Flutter": 5,
     "React": 3,
     "Xamarin": 2,
     "Ionic": 2,
   };
-  List<Color> colorList = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-    Colors.yellow,
+  final colorList = <Color>[
+    Color(0xfffdcb6e),
+    Color(0xff0984e3),
+    Color(0xfffd79a8),
+    Color(0xffe17055),
+    Color(0xff6c5ce7),
+  ];
+
+  final gradientList = <List<Color>>[
+    [
+      Color.fromRGBO(223, 250, 92, 1),
+      Color.fromRGBO(129, 250, 112, 1),
+    ],
+    [
+      Color.fromRGBO(129, 182, 205, 1),
+      Color.fromRGBO(91, 253, 199, 1),
+    ],
+    [
+      Color.fromRGBO(175, 63, 62, 1.0),
+      Color.fromRGBO(254, 154, 92, 1),
+    ]
   ];
 
   ChartType? _chartType = ChartType.disc;
@@ -68,6 +73,8 @@ class _HomePageState extends State<HomePage> {
   bool _showChartValues = true;
   bool _showChartValuesInPercentage = false;
   bool _showChartValuesOutside = false;
+
+  bool _showGradientColors = false;
 
   LegendShape? _legendShape = LegendShape.Circle;
   LegendPosition? _legendPosition = LegendPosition.right;
@@ -107,12 +114,26 @@ class _HomePageState extends State<HomePage> {
       ),
       ringStrokeWidth: _ringStrokeWidth!,
       emptyColor: Colors.grey,
+      gradientList: _showGradientColors ? gradientList : null,
+      emptyColorGradient: [
+        Color(0xff6c5ce7),
+        Colors.blue,
+      ],
     );
     final settings = SingleChildScrollView(
       child: Card(
         margin: EdgeInsets.all(12),
         child: Column(
           children: [
+            SwitchListTile(
+              value: _showGradientColors,
+              title: Text("Show Gradient Colors"),
+              onChanged: (val) {
+                setState(() {
+                  _showGradientColors = val;
+                });
+              },
+            ),
             ListTile(
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
@@ -355,7 +376,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Pie Chart @apgapg"),
         actions: [
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
               setState(() {
                 key = key + 1;
@@ -372,12 +393,13 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  flex: 2,
+                  flex: 3,
                   fit: FlexFit.tight,
                   child: chart,
                 ),
                 Flexible(
-                  flex: 1,
+                  flex: 2,
+                  fit: FlexFit.tight,
                   child: settings,
                 )
               ],

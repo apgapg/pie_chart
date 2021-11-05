@@ -74,6 +74,8 @@ PieChart(
         showChartValuesOutside: false,
         decimalPlaces: 1,
       ),
+      // gradientList: ---To add gradient colors---
+      // emptyColorGradient: ---Empty Color gradient---
     )
 ```
 
@@ -102,6 +104,36 @@ showChartValuesOutside: true,
 ```
 
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s8.png"  height = "400" alt="PieChart">
+
+### Gradient Colors
+
+Pie Chart supports gradient as colors. Just pass `gradientList` instead of `colorList` to add gradient to chart colors.
+
+```dart
+final gradientList = <List<Color>>[
+  [
+    Color.fromRGBO(223, 250, 92, 1),
+    Color.fromRGBO(129, 250, 112, 1),
+  ],
+  [
+    Color.fromRGBO(129, 182, 205, 1),
+    Color.fromRGBO(91, 253, 199, 1),
+  ],
+  [
+    Color.fromRGBO(175, 63, 62, 1.0),
+    Color.fromRGBO(254, 154, 92, 1),
+  ]
+];
+
+// Pass gradient to PieChart
+gradientList: gradientList,
+emptyColorGradient: [
+ Color(0xff6c5ce7),
+ Colors.blue,
+],
+```
+
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s11.png"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
