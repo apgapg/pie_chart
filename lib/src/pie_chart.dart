@@ -62,7 +62,10 @@ class _PieChartState extends State<PieChart>
   late List<double> legendValues;
 
   void initLegends() {
-    this.legendTitles = widget.dataMap.keys.toList(growable: false);
+    final legendList = widget.dataMap.keys.toList(growable: false);
+    this.legendTitles = legendList
+        .map((e) => widget.legendOptions.legendLabels[e] ?? e)
+        .toList(growable: false);
   }
 
   void initValues() {

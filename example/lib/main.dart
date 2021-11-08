@@ -61,6 +61,13 @@ class _HomePageState extends State<HomePage> {
     ]
   ];
 
+  final legendLabels = <String, String>{
+    'Flutter': 'Flutter Label',
+    'React': 'React Label',
+    'Xamarin': 'Xamarin Label',
+    'Ionic': 'Ionic Label',
+  };
+
   ChartType? _chartType = ChartType.disc;
   bool _showCenterText = true;
   double? _ringStrokeWidth = 32;
@@ -68,6 +75,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _showLegendsInRow = false;
   bool _showLegends = true;
+  bool _showLegendLabels = false;
 
   bool _showChartValueBackground = true;
   bool _showChartValues = true;
@@ -98,6 +106,7 @@ class _HomePageState extends State<HomePage> {
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
+        legendLabels: _showLegendLabels ? legendLabels : {},
         showLegends: _showLegends,
         legendShape: _legendShape == LegendShape.Circle
             ? BoxShape.circle
@@ -264,6 +273,15 @@ class _HomePageState extends State<HomePage> {
               onChanged: (val) {
                 setState(() {
                   _showLegends = val;
+                });
+              },
+            ),
+            SwitchListTile(
+              value: _showLegendLabels,
+              title: Text("showLegendLabels"),
+              onChanged: (val) {
+                setState(() {
+                  _showLegendLabels = val;
                 });
               },
             ),
