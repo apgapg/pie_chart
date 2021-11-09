@@ -38,6 +38,14 @@ class _HomePageState extends State<HomePage> {
     "Xamarin": 2,
     "Ionic": 2,
   };
+
+  final legendLabels = <String, String>{
+    "Flutter": "Flutter legend",
+    "React": "React legend",
+    "Xamarin": "Xamarin legend",
+    "Ionic": "Ionic legend",
+  };
+
   final colorList = <Color>[
     Color(0xfffdcb6e),
     Color(0xff0984e3),
@@ -68,6 +76,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _showLegendsInRow = false;
   bool _showLegends = true;
+  bool _showLegendLabel = false;
 
   bool _showChartValueBackground = true;
   bool _showChartValues = true;
@@ -95,6 +104,7 @@ class _HomePageState extends State<HomePage> {
       initialAngleInDegree: 0,
       chartType: _chartType!,
       centerText: _showCenterText ? "HYBRID" : null,
+      legendLabels: _showLegendLabel ? legendLabels : {},
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
@@ -264,6 +274,15 @@ class _HomePageState extends State<HomePage> {
               onChanged: (val) {
                 setState(() {
                   _showLegends = val;
+                });
+              },
+            ),
+            SwitchListTile(
+              value: _showLegendLabel,
+              title: Text("showLegendLabel"),
+              onChanged: (val) {
+                setState(() {
+                  _showLegendLabel = val;
                 });
               },
             ),
