@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:pie_chart/src/degree_options.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
@@ -78,14 +77,19 @@ class PieChartPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final side = size.width < size.height ? size.width : size.height;
+
+    final Rect _boundingSquare = Rect.fromLTWH(0.0, 0.0, side, size.height);
+
+    final useCenter = chartType == ChartType.disc ? true : false;
+
     if (_total == 0) {
       final paint = Paint()..color = emptyColor!;
       setPaintProps(paint);
       canvas.drawArc(
-        new Rect.fromLTWH(0.0, 0.0, side, size.height),
+        _boundingSquare,
         _prevAngle,
         360,
-        chartType == ChartType.disc ? true : false,
+        useCenter,
         paint,
       );
     } else {
@@ -93,10 +97,9 @@ class PieChartPainter extends CustomPainter {
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
       final isNonGradientElementPresent =
           (_subParts.length - (gradientList?.length ?? 0)) > 0;
+
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
-          final Rect _boundingSquare =
-              Rect.fromLTWH(0.0, 0.0, side, size.height);
           final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
           final paint = Paint();
 
@@ -119,25 +122,25 @@ class PieChartPainter extends CustomPainter {
             _boundingSquare,
             _prevAngle,
             _endAngle,
-            chartType == ChartType.disc ? true : false,
+            useCenter,
             paint,
           );
         } else {
           canvas.drawArc(
-            new Rect.fromLTWH(0.0, 0.0, side, size.height),
+            _boundingSquare,
             _prevAngle,
             (((_totalAngle) / _total) * _subParts[i]),
-            chartType == ChartType.disc ? true : false,
+            useCenter,
             _paintList[i],
           );
         }
+
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
-        final x = (radius) *
-            math.cos(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
-        final y = (radius) *
-            math.sin(
-                _prevAngle + ((((_totalAngle) / _total) * _subParts[i]) / 2));
+        final radians =
+            _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2);
+        final x = (radius) * math.cos(radians);
+        final y = (radius) * math.sin(radians);
+
         if (_subParts.elementAt(i) > 0) {
           final value = formatChartValues != null
               ? formatChartValues!(_subParts.elementAt(i))
@@ -200,7 +203,7 @@ class PieChartPainter extends CustomPainter {
     //Finally paint the text above box
     tp.paint(
       canvas,
-      new Offset(
+      Offset(
         (side / 2 + x) - (tp.width / 2),
         (side / 2 + y) - (tp.height / 2),
       ),
