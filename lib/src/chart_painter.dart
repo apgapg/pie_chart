@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'package:pie_chart/src/degree_options.dart';
 
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
@@ -12,7 +13,6 @@ class PieChartPainter extends CustomPainter {
 
   final TextStyle? chartValueStyle;
   final Color? chartValueBackgroundColor;
-  final double? initialAngle;
   final bool? showValuesInPercentage;
   final bool showChartValues;
   final bool showChartValuesOutside;
@@ -26,41 +26,53 @@ class PieChartPainter extends CustomPainter {
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
   final List<Color>? emptyColorGradient;
+  final DegreeOptions degreeOptions;
 
   double _prevAngle = 0;
 
-  PieChartPainter(double angleFactor, this.showChartValues,
-      this.showChartValuesOutside, List<Color> colorList,
-      {this.chartValueStyle,
-      this.chartValueBackgroundColor,
-      required List<double> values,
-      List<String>? titles,
-      this.initialAngle,
-      this.showValuesInPercentage,
-      this.decimalPlaces,
-      this.showChartValueLabel,
-      this.chartType,
-      this.centerText,
-      this.centerTextStyle,
-      this.formatChartValues,
-      this.strokeWidth,
-      this.emptyColor,
-      this.gradientList,
-      this.emptyColorGradient}) {
+  double get drawPercentage => degreeOptions.totalDegrees / fullDegree;
+
+  PieChartPainter(
+    double angleFactor,
+    this.showChartValues,
+    this.showChartValuesOutside,
+    List<Color> colorList, {
+    this.chartValueStyle,
+    this.chartValueBackgroundColor,
+    required List<double> values,
+    List<String>? titles,
+    this.showValuesInPercentage,
+    this.decimalPlaces,
+    this.showChartValueLabel,
+    this.chartType,
+    this.centerText,
+    this.centerTextStyle,
+    this.formatChartValues,
+    this.strokeWidth,
+    this.emptyColor,
+    this.gradientList,
+    this.emptyColorGradient,
+    this.degreeOptions = const DegreeOptions(),
+  }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     if (gradientList?.isEmpty ?? true) {
       for (int i = 0; i < values.length; i++) {
         final paint = Paint()..color = getColor(colorList, i);
-        if (chartType == ChartType.ring) {
-          paint.style = PaintingStyle.stroke;
-          paint.strokeWidth = strokeWidth!;
-        }
+        setPaintProps(paint);
         _paintList.add(paint);
       }
     }
-    _totalAngle = angleFactor * math.pi * 2;
+
+    _totalAngle = angleFactor * math.pi * 2 * drawPercentage;
     _subParts = values;
     _subTitles = titles;
+  }
+
+  void setPaintProps(Paint p) {
+    if (chartType == ChartType.ring) {
+      p.style = PaintingStyle.stroke;
+      p.strokeWidth = strokeWidth!;
+    }
   }
 
   @override
@@ -68,10 +80,7 @@ class PieChartPainter extends CustomPainter {
     final side = size.width < size.height ? size.width : size.height;
     if (_total == 0) {
       final paint = Paint()..color = emptyColor!;
-      if (chartType == ChartType.ring) {
-        paint.style = PaintingStyle.stroke;
-        paint.strokeWidth = strokeWidth!;
-      }
+      setPaintProps(paint);
       canvas.drawArc(
         new Rect.fromLTWH(0.0, 0.0, side, size.height),
         _prevAngle,
@@ -80,7 +89,7 @@ class PieChartPainter extends CustomPainter {
         paint,
       );
     } else {
-      _prevAngle = this.initialAngle! * math.pi / 180;
+      _prevAngle = this.degreeOptions.initialAngle * math.pi / 180;
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
       final isNonGradientElementPresent =
           (_subParts.length - (gradientList?.length ?? 0)) > 0;
