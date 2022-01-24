@@ -3,12 +3,14 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
+const doublePi = math.pi * 2;
+
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
   late List<double> _subParts;
   List<String>? _subTitles;
   double _total = 0;
-  double _totalAngle = math.pi * 2;
+  double _totalAngle = doublePi;
 
   final TextStyle? chartValueStyle;
   final Color? chartValueBackgroundColor;
@@ -27,7 +29,7 @@ class PieChartPainter extends CustomPainter {
   final List<Color>? emptyColorGradient;
   final DegreeOptions degreeOptions;
 
-  double _prevAngle = 0;
+  late double _prevAngle;
 
   double get drawPercentage => degreeOptions.totalDegrees / fullDegree;
 
@@ -62,10 +64,13 @@ class PieChartPainter extends CustomPainter {
       }
     }
 
-    _totalAngle = angleFactor * math.pi * 2 * drawPercentage;
+    _totalAngle = angleFactor * doublePi * drawPercentage;
     _subParts = values;
     _subTitles = titles;
+    _prevAngle = degreeToRadian(degreeOptions.initialAngle);
   }
+
+  double degreeToRadian(double degree) => degree * math.pi / 180;
 
   void setPaintProps(Paint p) {
     if (chartType == ChartType.ring) {
@@ -76,24 +81,39 @@ class PieChartPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final side = size.width < size.height ? size.width : size.height;
+    final side = math.min(size.width, size.height);
 
-    final Rect _boundingSquare = Rect.fromLTWH(0.0, 0.0, side, size.height);
+    // if it is a full circle, then we set the left to 0 and it works just fine, however,
+    // when it is half a circle for example, we want to start from the left, so we set the
+    // left to half the width of the canvas to let it start exactly from the left.
+    //
+    // this is not a precise calculation, should be more generalized later
+    // e.g. (-90, 91) should start from the left
+
+    final left =
+        degreeOptions.initialAngle >= -90 && degreeOptions.totalDegrees <= 180
+            ? -size.width / 2
+            : 0.0;
+
+    final top = 0.0;
+
+    final Rect _boundingSquare = Rect.fromLTWH(left, top, side, size.height);
 
     final useCenter = chartType == ChartType.disc ? true : false;
 
+    // if values total is 0, then draw empty chart
     if (_total == 0) {
       final paint = Paint()..color = emptyColor!;
       setPaintProps(paint);
+
       canvas.drawArc(
         _boundingSquare,
         _prevAngle,
-        360,
+        degreeToRadian(this.degreeOptions.totalDegrees),
         useCenter,
         paint,
       );
     } else {
-      _prevAngle = this.degreeOptions.initialAngle * math.pi / 180;
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
       final isNonGradientElementPresent =
           (_subParts.length - (gradientList?.length ?? 0)) > 0;
@@ -103,8 +123,8 @@ class PieChartPainter extends CustomPainter {
           final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
           final paint = Paint();
 
-          final _normalizedPrevAngle = (_prevAngle - 0.15) % (math.pi * 2);
-          final _normalizedEndAngle = (_endAngle + 0.15) % (math.pi * 2);
+          final _normalizedPrevAngle = (_prevAngle - 0.15) % doublePi;
+          final _normalizedEndAngle = (_endAngle + 0.15) % doublePi;
           final Gradient _gradient = SweepGradient(
             transform: GradientRotation(_normalizedPrevAngle),
             endAngle: _normalizedEndAngle,
@@ -129,7 +149,7 @@ class PieChartPainter extends CustomPainter {
           canvas.drawArc(
             _boundingSquare,
             _prevAngle,
-            (((_totalAngle) / _total) * _subParts[i]),
+            ((_totalAngle / _total) * _subParts[i]),
             useCenter,
             _paintList[i],
           );
@@ -147,7 +167,7 @@ class PieChartPainter extends CustomPainter {
               : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces!);
 
           if (showChartValues) {
-            final name = showValuesInPercentage!
+            final name = showValuesInPercentage == true
                 ? (((_subParts.elementAt(i) / _total) * 100)
                         .toStringAsFixed(this.decimalPlaces!) +
                     '%')

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:pie_chart/src/degree_options.dart';
 
 import 'chart_painter.dart';
 import 'legend.dart';
@@ -139,6 +138,7 @@ class _PieChartState extends State<PieChart>
               degreeOptions: widget.degreeOptions.copyWith(
                 // because we've deprecated initialAngleInDegree,
                 // we want the old value to be used if it's not null
+                // ignore: deprecated_member_use_from_same_package
                 initialAngle: widget.initialAngleInDegree,
               ),
             ),

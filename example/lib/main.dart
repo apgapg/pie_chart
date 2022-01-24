@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(MyApp());
@@ -19,56 +19,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         brightness: Brightness.dark,
       ),
-      home: RingMt(),
-      // HomePage(),
+      home: HomePage(),
     );
   }
 }
 
 enum LegendShape { Circle, Rectangle }
-
-// TODO: delete
-class RingMt extends StatefulWidget {
-  const RingMt({Key? key}) : super(key: key);
-
-  @override
-  State<RingMt> createState() => _RingMtState();
-}
-
-class _RingMtState extends State<RingMt> {
-  final dataMap = <String, double>{
-    "Flutter": 5,
-    "React": 3,
-    "Xamarin": 2,
-    "Ionic": 2,
-  };
-
-  final colorList = <Color>[
-    Color(0xfffdcb6e),
-    Color(0xff0984e3),
-    Color(0xfffd79a8),
-    Color(0xffe17055),
-    Color(0xff6c5ce7),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: PieChart(
-        dataMap: dataMap,
-        colorList: colorList,
-        chartType: ChartType.ring,
-        // chartValuesOptions: ChartValuesOptions(showChartValues: false),
-        // legendOptions: LegendOptions(showLegends: false),
-        degreeOptions: DegreeOptions(
-          initialAngle: -90,
-          totalDegrees: 180,
-        ),
-      ),
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   @override
@@ -132,9 +88,7 @@ class _HomePageState extends State<HomePage> {
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing!,
-      chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
-          ? 300
-          : MediaQuery.of(context).size.width / 3.2,
+      chartRadius: math.min(MediaQuery.of(context).size.width / 3.2, 300),
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: _chartType!,
