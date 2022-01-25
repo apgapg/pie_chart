@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
+import 'dart:math' as math;
 
 void main() {
   runApp(MyApp());
@@ -88,9 +88,7 @@ class _HomePageState extends State<HomePage> {
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing!,
-      chartRadius: MediaQuery.of(context).size.width / 3.2 > 300
-          ? 300
-          : MediaQuery.of(context).size.width / 3.2,
+      chartRadius: math.min(MediaQuery.of(context).size.width / 3.2, 300),
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: _chartType!,
