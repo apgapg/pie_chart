@@ -38,6 +38,14 @@ class _HomePageState extends State<HomePage> {
     "Xamarin": 2,
     "Ionic": 2,
   };
+
+  final legendLabels = <String, String>{
+    "Flutter": "Flutter legend",
+    "React": "React legend",
+    "Xamarin": "Xamarin legend",
+    "Ionic": "Ionic legend",
+  };
+
   final colorList = <Color>[
     Color(0xfffdcb6e),
     Color(0xff0984e3),
@@ -60,14 +68,6 @@ class _HomePageState extends State<HomePage> {
       Color.fromRGBO(254, 154, 92, 1),
     ]
   ];
-
-  final legendLabels = <String, String>{
-    'Flutter': 'Flutter Label',
-    'React': 'React Label',
-    'Xamarin': 'Xamarin Label',
-    'Ionic': 'Ionic Label',
-  };
-
   ChartType? _chartType = ChartType.disc;
   bool _showCenterText = true;
   double? _ringStrokeWidth = 32;
@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _showLegendsInRow = false;
   bool _showLegends = true;
-  bool _showLegendLabels = false;
+  bool _showLegendLabel = false;
 
   bool _showChartValueBackground = true;
   bool _showChartValues = true;
@@ -101,10 +101,10 @@ class _HomePageState extends State<HomePage> {
       initialAngleInDegree: 0,
       chartType: _chartType!,
       centerText: _showCenterText ? "HYBRID" : null,
+      legendLabels: _showLegendLabel ? legendLabels : {},
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
-        legendLabels: _showLegendLabels ? legendLabels : {},
         showLegends: _showLegends,
         legendShape: _legendShape == LegendShape.Circle
             ? BoxShape.circle
@@ -275,11 +275,11 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             SwitchListTile(
-              value: _showLegendLabels,
+              value: _showLegendLabel,
               title: Text("showLegendLabels"),
               onChanged: (val) {
                 setState(() {
-                  _showLegendLabels = val;
+                  _showLegendLabel = val;
                 });
               },
             ),

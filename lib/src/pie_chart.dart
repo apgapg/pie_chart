@@ -27,6 +27,7 @@ class PieChart extends StatefulWidget {
     this.emptyColor = Colors.grey,
     this.gradientList,
     this.emptyColorGradient = const [Colors.black26, Colors.black54],
+    this.legendLabels = const {},
     Key? key,
     this.degreeOptions = const DegreeOptions(),
   }) : super(key: key);
@@ -49,6 +50,7 @@ class PieChart extends StatefulWidget {
   final Color emptyColor;
   final List<Color> emptyColorGradient;
   final DegreeOptions degreeOptions;
+  final Map<String, String> legendLabels;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -64,9 +66,10 @@ class _PieChartState extends State<PieChart>
   late List<double> legendValues;
 
   void initLegends() {
-    final legendList = widget.dataMap.keys.toList(growable: false);
-    this.legendTitles = legendList
-        .map((e) => widget.legendOptions.legendLabels[e] ?? e)
+    final List<String> legendLabelList =
+        widget.dataMap.keys.toList(growable: false);
+    this.legendTitles = legendLabelList
+        .map((label) => widget.legendLabels[label] ?? label)
         .toList(growable: false);
   }
 

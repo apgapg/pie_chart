@@ -113,4 +113,70 @@ void main() {
       Color,
     );
   });
+
+  group("Custom legend label test", () {
+    testWidgets('Test custom labels are shown', (WidgetTester tester) async {
+      final legendLabel = <String,String> {};
+      legendLabel.putIfAbsent('Flutter', () => 'Flutter legend');
+      legendLabel.putIfAbsent('React', () => 'React legend');
+      legendLabel.putIfAbsent('Xamarin', () => 'Xamarin legend');
+      legendLabel.putIfAbsent('Ionic', () => 'Ionic legend');
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: PieChart(
+              dataMap: dataMap,
+              legendLabels: legendLabel,
+            ),
+          ),
+        ),
+      ));
+      expect(
+        find.text('Flutter legend'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('React legend'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Xamarin legend'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Ionic legend'),
+        findsOneWidget,
+      );
+    });
+    testWidgets('Test if label fallback to datamap value if not in legendLabels', (WidgetTester tester) async {
+      final legendLabel = <String,String> {};
+      legendLabel.putIfAbsent('Flutter', () => 'Flutter legend');
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: PieChart(
+              dataMap: dataMap,
+              legendLabels: legendLabel,
+            ),
+          ),
+        ),
+      ));
+      expect(
+        find.text('Flutter legend'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('React'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Xamarin'),
+        findsOneWidget,
+      );
+      expect(
+        find.text('Ionic'),
+        findsOneWidget,
+      );
+    });
+  });
 }
