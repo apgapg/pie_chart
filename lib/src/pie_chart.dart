@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'package:pie_chart/src/chart_values_options.dart';
 
 import 'chart_painter.dart';
 import 'legend.dart';
@@ -18,7 +17,7 @@ class PieChart extends StatefulWidget {
     this.animationDuration,
     this.chartLegendSpacing = 48,
     this.colorList = defaultColorList,
-    this.initialAngleInDegree = 0.0,
+    this.initialAngleInDegree,
     this.formatChartValues,
     this.centerText,
     this.centerTextStyle,
@@ -29,6 +28,7 @@ class PieChart extends StatefulWidget {
     this.gradientList,
     this.emptyColorGradient = const [Colors.black26, Colors.black54],
     Key? key,
+    this.degreeOptions = const DegreeOptions(),
   }) : super(key: key);
 
   final Map<String, double> dataMap;
@@ -38,7 +38,8 @@ class PieChart extends StatefulWidget {
   final double chartLegendSpacing;
   final List<Color> colorList;
   final List<List<Color>>? gradientList;
-  final double initialAngleInDegree;
+  @Deprecated('use degreeOptions. instead')
+  final double? initialAngleInDegree;
   final Function? formatChartValues;
   final String? centerText;
   final TextStyle? centerTextStyle;
@@ -47,6 +48,7 @@ class PieChart extends StatefulWidget {
   final ChartValuesOptions chartValuesOptions;
   final Color emptyColor;
   final List<Color> emptyColorGradient;
+  final DegreeOptions degreeOptions;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -123,7 +125,6 @@ class _PieChartState extends State<PieChart>
                   widget.chartValuesOptions.chartValueBackgroundColor,
               values: legendValues,
               titles: legendTitles,
-              initialAngle: widget.initialAngleInDegree,
               showValuesInPercentage:
                   widget.chartValuesOptions.showChartValuesInPercentage,
               decimalPlaces: widget.chartValuesOptions.decimalPlaces,
@@ -137,6 +138,12 @@ class _PieChartState extends State<PieChart>
               emptyColor: widget.emptyColor,
               gradientList: widget.gradientList,
               emptyColorGradient: widget.emptyColorGradient,
+              degreeOptions: widget.degreeOptions.copyWith(
+                // because we've deprecated initialAngleInDegree,
+                // we want the old value to be used if it's not null
+                // ignore: deprecated_member_use_from_same_package
+                initialAngle: widget.initialAngleInDegree,
+              ),
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
