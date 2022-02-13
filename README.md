@@ -2,7 +2,7 @@
 
 This Flutter package provides a Pie Chart Widget with cool animation.
 
-More discussions on Discord: https://discord.gg/PBPETmBZ
+More discussions on Discord: https://discord.gg/7byeCn7MGF
 
 
 
