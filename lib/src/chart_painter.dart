@@ -29,6 +29,7 @@ class PieChartPainter extends CustomPainter {
   final List<Color>? emptyColorGradient;
   final DegreeOptions degreeOptions;
   final Color baseChartColor;
+  final double? totalValue;
 
   late double _prevAngle;
 
@@ -56,8 +57,13 @@ class PieChartPainter extends CustomPainter {
     this.emptyColorGradient,
     this.degreeOptions = const DegreeOptions(),
     required this.baseChartColor,
+    this.totalValue,
   }) {
-    _total = values.fold(0, (v1, v2) => v1 + v2);
+    if (totalValue == null) {
+      _total = values.fold(0, (v1, v2) => v1 + v2);
+    } else {
+      _total = totalValue!;
+    }
     if (gradientList?.isEmpty ?? true) {
       for (int i = 0; i < values.length; i++) {
         final paint = Paint()..color = getColor(colorList, i);

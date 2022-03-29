@@ -97,10 +97,7 @@ class _HomePageState extends State<HomePage> {
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing!,
-      chartRadius: math.min(MediaQuery
-          .of(context)
-          .size
-          .width / 3.2, 300),
+      chartRadius: math.min(MediaQuery.of(context).size.width / 3.2, 300),
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: _chartType!,
@@ -149,14 +146,10 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .overline!
-                    .copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.overline!.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             ListTile(
@@ -206,10 +199,10 @@ class _HomePageState extends State<HomePage> {
                   ],
                   onChanged: (_chartType == ChartType.ring)
                       ? (val) {
-                    setState(() {
-                      _ringStrokeWidth = val;
-                    });
-                  }
+                          setState(() {
+                            _ringStrokeWidth = val;
+                          });
+                        }
                       : null,
                 ),
               ),
@@ -259,14 +252,10 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Legend Options'.toUpperCase(),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .overline!
-                    .copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.overline!.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             SwitchListTile(
@@ -355,14 +344,10 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Chart values Options'.toUpperCase(),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .overline!
-                    .copyWith(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.overline!.copyWith(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
             SwitchListTile(
@@ -480,8 +465,12 @@ class HomePage2 extends StatelessWidget {
         child: PieChart(
           dataMap: dataMap,
           chartType: ChartType.ring,
-          baseChartColor: Colors.grey[300]!,
+          baseChartColor: Colors.grey[50]!.withOpacity(0.15),
           colorList: colorList,
+          chartValuesOptions: ChartValuesOptions(
+            showChartValuesInPercentage: true,
+          ),
+          totalValue: 20,
         ),
       ),
     );

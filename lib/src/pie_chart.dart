@@ -31,6 +31,7 @@ class PieChart extends StatefulWidget {
     Key? key,
     this.degreeOptions = const DegreeOptions(),
     this.baseChartColor = Colors.transparent,
+    this.totalValue,
   }) : super(key: key);
 
   final Map<String, double> dataMap;
@@ -53,6 +54,7 @@ class PieChart extends StatefulWidget {
   final DegreeOptions degreeOptions;
   final Map<String, String> legendLabels;
   final Color baseChartColor;
+  final double? totalValue;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -150,6 +152,7 @@ class _PieChartState extends State<PieChart>
                 initialAngle: widget.initialAngleInDegree,
               ),
               baseChartColor: widget.baseChartColor,
+              totalValue:widget.totalValue
             ),
             child: AspectRatio(aspectRatio: 1),
           ),
