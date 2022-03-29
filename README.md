@@ -135,6 +135,48 @@ emptyColorGradient: [
 ],
 ```
 
+### Base Chart Color
+
+Add a base pie-chart color via:
+
+```dart
+baseChartColor: Colors.grey
+```
+
+Full code:
+
+```dart
+class HomePage2 extends StatelessWidget {
+  HomePage2({Key? key}) : super(key: key);
+
+  final dataMap = <String, double>{
+    "Flutter": 5,
+  };
+
+  final colorList = <Color>[
+    Colors.greenAccent,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Pie Chart 1"),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: PieChart(
+          dataMap: dataMap,
+          chartType: ChartType.ring,
+          baseChartColor: Colors.grey[300]!,
+          colorList: colorList,
+        ),
+      ),
+    );
+  }
+}
+```
+
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s11.png"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
