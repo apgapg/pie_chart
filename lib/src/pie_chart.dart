@@ -30,6 +30,7 @@ class PieChart extends StatefulWidget {
     this.legendLabels = const {},
     Key? key,
     this.degreeOptions = const DegreeOptions(),
+    this.baseChartColor = Colors.transparent,
   }) : super(key: key);
 
   final Map<String, double> dataMap;
@@ -51,6 +52,7 @@ class PieChart extends StatefulWidget {
   final List<Color> emptyColorGradient;
   final DegreeOptions degreeOptions;
   final Map<String, String> legendLabels;
+  final Color baseChartColor;
 
   @override
   _PieChartState createState() => _PieChartState();
@@ -147,6 +149,7 @@ class _PieChartState extends State<PieChart>
                 // ignore: deprecated_member_use_from_same_package
                 initialAngle: widget.initialAngleInDegree,
               ),
+              baseChartColor: widget.baseChartColor,
             ),
             child: AspectRatio(aspectRatio: 1),
           ),

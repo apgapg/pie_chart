@@ -1,6 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
-import 'dart:math' as math;
 
 void main() {
   runApp(MyApp());
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         brightness: Brightness.dark,
       ),
-      home: HomePage(),
+      home: HomePage2(),
     );
   }
 }
@@ -96,7 +97,10 @@ class _HomePageState extends State<HomePage> {
       dataMap: dataMap,
       animationDuration: Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing!,
-      chartRadius: math.min(MediaQuery.of(context).size.width / 3.2, 300),
+      chartRadius: math.min(MediaQuery
+          .of(context)
+          .size
+          .width / 3.2, 300),
       colorList: colorList,
       initialAngleInDegree: 0,
       chartType: _chartType!,
@@ -126,6 +130,7 @@ class _HomePageState extends State<HomePage> {
         Color(0xff6c5ce7),
         Colors.blue,
       ],
+      baseChartColor: Colors.transparent,
     );
     final settings = SingleChildScrollView(
       child: Card(
@@ -144,10 +149,14 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .overline!
+                    .copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             ListTile(
@@ -197,10 +206,10 @@ class _HomePageState extends State<HomePage> {
                   ],
                   onChanged: (_chartType == ChartType.ring)
                       ? (val) {
-                          setState(() {
-                            _ringStrokeWidth = val;
-                          });
-                        }
+                    setState(() {
+                      _ringStrokeWidth = val;
+                    });
+                  }
                       : null,
                 ),
               ),
@@ -250,10 +259,14 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Legend Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .overline!
+                    .copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SwitchListTile(
@@ -342,10 +355,14 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Chart values Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .overline!
+                    .copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             SwitchListTile(
@@ -436,6 +453,36 @@ class _HomePageState extends State<HomePage> {
             );
           }
         },
+      ),
+    );
+  }
+}
+
+class HomePage2 extends StatelessWidget {
+  HomePage2({Key? key}) : super(key: key);
+
+  final dataMap = <String, double>{
+    "Flutter": 5,
+  };
+
+  final colorList = <Color>[
+    Colors.greenAccent,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Pie Chart 1"),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: PieChart(
+          dataMap: dataMap,
+          chartType: ChartType.ring,
+          baseChartColor: Colors.grey[300]!,
+          colorList: colorList,
+        ),
       ),
     );
   }

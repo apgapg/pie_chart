@@ -28,6 +28,7 @@ class PieChartPainter extends CustomPainter {
   final List<List<Color>>? gradientList;
   final List<Color>? emptyColorGradient;
   final DegreeOptions degreeOptions;
+  final Color baseChartColor;
 
   late double _prevAngle;
 
@@ -54,6 +55,7 @@ class PieChartPainter extends CustomPainter {
     this.gradientList,
     this.emptyColorGradient,
     this.degreeOptions = const DegreeOptions(),
+    required this.baseChartColor,
   }) {
     _total = values.fold(0, (v1, v2) => v1 + v2);
     if (gradientList?.isEmpty ?? true) {
@@ -100,6 +102,17 @@ class PieChartPainter extends CustomPainter {
     final Rect _boundingSquare = Rect.fromLTWH(left, top, side, size.height);
 
     final useCenter = chartType == ChartType.disc ? true : false;
+
+    // draw base pie chart
+    final paintBase = Paint()..color = baseChartColor;
+    setPaintProps(paintBase);
+    canvas.drawArc(
+      _boundingSquare,
+      0,
+      doublePi,
+      useCenter,
+      paintBase,
+    );
 
     // if values total is 0, then draw empty chart
     if (_total == 0) {
