@@ -179,6 +179,48 @@ class HomePage2 extends StatelessWidget {
 }
 ```
 
+### Total Value
+
+To show chart arcs based on your total value, add `totalValue` option.
+
+```dart
+class HomePage2 extends StatelessWidget {
+  HomePage2({Key? key}) : super(key: key);
+
+  final dataMap = <String, double>{
+    "Flutter": 5,
+  };
+
+  final colorList = <Color>[
+    Colors.greenAccent,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Pie Chart 1"),
+      ),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: PieChart(
+          dataMap: dataMap,
+          chartType: ChartType.ring,
+          baseChartColor: Colors.grey[50]!.withOpacity(0.15),
+          colorList: colorList,
+          chartValuesOptions: ChartValuesOptions(
+            showChartValuesInPercentage: true,
+          ),
+          totalValue: 20,
+        ),
+      ),
+    );
+  }
+}
+```
+
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s12.png"  height = "400" alt="PieChart">
+
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
 - [avatar_glow](https://pub.dartlang.org/packages/avatar_glow)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/avatar_glow.svg?style=social)](https://github.com/apgapg/avatar_glow)  Flutter Avatar Glow Widget with glowing animation.
