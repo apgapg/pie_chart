@@ -1,3 +1,7 @@
+## [5.2.0]
+
+- feat: add `baseChartColor` option
+
 ## [5.1.0]
 
 - Update example code with gradient feature
