@@ -1,3 +1,7 @@
+## [5.3.0]
+
+- feat: add `totalValue` parameter
+
 ## [5.2.0]
 
 - feat: add `baseChartColor` option
