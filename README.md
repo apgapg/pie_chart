@@ -135,6 +135,8 @@ emptyColorGradient: [
 ],
 ```
 
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s11.png"  height = "400" alt="PieChart">
+
 ### Base Chart Color
 
 Add a base pie-chart color via:
@@ -176,8 +178,6 @@ class HomePage2 extends StatelessWidget {
   }
 }
 ```
-
-<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s11.png"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
