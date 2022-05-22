@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,19 +22,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blueGrey,
         brightness: Brightness.dark,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
-enum LegendShape { Circle, Rectangle }
+enum LegendShape { circle, rectangle }
 
 class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   final dataMap = <String, double>{
     "Flutter": 5,
     "React": 3,
@@ -48,25 +52,25 @@ class _HomePageState extends State<HomePage> {
   };
 
   final colorList = <Color>[
-    Color(0xfffdcb6e),
-    Color(0xff0984e3),
-    Color(0xfffd79a8),
-    Color(0xffe17055),
-    Color(0xff6c5ce7),
+    const Color(0xfffdcb6e),
+    const Color(0xff0984e3),
+    const Color(0xfffd79a8),
+    const Color(0xffe17055),
+    const Color(0xff6c5ce7),
   ];
 
   final gradientList = <List<Color>>[
     [
-      Color.fromRGBO(223, 250, 92, 1),
-      Color.fromRGBO(129, 250, 112, 1),
+      const Color.fromRGBO(223, 250, 92, 1),
+      const Color.fromRGBO(129, 250, 112, 1),
     ],
     [
-      Color.fromRGBO(129, 182, 205, 1),
-      Color.fromRGBO(91, 253, 199, 1),
+      const Color.fromRGBO(129, 182, 205, 1),
+      const Color.fromRGBO(91, 253, 199, 1),
     ],
     [
-      Color.fromRGBO(175, 63, 62, 1.0),
-      Color.fromRGBO(254, 154, 92, 1),
+      const Color.fromRGBO(175, 63, 62, 1.0),
+      const Color.fromRGBO(254, 154, 92, 1),
     ]
   ];
   ChartType? _chartType = ChartType.disc;
@@ -85,7 +89,7 @@ class _HomePageState extends State<HomePage> {
 
   bool _showGradientColors = false;
 
-  LegendShape? _legendShape = LegendShape.Circle;
+  LegendShape? _legendShape = LegendShape.circle;
   LegendPosition? _legendPosition = LegendPosition.right;
 
   int key = 0;
@@ -95,7 +99,7 @@ class _HomePageState extends State<HomePage> {
     final chart = PieChart(
       key: ValueKey(key),
       dataMap: dataMap,
-      animationDuration: Duration(milliseconds: 800),
+      animationDuration: const Duration(milliseconds: 800),
       chartLegendSpacing: _chartLegendSpacing!,
       chartRadius: math.min(MediaQuery.of(context).size.width / 3.2, 300),
       colorList: colorList,
@@ -107,10 +111,10 @@ class _HomePageState extends State<HomePage> {
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
         showLegends: _showLegends,
-        legendShape: _legendShape == LegendShape.Circle
+        legendShape: _legendShape == LegendShape.circle
             ? BoxShape.circle
             : BoxShape.rectangle,
-        legendTextStyle: TextStyle(
+        legendTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -123,7 +127,7 @@ class _HomePageState extends State<HomePage> {
       ringStrokeWidth: _ringStrokeWidth!,
       emptyColor: Colors.grey,
       gradientList: _showGradientColors ? gradientList : null,
-      emptyColorGradient: [
+      emptyColorGradient: const [
         Color(0xff6c5ce7),
         Colors.blue,
       ],
@@ -131,12 +135,12 @@ class _HomePageState extends State<HomePage> {
     );
     final settings = SingleChildScrollView(
       child: Card(
-        margin: EdgeInsets.all(12),
+        margin: const EdgeInsets.all(12),
         child: Column(
           children: [
             SwitchListTile(
               value: _showGradientColors,
-              title: Text("Show Gradient Colors"),
+              title: const Text("Show Gradient Colors"),
               onChanged: (val) {
                 setState(() {
                   _showGradientColors = val;
@@ -153,19 +157,19 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: Text("chartType"),
+              title: const Text("chartType"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<ChartType>(
                   value: _chartType,
-                  items: [
+                  items: const [
                     DropdownMenuItem(
-                      child: Text("disc"),
                       value: ChartType.disc,
+                      child: Text("disc"),
                     ),
                     DropdownMenuItem(
-                      child: Text("ring"),
                       value: ChartType.ring,
+                      child: Text("ring"),
                     ),
                   ],
                   onChanged: (val) {
@@ -177,24 +181,24 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: Text("ringStrokeWidth"),
+              title: const Text("ringStrokeWidth"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<double>(
                   value: _ringStrokeWidth,
-                  disabledHint: Text("select chartType.ring"),
-                  items: [
+                  disabledHint: const Text("select chartType.ring"),
+                  items: const [
                     DropdownMenuItem(
-                      child: Text("16"),
                       value: 16,
+                      child: Text("16"),
                     ),
                     DropdownMenuItem(
-                      child: Text("32"),
                       value: 32,
+                      child: Text("32"),
                     ),
                     DropdownMenuItem(
-                      child: Text("48"),
                       value: 48,
+                      child: Text("48"),
                     ),
                   ],
                   onChanged: (_chartType == ChartType.ring)
@@ -209,7 +213,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showCenterText,
-              title: Text("showCenterText"),
+              title: const Text("showCenterText"),
               onChanged: (val) {
                 setState(() {
                   _showCenterText = val;
@@ -217,28 +221,28 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("chartLegendSpacing"),
+              title: const Text("chartLegendSpacing"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<double>(
                   value: _chartLegendSpacing,
-                  disabledHint: Text("select chartType.ring"),
-                  items: [
+                  disabledHint: const Text("select chartType.ring"),
+                  items: const [
                     DropdownMenuItem(
-                      child: Text("16"),
                       value: 16,
+                      child: Text("16"),
                     ),
                     DropdownMenuItem(
-                      child: Text("32"),
                       value: 32,
+                      child: Text("32"),
                     ),
                     DropdownMenuItem(
-                      child: Text("48"),
                       value: 48,
+                      child: Text("48"),
                     ),
                     DropdownMenuItem(
-                      child: Text("64"),
                       value: 64,
+                      child: Text("64"),
                     ),
                   ],
                   onChanged: (val) {
@@ -259,17 +263,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SwitchListTile(
-              value: _showLegendsInRow,
-              title: Text("showLegendsInRow"),
-              onChanged: (val) {
-                setState(() {
-                  _showLegendsInRow = val;
-                });
-              },
-            ),
-            SwitchListTile(
               value: _showLegends,
-              title: Text("showLegends"),
+              title: const Text("showLegends"),
               onChanged: (val) {
                 setState(() {
                   _showLegends = val;
@@ -277,8 +272,17 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             SwitchListTile(
+              value: _showLegendsInRow,
+              title: const Text("showLegendsInRow"),
+              onChanged: (val) {
+                setState(() {
+                  _showLegendsInRow = val;
+                });
+              },
+            ),
+            SwitchListTile(
               value: _showLegendLabel,
-              title: Text("showLegendLabels"),
+              title: const Text("showLegendLabels"),
               onChanged: (val) {
                 setState(() {
                   _showLegendLabel = val;
@@ -286,19 +290,19 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: Text("legendShape"),
+              title: const Text("legendShape"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<LegendShape>(
                   value: _legendShape,
-                  items: [
+                  items: const [
                     DropdownMenuItem(
+                      value: LegendShape.circle,
                       child: Text("BoxShape.circle"),
-                      value: LegendShape.Circle,
                     ),
                     DropdownMenuItem(
+                      value: LegendShape.rectangle,
                       child: Text("BoxShape.rectangle"),
-                      value: LegendShape.Rectangle,
                     ),
                   ],
                   onChanged: (val) {
@@ -310,27 +314,27 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
-              title: Text("legendPosition"),
+              title: const Text("legendPosition"),
               trailing: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: DropdownButton<LegendPosition>(
                   value: _legendPosition,
-                  items: [
+                  items: const [
                     DropdownMenuItem(
-                      child: Text("left"),
                       value: LegendPosition.left,
+                      child: Text("left"),
                     ),
                     DropdownMenuItem(
-                      child: Text("right"),
                       value: LegendPosition.right,
+                      child: Text("right"),
                     ),
                     DropdownMenuItem(
-                      child: Text("top"),
                       value: LegendPosition.top,
+                      child: Text("top"),
                     ),
                     DropdownMenuItem(
-                      child: Text("bottom"),
                       value: LegendPosition.bottom,
+                      child: Text("bottom"),
                     ),
                   ],
                   onChanged: (val) {
@@ -352,7 +356,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showChartValueBackground,
-              title: Text("showChartValueBackground"),
+              title: const Text("showChartValueBackground"),
               onChanged: (val) {
                 setState(() {
                   _showChartValueBackground = val;
@@ -361,7 +365,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showChartValues,
-              title: Text("showChartValues"),
+              title: const Text("showChartValues"),
               onChanged: (val) {
                 setState(() {
                   _showChartValues = val;
@@ -370,7 +374,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showChartValuesInPercentage,
-              title: Text("showChartValuesInPercentage"),
+              title: const Text("showChartValuesInPercentage"),
               onChanged: (val) {
                 setState(() {
                   _showChartValuesInPercentage = val;
@@ -379,7 +383,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showChartValuesOutside,
-              title: Text("showChartValuesOutside"),
+              title: const Text("showChartValuesOutside"),
               onChanged: (val) {
                 setState(() {
                   _showChartValuesOutside = val;
@@ -392,7 +396,7 @@ class _HomePageState extends State<HomePage> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pie Chart @apgapg"),
+        title: const Text("Pie Chart @apgapg"),
         actions: [
           ElevatedButton(
             onPressed: () {
@@ -427,10 +431,10 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Container(
-                    child: chart,
-                    margin: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(
                       vertical: 32,
                     ),
+                    child: chart,
                   ),
                   settings,
                 ],
@@ -458,16 +462,16 @@ class HomePage2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pie Chart 1"),
+        title: const Text("Pie Chart 1"),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: PieChart(
           dataMap: dataMap,
           chartType: ChartType.ring,
           baseChartColor: Colors.grey[50]!.withOpacity(0.15),
           colorList: colorList,
-          chartValuesOptions: ChartValuesOptions(
+          chartValuesOptions: const ChartValuesOptions(
             showChartValuesInPercentage: true,
           ),
           totalValue: 20,

@@ -8,7 +8,6 @@ const doublePi = math.pi * 2;
 class PieChartPainter extends CustomPainter {
   List<Paint> _paintList = [];
   late List<double> _subParts;
-  List<String>? _subTitles;
   double _total = 0;
   double _totalAngle = doublePi;
 
@@ -59,11 +58,13 @@ class PieChartPainter extends CustomPainter {
     required this.baseChartColor,
     this.totalValue,
   }) {
+    // set total value
     if (totalValue == null) {
       _total = values.fold(0, (v1, v2) => v1 + v2);
     } else {
       _total = totalValue!;
     }
+
     if (gradientList?.isEmpty ?? true) {
       for (int i = 0; i < values.length; i++) {
         final paint = Paint()..color = getColor(colorList, i);
@@ -74,7 +75,6 @@ class PieChartPainter extends CustomPainter {
 
     _totalAngle = angleFactor * doublePi * drawPercentage;
     _subParts = values;
-    _subTitles = titles;
     _prevAngle = degreeToRadian(degreeOptions.initialAngle);
   }
 
@@ -215,7 +215,7 @@ class PieChartPainter extends CustomPainter {
     double side, {
     TextStyle? style,
   }) {
-    TextSpan span = TextSpan(
+    final span = TextSpan(
       style: style ?? chartValueStyle,
       text: name,
     );
