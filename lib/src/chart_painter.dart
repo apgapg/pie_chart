@@ -155,7 +155,7 @@ class PieChartPainter extends CustomPainter {
           if (chartType == ChartType.ring) {
             paint.style = PaintingStyle.stroke;
             paint.strokeWidth = strokeWidth!;
-            paint.strokeCap = StrokeCap.round;
+            paint.strokeCap = StrokeCap.butt;
           }
           canvas.drawArc(
             _boundingSquare,
