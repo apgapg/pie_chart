@@ -30,7 +30,7 @@ void main() {
     );
   });
   group("Legend(s) visibility test", () {
-    testWidgets('Legend(s) is visibile', (WidgetTester tester) async {
+    testWidgets('Legend(s) is visible', (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
           body: Center(
@@ -66,7 +66,7 @@ void main() {
           body: Center(
             child: PieChart(
               dataMap: dataMap,
-              legendOptions: LegendOptions(showLegends: false),
+              legendOptions: const LegendOptions(showLegends: false),
             ),
           ),
         ),
@@ -97,16 +97,16 @@ void main() {
           ),
         ));
       },
-      throws,
+      throwsA(anything),
     );
   });
 
   test("Test color return when index is greater than color list", () {
     final List<Color> colorList = [
-      Color(0xFFff7675),
-      Color(0xFF74b9ff),
-      Color(0xFF55efc4),
-      Color(0xFFffeaa7),
+      const Color(0xFFff7675),
+      const Color(0xFF74b9ff),
+      const Color(0xFF55efc4),
+      const Color(0xFFffeaa7),
     ];
     expect(
       getColor(colorList, 5).runtimeType,
@@ -148,7 +148,7 @@ void main() {
         findsOneWidget,
       );
     });
-    testWidgets('Test if label fallback to datamap value if not in legendLabels', (WidgetTester tester) async {
+    testWidgets('Test if label fallback to data map value if not in legendLabels', (WidgetTester tester) async {
       final legendLabel = <String,String> {};
       legendLabel.putIfAbsent('Flutter', () => 'Flutter legend');
       await tester.pumpWidget(MaterialApp(

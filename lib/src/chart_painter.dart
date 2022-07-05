@@ -6,7 +6,7 @@ import 'package:pie_chart/pie_chart.dart';
 const doublePi = math.pi * 2;
 
 class PieChartPainter extends CustomPainter {
-  List<Paint> _paintList = [];
+  final List<Paint> _paintList = [];
   late List<double> _subParts;
   double _total = 0;
   double _totalAngle = doublePi;
@@ -103,9 +103,9 @@ class PieChartPainter extends CustomPainter {
             ? -size.width / 2
             : 0.0;
 
-    final top = 0.0;
+    const top = 0.0;
 
-    final Rect _boundingSquare = Rect.fromLTWH(left, top, side, size.height);
+    final Rect boundingSquare = Rect.fromLTWH(left, top, side, size.height);
 
     final useCenter = chartType == ChartType.disc ? true : false;
 
@@ -113,7 +113,7 @@ class PieChartPainter extends CustomPainter {
     final paintBase = Paint()..color = baseChartColor;
     setPaintProps(paintBase);
     canvas.drawArc(
-      _boundingSquare,
+      boundingSquare,
       0,
       doublePi,
       useCenter,
@@ -126,9 +126,9 @@ class PieChartPainter extends CustomPainter {
       setPaintProps(paint);
 
       canvas.drawArc(
-        _boundingSquare,
+        boundingSquare,
         _prevAngle,
-        degreeToRadian(this.degreeOptions.totalDegrees),
+        degreeToRadian(degreeOptions.totalDegrees),
         useCenter,
         paint,
       );
@@ -139,34 +139,34 @@ class PieChartPainter extends CustomPainter {
 
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
-          final _endAngle = (((_totalAngle) / _total) * _subParts[i]);
+          final endAngle = (((_totalAngle) / _total) * _subParts[i]);
           final paint = Paint();
 
-          final _normalizedPrevAngle = (_prevAngle - 0.15) % doublePi;
-          final _normalizedEndAngle = (_endAngle + 0.15) % doublePi;
-          final Gradient _gradient = SweepGradient(
-            transform: GradientRotation(_normalizedPrevAngle),
-            endAngle: _normalizedEndAngle,
+          final normalizedPrevAngle = (_prevAngle - 0.15) % doublePi;
+          final normalizedEndAngle = (endAngle + 0.15) % doublePi;
+          final Gradient gradient = SweepGradient(
+            transform: GradientRotation(normalizedPrevAngle),
+            endAngle: normalizedEndAngle,
             colors: getGradient(gradientList!, i,
                 isNonGradientElementPresent: isNonGradientElementPresent,
                 emptyColorGradient: emptyColorGradient!),
           );
-          paint.shader = _gradient.createShader(_boundingSquare);
+          paint.shader = gradient.createShader(boundingSquare);
           if (chartType == ChartType.ring) {
             paint.style = PaintingStyle.stroke;
             paint.strokeWidth = strokeWidth!;
             paint.strokeCap = StrokeCap.butt;
           }
           canvas.drawArc(
-            _boundingSquare,
+            boundingSquare,
             _prevAngle,
-            _endAngle,
+            endAngle,
             useCenter,
             paint,
           );
         } else {
           canvas.drawArc(
-            _boundingSquare,
+            boundingSquare,
             _prevAngle,
             ((_totalAngle / _total) * _subParts[i]),
             useCenter,
@@ -183,13 +183,12 @@ class PieChartPainter extends CustomPainter {
         if (_subParts.elementAt(i) > 0) {
           final value = formatChartValues != null
               ? formatChartValues!(_subParts.elementAt(i))
-              : _subParts.elementAt(i).toStringAsFixed(this.decimalPlaces!);
+              : _subParts.elementAt(i).toStringAsFixed(decimalPlaces!);
 
           if (showChartValues) {
             final name = showValuesInPercentage == true
-                ? (((_subParts.elementAt(i) / _total) * 100)
-                        .toStringAsFixed(this.decimalPlaces!) +
-                    '%')
+                ? ('${((_subParts.elementAt(i) / _total) * 100)
+                        .toStringAsFixed(decimalPlaces!)}%')
                 : value;
             _drawName(canvas, name, x, y, side);
           }
@@ -233,7 +232,7 @@ class PieChartPainter extends CustomPainter {
         width: tp.width + 6,
         height: tp.height + 4,
       );
-      final rRect = RRect.fromRectAndRadius(rect, Radius.circular(4));
+      final rRect = RRect.fromRectAndRadius(rect, const Radius.circular(4));
       final paint = Paint()
         ..color = chartValueBackgroundColor ?? Colors.grey[200]!
         ..style = PaintingStyle.fill;

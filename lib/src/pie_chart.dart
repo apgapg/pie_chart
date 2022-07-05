@@ -10,7 +10,7 @@ enum LegendPosition { top, bottom, left, right }
 enum ChartType { disc, ring }
 
 class PieChart extends StatefulWidget {
-  PieChart({
+  const PieChart({
     required this.dataMap,
     this.chartType = ChartType.disc,
     this.chartRadius,
@@ -57,6 +57,7 @@ class PieChart extends StatefulWidget {
   final double? totalValue;
 
   @override
+  // ignore: library_private_types_in_public_api
   _PieChartState createState() => _PieChartState();
 }
 
@@ -72,18 +73,18 @@ class _PieChartState extends State<PieChart>
   void initLegends() {
     final List<String> legendLabelList =
         widget.dataMap.keys.toList(growable: false);
-    this.legendTitles = legendLabelList
+    legendTitles = legendLabelList
         .map((label) => widget.legendLabels[label] ?? label)
         .toList(growable: false);
   }
 
   void initValues() {
-    this.legendValues = widget.dataMap.values.toList(growable: false);
+    legendValues = widget.dataMap.values.toList(growable: false);
   }
 
   void initData() {
     assert(
-      widget.dataMap != null && widget.dataMap.isNotEmpty,
+      widget.dataMap.isNotEmpty,
       "dataMap passed to pie chart cant be null or empty",
     );
     initLegends();
@@ -95,7 +96,7 @@ class _PieChartState extends State<PieChart>
     super.initState();
     initData();
     controller = AnimationController(
-      duration: widget.animationDuration ?? Duration(milliseconds: 800),
+      duration: widget.animationDuration ?? const Duration(milliseconds: 800),
       vsync: this,
     );
     final Animation curve = CurvedAnimation(
@@ -115,7 +116,7 @@ class _PieChartState extends State<PieChart>
   Widget _getChart() {
     return Flexible(
       child: LayoutBuilder(
-        builder: (_, c) => Container(
+        builder: (_, c) => SizedBox(
           height: widget.chartRadius != null
               ? c.maxWidth < widget.chartRadius!
                   ? c.maxWidth
@@ -154,7 +155,7 @@ class _PieChartState extends State<PieChart>
               baseChartColor: widget.baseChartColor,
               totalValue:widget.totalValue
             ),
-            child: AspectRatio(aspectRatio: 1),
+            child: const AspectRatio(aspectRatio: 1),
           ),
         ),
       ),
@@ -261,18 +262,19 @@ class _PieChartState extends State<PieChart>
               .toList(),
         ),
       );
-    } else
-      return SizedBox(
+    } else {
+      return const SizedBox(
         height: 0,
         width: 0,
       );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: _getPieChart(),
     );
   }
