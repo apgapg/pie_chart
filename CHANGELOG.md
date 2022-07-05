@@ -1,10 +1,14 @@
 # CHANGELOG
 
+## [5.3.2]
+
+- chore: fix dart analysis errors
+
 ## [5.3.1]
 
 - chore: upgrade flutter and example app
 - fix: gradient color overlap #83
-- 
+
 ## [5.3.0]
 
 - feat: add `totalValue` parameter
