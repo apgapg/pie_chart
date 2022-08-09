@@ -6,6 +6,7 @@ class Legend extends StatelessWidget {
     required this.color,
     required this.style,
     required this.legendShape,
+    required this.legendSize,
     Key? key,
   }) : super(key: key);
 
@@ -13,6 +14,7 @@ class Legend extends StatelessWidget {
   final Color color;
   final TextStyle style;
   final BoxShape legendShape;
+  final double legendSize;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,8 @@ class Legend extends StatelessWidget {
       children: <Widget>[
         Container(
           margin: const EdgeInsets.symmetric(vertical: 2.0),
-          height: 20.0,
-          width: 18.0,
+          height: legendSize,
+          width: legendSize,
           decoration: BoxDecoration(
             shape: legendShape,
             color: color,

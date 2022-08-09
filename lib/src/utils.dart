@@ -11,6 +11,8 @@ const defaultLegendStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const defaultLegendSize = 20.0;
+
 const List<Color> defaultColorList = [
   Color(0xFFff7675),
   Color(0xFF74b9ff),
