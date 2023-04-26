@@ -27,6 +27,7 @@ class PieChart extends StatefulWidget {
     this.emptyColor = Colors.grey,
     this.gradientList,
     this.emptyColorGradient = const [Colors.black26, Colors.black54],
+    this.textureList,
     this.legendLabels = const {},
     Key? key,
     this.degreeOptions = const DegreeOptions(),
@@ -41,6 +42,7 @@ class PieChart extends StatefulWidget {
   final double chartLegendSpacing;
   final List<Color> colorList;
   final List<List<Color>>? gradientList;
+  final List<ImageShader>? textureList;
   @Deprecated('use degreeOptions. instead')
   final double? initialAngleInDegree;
   final Function? formatChartValues;
@@ -146,6 +148,7 @@ class _PieChartState extends State<PieChart>
               emptyColor: widget.emptyColor,
               gradientList: widget.gradientList,
               emptyColorGradient: widget.emptyColorGradient,
+              textureList: widget.textureList,
               degreeOptions: widget.degreeOptions.copyWith(
                 // because we've deprecated initialAngleInDegree,
                 // we want the old value to be used if it's not null
