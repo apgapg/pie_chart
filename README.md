@@ -76,6 +76,7 @@ PieChart(
       ),
       // gradientList: ---To add gradient colors---
       // emptyColorGradient: ---Empty Color gradient---
+      // textureList: ---To add image textures----
     )
 ```
 
@@ -134,6 +135,54 @@ emptyColorGradient: [
 ```
 
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s11.png"  height = "400" alt="PieChart">
+
+### Image Texures
+
+Pie Chart supports image textures as colors. Just pass `textureList` instead of `colorList` or `gradientList` to add textures to each section.
+
+```dart
+Future<ui.Image> _loadImage(String path) async {
+  final image = await rootBundle.load(path);
+  return await decodeImageFromList(image.buffer.asUint8List());
+}
+
+Future<List<ImageShader>> _loadImageShaders(List<String> paths) async {
+  List<ImageShader> images = [];
+  for (String path in paths) {
+    ui.Image img = await _loadImage(path);
+    images.add(ImageShader(img, TileMode.mirror, TileMode.mirror, Matrix4.identity().storage));
+  }
+  return images;
+}
+
+FutureBuilder<List<ImageShader>>(
+  future: _loadImageShaders([
+    'textures/tile.jpg',
+    'textures/tile4.jpg',
+    'textures/tile2.jpg',
+    'textures/tile3.jpg',
+  ]),
+  builder: (context, textures) => textures.hasData ? SizedBox(
+    height: 300,
+    width: 300,
+    child: PieChart(
+      dataMap: {
+        "Flutter": 5,
+        "React": 2,
+        "Xamarin": 2,
+        "Ionic": 3,
+      },
+      textureList: textures.data,
+      legendOptions: LegendOptions(
+        showLegends: false
+      ),
+      chartValuesOptions: ChartValuesOptions(
+        showChartValuesInPercentage: true,
+      ),
+    ),
+  ) : Text('loading'),
+),
+```
 
 ### Base Chart Color
 
