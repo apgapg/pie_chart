@@ -184,6 +184,9 @@ FutureBuilder<List<ImageShader>>(
 ),
 ```
 
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s13.png"  height = "400" alt="PieChart">
+
+
 ### Base Chart Color
 
 Add a base pie-chart color via:
