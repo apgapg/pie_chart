@@ -111,19 +111,17 @@ class HomePageState extends State<HomePage> {
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
         showLegends: _showLegends,
-        legendShape: _legendShape == LegendShape.circle
-            ? BoxShape.circle
-            : BoxShape.rectangle,
+        legendShape: _legendShape == LegendShape.circle ? BoxShape.circle : BoxShape.rectangle,
         legendTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
       chartValuesOptions: ChartValuesOptions(
-        showChartValueBackground: _showChartValueBackground,
-        showChartValues: _showChartValues,
-        showChartValuesInPercentage: _showChartValuesInPercentage,
-        showChartValuesOutside: _showChartValuesOutside,
-      ),
+          showChartValueBackground: _showChartValueBackground,
+          showChartValues: _showChartValues,
+          showChartValuesInPercentage: _showChartValuesInPercentage,
+          showChartValuesOutside: _showChartValuesOutside,
+          decimalPlaces: 0),
       ringStrokeWidth: _ringStrokeWidth!,
       emptyColor: Colors.grey,
       gradientList: _showGradientColors ? gradientList : null,

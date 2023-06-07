@@ -21,7 +21,7 @@ class PieChartPainter extends CustomPainter {
   final ChartType? chartType;
   final String? centerText;
   final TextStyle? centerTextStyle;
-  final Function? formatChartValues;
+  final String Function(double value)? formatChartValues;
   final double? strokeWidth;
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
