@@ -26,7 +26,7 @@ class PieChartPainter extends CustomPainter {
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
   final List<Color>? emptyColorGradient;
-  final List<ImageShader>? textureList;
+  final List<ImageShader?>? textureList;
   final DegreeOptions degreeOptions;
   final Color baseChartColor;
   final double? totalValue;
