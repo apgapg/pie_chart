@@ -26,6 +26,7 @@ class PieChartPainter extends CustomPainter {
   final Color? emptyColor;
   final List<List<Color>>? gradientList;
   final List<Color>? emptyColorGradient;
+  final List<ImageShader?>? textureList;
   final DegreeOptions degreeOptions;
   final Color baseChartColor;
   final double? totalValue;
@@ -54,6 +55,7 @@ class PieChartPainter extends CustomPainter {
     this.emptyColor,
     this.gradientList,
     this.emptyColorGradient,
+    this.textureList,
     this.degreeOptions = const DegreeOptions(),
     required this.baseChartColor,
     this.totalValue,
@@ -65,13 +67,15 @@ class PieChartPainter extends CustomPainter {
       _total = totalValue!;
     }
 
-    if (gradientList?.isEmpty ?? true) {
+    if ((gradientList?.isEmpty ?? true) && (textureList?.isEmpty ?? true)) {
       for (int i = 0; i < values.length; i++) {
         final paint = Paint()..color = getColor(colorList, i);
         setPaintProps(paint);
         _paintList.add(paint);
       }
     }
+
+
 
     _totalAngle = angleFactor * doublePi * drawPercentage;
     _subParts = values;
@@ -136,6 +140,7 @@ class PieChartPainter extends CustomPainter {
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
       final isNonGradientElementPresent =
           (_subParts.length - (gradientList?.length ?? 0)) > 0;
+      final isTexturePresent = textureList?.isNotEmpty ?? false;
 
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
@@ -152,6 +157,22 @@ class PieChartPainter extends CustomPainter {
                 emptyColorGradient: emptyColorGradient!),
           );
           paint.shader = gradient.createShader(boundingSquare);
+          if (chartType == ChartType.ring) {
+            paint.style = PaintingStyle.stroke;
+            paint.strokeWidth = strokeWidth!;
+            paint.strokeCap = StrokeCap.butt;
+          }
+          canvas.drawArc(
+            boundingSquare,
+            _prevAngle,
+            endAngle,
+            useCenter,
+            paint,
+          );
+        } else if (isTexturePresent) {
+          final endAngle = (((_totalAngle) / _total) * _subParts[i]);
+          final paint = Paint()..shader = textureList![i];
+
           if (chartType == ChartType.ring) {
             paint.style = PaintingStyle.stroke;
             paint.strokeWidth = strokeWidth!;
