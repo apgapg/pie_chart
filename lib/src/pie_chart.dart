@@ -42,7 +42,7 @@ class PieChart extends StatefulWidget {
   final double chartLegendSpacing;
   final List<Color> colorList;
   final List<List<Color>>? gradientList;
-  final List<ImageShader>? textureList;
+  final List<ImageShader?>? textureList;
   @Deprecated('use degreeOptions. instead')
   final double? initialAngleInDegree;
   final Function? formatChartValues;
