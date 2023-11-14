@@ -75,6 +75,7 @@ class HomePageState extends State<HomePage> {
   ];
   ChartType? _chartType = ChartType.disc;
   bool _showCenterText = true;
+  bool _showCenterWidget = true;
   double? _ringStrokeWidth = 32;
   double? _chartLegendSpacing = 32;
 
@@ -106,12 +107,17 @@ class HomePageState extends State<HomePage> {
       initialAngleInDegree: 0,
       chartType: _chartType!,
       centerText: _showCenterText ? "HYBRID" : null,
+      centerWidget: _showCenterWidget
+          ? Container(color: Colors.red, child: const Text("Center"))
+          : null,
       legendLabels: _showLegendLabel ? legendLabels : {},
       legendOptions: LegendOptions(
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
         showLegends: _showLegends,
-        legendShape: _legendShape == LegendShape.circle ? BoxShape.circle : BoxShape.rectangle,
+        legendShape: _legendShape == LegendShape.circle
+            ? BoxShape.circle
+            : BoxShape.rectangle,
         legendTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -211,10 +217,19 @@ class HomePageState extends State<HomePage> {
             ),
             SwitchListTile(
               value: _showCenterText,
-              title: const Text("showCenterText"),
+              title: const Text("showCenterText (Deprecated)"),
               onChanged: (val) {
                 setState(() {
                   _showCenterText = val;
+                });
+              },
+            ),
+            SwitchListTile(
+              value: _showCenterWidget,
+              title: const Text("showCenterWidget"),
+              onChanged: (val) {
+                setState(() {
+                  _showCenterWidget = val;
                 });
               },
             ),

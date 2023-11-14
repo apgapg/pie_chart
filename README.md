@@ -79,6 +79,8 @@ PieChart(
     )
 ```
 
+## ⭐ Features
+
 ### Control decimal places 'decimalPlaces'
 
 ```dart
@@ -218,6 +220,16 @@ class HomePage2 extends StatelessWidget {
 ```
 
 <img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s12.png"  height = "400" alt="PieChart">
+
+### Center Widget
+
+Creates a new widget placed at pie chart center
+
+```dart
+centerWidget: Container(color: Colors.red, child: const Text("Center"))
+```
+
+<img src="https://raw.githubusercontent.com/apgapg/pie_chart/master/res/s13.png"  height = "400" alt="PieChart">
 
 ## ⭐ My Flutter Packages
 - [json_table](https://pub.dartlang.org/packages/json_table)  [![GitHub stars](https://img.shields.io/github/stars/apgapg/json_table.svg?style=social)](https://github.com/apgapg/json_table)  Create Flutter Json Table from json map directly.
