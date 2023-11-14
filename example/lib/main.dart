@@ -111,9 +111,7 @@ class HomePageState extends State<HomePage> {
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
         showLegends: _showLegends,
-        legendShape: _legendShape == LegendShape.circle
-            ? BoxShape.circle
-            : BoxShape.rectangle,
+        legendShape: _legendShape == LegendShape.circle ? BoxShape.circle : BoxShape.rectangle,
         legendTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
         ),

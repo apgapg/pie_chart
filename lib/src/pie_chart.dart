@@ -43,7 +43,7 @@ class PieChart extends StatefulWidget {
   final List<List<Color>>? gradientList;
   @Deprecated('use degreeOptions. instead')
   final double? initialAngleInDegree;
-  final Function? formatChartValues;
+  final String Function(double value)? formatChartValues;
   final String? centerText;
   final TextStyle? centerTextStyle;
   final double ringStrokeWidth;
@@ -61,8 +61,7 @@ class PieChart extends StatefulWidget {
   _PieChartState createState() => _PieChartState();
 }
 
-class _PieChartState extends State<PieChart>
-    with SingleTickerProviderStateMixin {
+class _PieChartState extends State<PieChart> with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   AnimationController? controller;
   double _animFraction = 0.0;
@@ -71,11 +70,8 @@ class _PieChartState extends State<PieChart>
   late List<double> legendValues;
 
   void initLegends() {
-    final List<String> legendLabelList =
-        widget.dataMap.keys.toList(growable: false);
-    legendTitles = legendLabelList
-        .map((label) => widget.legendLabels[label] ?? label)
-        .toList(growable: false);
+    final List<String> legendLabelList = widget.dataMap.keys.toList(growable: false);
+    legendTitles = legendLabelList.map((label) => widget.legendLabels[label] ?? label).toList(growable: false);
   }
 
   void initValues() {
@@ -103,13 +99,12 @@ class _PieChartState extends State<PieChart>
       parent: controller!,
       curve: Curves.decelerate,
     );
-    animation =
-        Tween<double>(begin: 0, end: 1).animate(curve as Animation<double>)
-          ..addListener(() {
-            setState(() {
-              _animFraction = animation.value;
-            });
-          });
+    animation = Tween<double>(begin: 0, end: 1).animate(curve as Animation<double>)
+      ..addListener(() {
+        setState(() {
+          _animFraction = animation.value;
+        });
+      });
     controller!.forward();
   }
 
@@ -123,38 +118,31 @@ class _PieChartState extends State<PieChart>
                   : widget.chartRadius
               : null,
           child: CustomPaint(
-            painter: PieChartPainter(
-              _animFraction,
-              widget.chartValuesOptions.showChartValues,
-              widget.chartValuesOptions.showChartValuesOutside,
-              widget.colorList,
-              chartValueStyle: widget.chartValuesOptions.chartValueStyle,
-              chartValueBackgroundColor:
-                  widget.chartValuesOptions.chartValueBackgroundColor,
-              values: legendValues,
-              titles: legendTitles,
-              showValuesInPercentage:
-                  widget.chartValuesOptions.showChartValuesInPercentage,
-              decimalPlaces: widget.chartValuesOptions.decimalPlaces,
-              showChartValueLabel:
-                  widget.chartValuesOptions.showChartValueBackground,
-              chartType: widget.chartType,
-              centerText: widget.centerText,
-              centerTextStyle: widget.centerTextStyle,
-              formatChartValues: widget.formatChartValues,
-              strokeWidth: widget.ringStrokeWidth,
-              emptyColor: widget.emptyColor,
-              gradientList: widget.gradientList,
-              emptyColorGradient: widget.emptyColorGradient,
-              degreeOptions: widget.degreeOptions.copyWith(
-                // because we've deprecated initialAngleInDegree,
-                // we want the old value to be used if it's not null
-                // ignore: deprecated_member_use_from_same_package
-                initialAngle: widget.initialAngleInDegree,
-              ),
-              baseChartColor: widget.baseChartColor,
-              totalValue:widget.totalValue
-            ),
+            painter: PieChartPainter(_animFraction, widget.chartValuesOptions.showChartValues,
+                widget.chartValuesOptions.showChartValuesOutside, widget.colorList,
+                chartValueStyle: widget.chartValuesOptions.chartValueStyle,
+                chartValueBackgroundColor: widget.chartValuesOptions.chartValueBackgroundColor,
+                values: legendValues,
+                titles: legendTitles,
+                showValuesInPercentage: widget.chartValuesOptions.showChartValuesInPercentage,
+                decimalPlaces: widget.chartValuesOptions.decimalPlaces,
+                showChartValueLabel: widget.chartValuesOptions.showChartValueBackground,
+                chartType: widget.chartType,
+                centerText: widget.centerText,
+                centerTextStyle: widget.centerTextStyle,
+                formatChartValues: widget.formatChartValues,
+                strokeWidth: widget.ringStrokeWidth,
+                emptyColor: widget.emptyColor,
+                gradientList: widget.gradientList,
+                emptyColorGradient: widget.emptyColorGradient,
+                degreeOptions: widget.degreeOptions.copyWith(
+                  // because we've deprecated initialAngleInDegree,
+                  // we want the old value to be used if it's not null
+                  // ignore: deprecated_member_use_from_same_package
+                  initialAngle: widget.initialAngleInDegree,
+                ),
+                baseChartColor: widget.baseChartColor,
+                totalValue: widget.totalValue),
             child: const AspectRatio(aspectRatio: 1),
           ),
         ),
@@ -231,14 +219,11 @@ class _PieChartState extends State<PieChart>
   _getLegend({EdgeInsets? padding}) {
     if (widget.legendOptions.showLegends) {
       final isGradientPresent = widget.gradientList?.isNotEmpty ?? false;
-      final isNonGradientElementPresent =
-          (widget.dataMap.length - (widget.gradientList?.length ?? 0)) > 0;
+      final isNonGradientElementPresent = (widget.dataMap.length - (widget.gradientList?.length ?? 0)) > 0;
       return Padding(
         padding: padding!,
         child: Wrap(
-          direction: widget.legendOptions.showLegendsInRow
-              ? Axis.horizontal
-              : Axis.vertical,
+          direction: widget.legendOptions.showLegendsInRow ? Axis.horizontal : Axis.vertical,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.start,
           children: legendTitles!
@@ -246,10 +231,8 @@ class _PieChartState extends State<PieChart>
                 (item) => Legend(
                   title: item,
                   color: isGradientPresent
-                      ? getGradient(
-                          widget.gradientList!, legendTitles!.indexOf(item),
-                          isNonGradientElementPresent:
-                              isNonGradientElementPresent,
+                      ? getGradient(widget.gradientList!, legendTitles!.indexOf(item),
+                          isNonGradientElementPresent: isNonGradientElementPresent,
                           emptyColorGradient: widget.emptyColorGradient)[0]
                       : getColor(
                           widget.colorList,
