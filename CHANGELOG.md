@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## [5.4.0]
+
+- chore: enable test PR workflow (Ayush P Gupta)
+- feat: enable gh-pages deploy (Ayush P Gupta)
+- feat: add new center widget #101 (Ayush P Gupta)
+- fix: define return type for `formatChartValues` func (#99) (Fiveone Digital)
+- [ImgBot] Optimize images (#91) (imgbot[bot])
+- temp: disable deploy via github workflow (Ayush P Gupta)
+- fix: flutter web (Ayush P Gupta)
+- fix: github workflow (Ayush P Gupta)
+
 ## [5.3.2]
 
 - chore: fix dart analysis errors

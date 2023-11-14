@@ -1,10 +1,10 @@
 name: pie_chart
 description: A Flutter package for creating beautiful Pie Charts with awesome animation.
-version: 5.3.2
+version: 5.4.0
 homepage: https://github.com/apgapg/pie_chart
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.12.0 <4.0.0'
 
 dependencies:
   flutter:
