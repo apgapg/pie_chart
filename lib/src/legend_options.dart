@@ -8,6 +8,7 @@ class LegendOptions {
   final BoxShape legendShape;
   final LegendPosition legendPosition;
   final Map<String,String> legendLabels;
+  final double legendSize;
 
   const LegendOptions({
     this.showLegends = true,
@@ -16,5 +17,6 @@ class LegendOptions {
     this.legendShape = BoxShape.circle,
     this.legendPosition = LegendPosition.right,
     this.legendLabels = const {},
+    this.legendSize = defaultLegendSize
   });
 }
