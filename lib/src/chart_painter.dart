@@ -29,6 +29,8 @@ class PieChartPainter extends CustomPainter {
   final DegreeOptions degreeOptions;
   final Color baseChartColor;
   final double? totalValue;
+  final String? prefix;
+  final String? suffix;
 
   late double _prevAngle;
 
@@ -57,6 +59,8 @@ class PieChartPainter extends CustomPainter {
     this.degreeOptions = const DegreeOptions(),
     required this.baseChartColor,
     this.totalValue,
+    this.prefix,
+    this.suffix,
   }) {
     // set total value
     if (totalValue == null) {
@@ -98,7 +102,10 @@ class PieChartPainter extends CustomPainter {
     // this is not a precise calculation, should be more generalized later
     // e.g. (-90, 91) should start from the left
 
-    final left = degreeOptions.initialAngle >= -90 && degreeOptions.totalDegrees <= 180 ? -size.width / 2 : 0.0;
+    final left =
+        degreeOptions.initialAngle >= -90 && degreeOptions.totalDegrees <= 180
+            ? -size.width / 2
+            : 0.0;
 
     const top = 0.0;
 
@@ -131,7 +138,8 @@ class PieChartPainter extends CustomPainter {
       );
     } else {
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
-      final isNonGradientElementPresent = (_subParts.length - (gradientList?.length ?? 0)) > 0;
+      final isNonGradientElementPresent =
+          (_subParts.length - (gradientList?.length ?? 0)) > 0;
 
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
@@ -144,7 +152,8 @@ class PieChartPainter extends CustomPainter {
             transform: GradientRotation(normalizedPrevAngle),
             endAngle: normalizedEndAngle,
             colors: getGradient(gradientList!, i,
-                isNonGradientElementPresent: isNonGradientElementPresent, emptyColorGradient: emptyColorGradient!),
+                isNonGradientElementPresent: isNonGradientElementPresent,
+                emptyColorGradient: emptyColorGradient!),
           );
           paint.shader = gradient.createShader(boundingSquare);
           if (chartType == ChartType.ring) {
@@ -170,7 +179,8 @@ class PieChartPainter extends CustomPainter {
         }
 
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
-        final radians = _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2);
+        final radians =
+            _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2);
         final x = (radius) * math.cos(radians);
         final y = (radius) * math.sin(radians);
 
@@ -211,7 +221,7 @@ class PieChartPainter extends CustomPainter {
   }) {
     final span = TextSpan(
       style: style ?? chartValueStyle,
-      text: name,
+      text: '${prefix ?? ''} $name ${suffix ?? ''}',
     );
     TextPainter tp = TextPainter(
       text: span,
@@ -244,5 +254,6 @@ class PieChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(PieChartPainter oldDelegate) => oldDelegate._totalAngle != _totalAngle;
+  bool shouldRepaint(PieChartPainter oldDelegate) =>
+      oldDelegate._totalAngle != _totalAngle;
 }

@@ -130,36 +130,39 @@ class _PieChartState extends State<PieChart>
             children: [
               CustomPaint(
                 painter: PieChartPainter(
-                    _animFraction,
-                    widget.chartValuesOptions.showChartValues,
-                    widget.chartValuesOptions.showChartValuesOutside,
-                    widget.colorList,
-                    chartValueStyle: widget.chartValuesOptions.chartValueStyle,
-                    chartValueBackgroundColor:
-                        widget.chartValuesOptions.chartValueBackgroundColor,
-                    values: legendValues,
-                    titles: legendTitles,
-                    showValuesInPercentage:
-                        widget.chartValuesOptions.showChartValuesInPercentage,
-                    decimalPlaces: widget.chartValuesOptions.decimalPlaces,
-                    showChartValueLabel:
-                        widget.chartValuesOptions.showChartValueBackground,
-                    chartType: widget.chartType,
-                    centerText: widget.centerText,
-                    centerTextStyle: widget.centerTextStyle,
-                    formatChartValues: widget.formatChartValues,
-                    strokeWidth: widget.ringStrokeWidth,
-                    emptyColor: widget.emptyColor,
-                    gradientList: widget.gradientList,
-                    emptyColorGradient: widget.emptyColorGradient,
-                    degreeOptions: widget.degreeOptions.copyWith(
-                      // because we've deprecated initialAngleInDegree,
-                      // we want the old value to be used if it's not null
-                      // ignore: deprecated_member_use_from_same_package
-                      initialAngle: widget.initialAngleInDegree,
-                    ),
-                    baseChartColor: widget.baseChartColor,
-                    totalValue: widget.totalValue),
+                  _animFraction,
+                  widget.chartValuesOptions.showChartValues,
+                  widget.chartValuesOptions.showChartValuesOutside,
+                  widget.colorList,
+                  chartValueStyle: widget.chartValuesOptions.chartValueStyle,
+                  chartValueBackgroundColor:
+                      widget.chartValuesOptions.chartValueBackgroundColor,
+                  values: legendValues,
+                  titles: legendTitles,
+                  showValuesInPercentage:
+                      widget.chartValuesOptions.showChartValuesInPercentage,
+                  decimalPlaces: widget.chartValuesOptions.decimalPlaces,
+                  showChartValueLabel:
+                      widget.chartValuesOptions.showChartValueBackground,
+                  chartType: widget.chartType,
+                  centerText: widget.centerText,
+                  centerTextStyle: widget.centerTextStyle,
+                  formatChartValues: widget.formatChartValues,
+                  strokeWidth: widget.ringStrokeWidth,
+                  emptyColor: widget.emptyColor,
+                  gradientList: widget.gradientList,
+                  emptyColorGradient: widget.emptyColorGradient,
+                  degreeOptions: widget.degreeOptions.copyWith(
+                    // because we've deprecated initialAngleInDegree,
+                    // we want the old value to be used if it's not null
+                    // ignore: deprecated_member_use_from_same_package
+                    initialAngle: widget.initialAngleInDegree,
+                  ),
+                  baseChartColor: widget.baseChartColor,
+                  totalValue: widget.totalValue,
+                  prefix: widget.chartValuesOptions.prefix,
+                  suffix: widget.chartValuesOptions.suffix,
+                ),
                 child: const AspectRatio(aspectRatio: 1),
               ),
               if (widget.centerWidget != null) widget.centerWidget!
@@ -201,9 +204,11 @@ class _PieChartState extends State<PieChart>
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            _getLegend(
-              padding: EdgeInsets.only(
-                right: widget.chartLegendSpacing,
+            Expanded(
+              child: _getLegend(
+                padding: EdgeInsets.only(
+                  right: widget.chartLegendSpacing,
+                ),
               ),
             ),
             _getChart(),
@@ -214,9 +219,11 @@ class _PieChartState extends State<PieChart>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getChart(),
-            _getLegend(
-              padding: EdgeInsets.only(
-                left: widget.chartLegendSpacing,
+            Expanded(
+              child: _getLegend(
+                padding: EdgeInsets.only(
+                  left: widget.chartLegendSpacing,
+                ),
               ),
             ),
           ],
@@ -226,9 +233,11 @@ class _PieChartState extends State<PieChart>
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             _getChart(),
-            _getLegend(
-              padding: EdgeInsets.only(
-                left: widget.chartLegendSpacing,
+            Expanded(
+              child: _getLegend(
+                padding: EdgeInsets.only(
+                  left: widget.chartLegendSpacing,
+                ),
               ),
             ),
           ],
