@@ -9,6 +9,7 @@ class Legend extends StatelessWidget {
     required this.style,
     required this.legendShape,
     required this.position,
+    this.width,
     Key? key,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class Legend extends StatelessWidget {
   final TextStyle style;
   final BoxShape legendShape;
   final LegendPosition position;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {

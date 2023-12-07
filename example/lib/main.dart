@@ -112,6 +112,7 @@ class HomePageState extends State<HomePage> {
           : null,
       legendLabels: _showLegendLabel ? legendLabels : {},
       legendOptions: LegendOptions(
+        legendWidth: 100,
         showLegendsInRow: _showLegendsInRow,
         legendPosition: _legendPosition!,
         showLegends: _showLegends,

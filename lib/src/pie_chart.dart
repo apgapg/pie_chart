@@ -261,6 +261,7 @@ class _PieChartState extends State<PieChart>
           children: legendTitles!
               .map(
                 (item) => Legend(
+                  width: widget.legendOptions.legendWidth,
                   position: widget.legendOptions.legendPosition,
                   title: item,
                   color: isGradientPresent
