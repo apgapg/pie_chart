@@ -24,10 +24,12 @@ class Legend extends StatelessWidget {
   Widget build(BuildContext context) {
     double sw = MediaQuery.of(context).size.width;
     return SizedBox(
-      width:
-          (position == LegendPosition.right || position == LegendPosition.left)
+      width: (width != null)
+          ? width
+          : ((position == LegendPosition.right ||
+                  position == LegendPosition.left)
               ? sw * 0.5
-              : sw,
+              : sw),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
