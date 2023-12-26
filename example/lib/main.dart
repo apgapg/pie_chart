@@ -154,7 +154,7 @@ class HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Pie Chart Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -269,7 +269,7 @@ class HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Legend Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
@@ -361,7 +361,7 @@ class HomePageState extends State<HomePage> {
             ListTile(
               title: Text(
                 'Chart values Options'.toUpperCase(),
-                style: Theme.of(context).textTheme.overline!.copyWith(
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),

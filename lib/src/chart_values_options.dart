@@ -10,6 +10,8 @@ class ChartValuesOptions {
   final bool showChartValuesOutside;
   final Color? chartValueBackgroundColor;
   final TextStyle chartValueStyle;
+  final String? prefix;
+  final String? suffix;
 
   const ChartValuesOptions({
     this.showChartValueBackground = true,
@@ -19,5 +21,7 @@ class ChartValuesOptions {
     this.chartValueStyle = defaultChartValueStyle,
     this.showChartValues = true,
     this.showChartValuesOutside = false,
+    this.prefix,
+    this.suffix,
   });
 }
