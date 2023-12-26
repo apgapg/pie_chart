@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:pie_chart/pie_chart.dart';
 
 const doublePi = math.pi * 2;
@@ -219,9 +220,11 @@ class PieChartPainter extends CustomPainter {
     double side, {
     TextStyle? style,
   }) {
+    final value = intl.NumberFormat("#,##0.00", "en_US");
     final span = TextSpan(
       style: style ?? chartValueStyle,
-      text: '${prefix ?? ''} $name ${suffix ?? ''}',
+      text:
+          '${prefix ?? ''} ${value.format(double.parse(name ?? '0'))} ${suffix ?? ''}',
     );
     TextPainter tp = TextPainter(
       text: span,
