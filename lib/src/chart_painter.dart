@@ -132,13 +132,14 @@ class PieChartPainter extends CustomPainter {
     } else {
       final isGradientPresent = gradientList?.isNotEmpty ?? false;
       final isNonGradientElementPresent = (_subParts.length - (gradientList?.length ?? 0)) > 0;
+      var subPartAngle = _prevAngle;
 
       for (int i = 0; i < _subParts.length; i++) {
         if (isGradientPresent) {
           final endAngle = (((_totalAngle) / _total) * _subParts[i]);
           final paint = Paint();
 
-          final normalizedPrevAngle = (_prevAngle - 0.15) % doublePi;
+          final normalizedPrevAngle = (subPartAngle - 0.15) % doublePi;
           final normalizedEndAngle = (endAngle + 0.15) % doublePi;
           final Gradient gradient = SweepGradient(
             transform: GradientRotation(normalizedPrevAngle),
@@ -154,7 +155,7 @@ class PieChartPainter extends CustomPainter {
           }
           canvas.drawArc(
             boundingSquare,
-            _prevAngle,
+            subPartAngle,
             endAngle,
             useCenter,
             paint,
@@ -162,7 +163,7 @@ class PieChartPainter extends CustomPainter {
         } else {
           canvas.drawArc(
             boundingSquare,
-            _prevAngle,
+            subPartAngle,
             ((_totalAngle / _total) * _subParts[i]),
             useCenter,
             _paintList[i],
@@ -170,7 +171,7 @@ class PieChartPainter extends CustomPainter {
         }
 
         final radius = showChartValuesOutside ? (side / 2) + 16 : side / 3;
-        final radians = _prevAngle + (((_totalAngle / _total) * _subParts[i]) / 2);
+        final radians = subPartAngle + (((_totalAngle / _total) * _subParts[i]) / 2);
         final x = (radius) * math.cos(radians);
         final y = (radius) * math.sin(radians);
 
@@ -188,7 +189,7 @@ class PieChartPainter extends CustomPainter {
             _drawName(canvas, name, x, y, side);
           }
         }
-        _prevAngle = _prevAngle + (((_totalAngle) / _total) * _subParts[i]);
+        subPartAngle = subPartAngle + (((_totalAngle) / _total) * _subParts[i]);
       }
     }
 
